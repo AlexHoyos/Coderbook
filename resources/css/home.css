@@ -1,0 +1,201 @@
+.home-nav {
+    background-color: rgb(17, 143, 228);
+    text-color: #fff;
+}
+
+.button-bubble {
+
+    background: rgba(0, 0, 0, 0.37);
+    border: 0;
+    border-radius: 100%;
+    height: 2.2em;
+    width: 2.2em;
+    color:#fff;
+    font-size: 1.2em;
+
+}
+
+.button-bubble:hover {
+
+    filter: opacity(.8);
+    transition: .2s ease-out;
+
+}
+
+.pp-bubble {
+
+    background: rgba(0, 0, 0, 0.37);
+    background-image: url('');
+    background-position: center;
+    background-size: cover;
+    border: 0;
+    border-radius: 100%;
+    height: 2.2em;
+    width: 2.2em;
+    color:#fff;
+    font-size: 1.2em;
+
+}
+
+.pp-bubble:hover {
+
+    filter: opacity(.8);
+    transition: .2s ease-out;
+
+}
+
+.comment {
+    background-color:rgba(240, 240, 240, 0.808);
+    color: rgb(98, 98, 98);
+}
+
+.comment-profile-link {
+    font-size: .8em;
+    color: rgb(98, 98, 98);
+}
+
+.comment-content {
+    margin:0;
+    margin-top:-.2em;
+    line-height: 120%;
+}
+
+.color-gray {
+    color: rgb(98, 98, 98);
+}
+
+.btn-post-inf {
+
+    background:0;
+    border:0;
+    font-size: 1.2em;
+    color: rgb(98, 98, 98);
+    border-radius: .3em;
+
+}
+
+.btn-post-inf:hover {
+
+    background: rgba(0, 0, 0, 0.1);
+    transition: 1s ease;
+
+}
+
+.post-img {
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.post-img::before{
+    content: "";
+    display: block;
+    padding-top: 100%;  /* initial ratio of 1:1*/
+}
+
+.profile-pic{
+    border-color: rgb(17, 143, 228);
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 100%;
+}
+
+
+.facebook-reaction { max-width: 100%; position: relative; margin-top:100px; }
+
+.like-btn { color: #777777; position: relative; cursor: pointer; padding: 20px 20px 0 0; }
+
+.like-btn:hover { color: #0db5e4; }
+
+.like-btn-default:before { font-family: "Font Awesome 5 Free"; content: "\f087"; color: #FFFFFF; width: 22px; height: 22px; text-align: center; border-radius: 50%; font-weight: normal; line-height: 22px; background: #777777; }
+
+.like-btn-emo { display: inline-block; margin: 0 0px -3px 0; color: #FFFFFF; width: 22px; height: 22px; text-align: center; border-radius: 50%; font-weight: normal; line-height: 22px !important; background: #777777; }
+
+.reactions-box { height: 62px; width: auto; padding-bottom: 10px; padding-right: 30px; position: absolute; top: -60px; left: 1px; box-shadow: 1px 1px 2px #cccccc, -1px 0px 2px #eeeeee; border-radius: 44px 44px; display: none; background: #ffffff; }
+
+.reaction { list-style-type: none; cursor: pointer; display: table-cell; position: relative; text-align: center; padding-left: 5px; padding-right: 5px; }
+
+.like-btn:hover .reactions-box { display: block; }
+
+.reaction-like::after { font-family: "Font Awesome 5 Free"; content: "\f164"; font-size: 2em; color: rgb(100,160,240);}
+
+.reaction-love::after { font-family: "Font Awesome 5 Free"; content: "\f004"; font-size: 2em; color: rgb(242, 82, 104);}
+
+.reaction-haha::after { font-family: "Font Awesome 5 Free"; content: "\f59b"; font-size: 2em; color: rgb(240, 186, 21);}
+
+.reaction-wow::after { font-family: "Font Awesome 5 Free"; content: "\f5c2"; font-size: 2em; color: rgb(240, 186, 21);}
+
+.reaction-sad::after { font-family: "Font Awesome 5 Free"; content: "\f5b4"; font-size: 2em; color: rgb(240, 186, 21);}
+
+.reaction-angry::after { font-family: "Font Awesome 5 Free"; content: "\f556"; font-size: 2em; color: rgb(247, 113, 75);}
+
+.like-btn:hover .reaction { opacity: 1; }
+
+.reaction:hover { transform: scale(1.3, 1.3); top: 2px }
+
+.reaction::before { display: inline-block; color: #ffffff; text-align: center; min-width: 80%; line-height: 17px; font-size: .6em; height: 17px; margin-left: auto; margin-right: auto; padding-left: 5px; padding-right: 5px; background-color: rgba(0, 0, 0, 1); border-radius: 20px; position: absolute; top: -20px; opacity: 0; transition: opacity .2s ease-in-out 0s; }
+
+.reaction:hover::before { opacity: 1 }
+
+.reaction-like::before { content: 'Chilo' }
+
+.reaction-love::before { content: 'Amo' }
+
+.reaction-haha::before { content: 'Jajaja' }
+
+.reaction-wow::before { content: 'Wow' }
+
+.reaction-sad::before { content: 'Chale' }
+
+.reaction-angry::before { content: 'Angery' }
+
+.like-stat { margin-top: 10px; }
+
+.like-btn-like { background: rgb(100,160,240); color: #ffffff; }
+
+.like-btn-like:before { font-family: "Font Awesome 5 Free"; content: "\f087"; }
+
+.like-btn-love { background: rgb(242, 82, 104); color: #ffffff; }
+
+.like-btn-love:before { font-family: "Font Awesome 5 Free"; content: "\f004"; }
+
+.like-btn-haha { background: rgb(240, 186, 21); color: #ffffff; }
+
+.like-btn-haha:before { font-family: "Font Awesome 5 Free"; content: "\f118"; }
+
+.like-btn-wow { background: rgb(240, 186, 21); color: #ffffff; }
+
+.like-btn-wow:before { font-family: "Font Awesome 5 Free"; content: "\f005"; }
+
+.like-btn-sad { background: rgb(240, 186, 21); color: #ffffff; }
+
+.like-btn-sad:before { font-family: "Font Awesome 5 Free"; content: "\f119"; }
+
+.like-btn-angry { background: rgb(247, 113, 75); color: #ffffff; }
+
+.like-btn-angry:before { font-family: "Font Awesome 5 Free"; content: "\f11a"; }
+
+.like-btn-text-like { color: rgb(88, 144, 255); }
+
+.like-btn-text-wow, .like-btn-text-haha, .like-btn-text-sad { color: rgb(240, 186, 21) }
+
+.like-btn-text-love { color: rgb(242, 82, 104) }
+
+.like-btn-text-angry { color: rgb(247, 113, 75); }
+
+.like-emo > span { display: inline-block; margin: 0 -3px -3px 0px; width: 22px; height: 22px; border: 1px solid #EEE; border-radius: 50%; text-align: center; }
+
+.like-details { margin-left: 10px; color: #9197a3; font-size: 12px; }
+
+.comment-reactions {
+    position:relative;
+    font-size: .8em;
+    top:-15px;
+    background-color: #3f3f3f;
+    color:#fff;
+    border-radius: 1em;
+}
+
+.comment-reactions:hover {
+    color:#fff;
+}
