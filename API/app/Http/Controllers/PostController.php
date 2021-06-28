@@ -14,28 +14,6 @@ class PostController extends Controller
     public function indexByUserId(Request $request, $userid, $limit){
 
         $owner_id = intval($request->header('user_id'));
-        $posts = Post::all()->sortByDesc('id');
-        $data = [];
-        foreach($posts as $post){
-            $post->user;
-            $post->mmedias;
-            $post->reactionsCount();
-            $post->getMostReact();
-            $post->commentsCount();
-            $post->sharedCount();
-            $post->userLiked(User::where('id','=',$owner_id)->get()->first());
-
-            if($post->type == 'shared'){
-                $post->sharedPost;
-            }
-
-            $data[] = $post;
-        }
-        //$targetUser->profilePic->url;
-
-        return response()->json($data);
-
-        /*$owner_id = intval($request->header('user_id'));
         // Usuario donde recuperamos los posts
         $targetUser = User::where('id','=',$userid)->get()->first();
 
@@ -57,6 +35,11 @@ class PostController extends Controller
                 $post->commentsCount();
                 $post->sharedCount();
                 $post->userLiked(User::where('id','=',$owner_id)->get()->first());
+
+                if($post->type == 'shared'){
+                    $post->sharedPost;
+                }
+
                 $data[] = $post;
             }
             $targetUser->profilePic->url;
@@ -65,7 +48,7 @@ class PostController extends Controller
 
         } else {
             return response()->json(['error'=>'El usuario solicitado no existe'], 404);
-        }*/
+        }
 
     }
 

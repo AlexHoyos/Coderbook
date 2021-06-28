@@ -28,7 +28,7 @@ $(document).ready(function(){
                 },
                 contentType: "application/json"
             }).done(function(response){
-                var postNode = document.getElementById('postNode');
+               var postNode = document.getElementById('postNode');
                 var posts = document.getElementById('posts');
                 response.forEach(function(post){
                     let postObj = new Post(post, ownUser)

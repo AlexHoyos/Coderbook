@@ -1,0 +1,28 @@
+.wallpaper_pic {
+    background-image:url('http://localhost:8000/media/usr/1/1_1624414540.jpg');
+    height:23rem;
+    background-position:center;
+    background-size:cover;
+    border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+
+.profile_pic {
+    background-image: url('http://localhost:8000/media/usr/1/1_1624414318.jpg');
+    background-position:center;
+    background-size:cover;
+    border-radius: 100%;
+    width: 12rem;
+    height: 12rem;
+    margin-bottom: -3rem;
+    border-color: rgb(245, 245, 245);
+    border-width: 5px;
+    border-style: solid;
+}
+
+.prof-photo{
+    background-image:url('http://localhost:8000/media/usr/1/1_1624414318.jpg');
+    background-position:center;
+    background-size:cover;
+    cursor: pointer;
+}
