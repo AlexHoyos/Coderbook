@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User\Friend;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -38,6 +39,35 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function profilePic(){
         return $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url']);
+    }
+
+    public function wallpaperPic(){
+        return $this->belongsTo(MMedia::class, 'wallpaper_pic_id')->select(['id', 'url']);
+    }
+
+    public function recentPhotos(){
+        return $this->hasMany(MMedia::class)->select(['id', 'url', 'type'])->where('type', '!=', 'mp4');
+    }
+
+    public function recentFriends(){
+        $limit = 9;
+        $senderFriends = $this->hasMany(Friend::class, 'sender_id')->select(['id', 'target_id as user_id', 'accepted'])->where('accepted', '=', 'y')->limit($limit)->getResults()->all();
+        $limit -= count($senderFriends);
+        $targetFriends = [];
+        if($limit > 0){
+            $targetFriends = $this->hasMany(Friend::class, 'target_id')->select(['id', 'sender_id as user_id', 'accepted'])->where('accepted', '=', 'y')->limit($limit)->getResults()->all();
+        }
+
+        $recent_friends = [];
+        foreach(array_merge($senderFriends, $targetFriends) as $friend){
+
+            $user = User::select(['id', 'name', 'lname', 'profile_pic_id'])->where('id', '=', $friend['user_id'])->first();
+            $user->profilePic;
+            $recent_friends[] = $user;
+
+        }
+
+        $this->recent_friends = $recent_friends;
     }
 
     public function reacts(){

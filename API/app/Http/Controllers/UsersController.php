@@ -21,6 +21,8 @@ class UsersController extends Controller
 
         if($user instanceof User){
             $user->profilePic;
+            $user->recentPhotos;
+            $user->recentFriends();
             return response()->json($user, 200);
         } else {
             return response()->json(['error'=>'El usuario no existe'], 404);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFriendRequestsTable extends Migration
+class CreateFriendsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateFriendRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('friend_requests', function (Blueprint $table) {
+        Schema::create('friends', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('target_id');
+            $table->enum('accepted', ['y','n'])->default('n');
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
@@ -31,6 +32,6 @@ class CreateFriendRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('friend_requests');
+        Schema::dropIfExists('friends');
     }
 }
