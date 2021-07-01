@@ -14,28 +14,95 @@ $(document).ready(function(){
             },
             contentType: "application/json",
         }).done(function(ownUser){
-    
-            console.log(ownUser);
 
-            // Get POSTS
-
+            // Get User Profile
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8000/posts/users/"+ user_id +"/25",
+                url: "http://localhost:8000/users/profile/"+getParameterByName('uid'),
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
                 },
-                contentType: "application/json"
-            }).done(function(response){
-               var postNode = document.getElementById('postNode');
-                var posts = document.getElementById('posts');
-                response.forEach(function(post){
-                    let postObj = new Post(post, ownUser)
-                    let newPost = postNode.cloneNode(true);
-                    posts.appendChild(postObj.createNode(newPost));
+                contentType: "application/json",
+            }).done(function(profileUser){
+
+                console.log(profileUser)
+
+                // Change wallpaper and profile picture
+                if(profileUser.wallpaper_pic != null)
+                    document.getElementsByClassName('wallpaper_pic')[0].style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+profileUser.wallpaper_pic.url+"')"
+                if(profileUser.profile_pic != null)
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+profileUser.profile_pic.url+"')"
+
+                // Change fullname and bio info
+                document.getElementById('profile_fullname').innerHTML = profileUser.name + ' ' + profileUser.lname
+                document.getElementById('profile_info').innerHTML = (profileUser.bio_info === null) ? '' : profileUser.bio_info
+                
+                // Right box (add friend, config, delete friend, etc)
+                if(profileUser.id == ownUser.id)
+                    document.getElementsByClassName('yourself_box')[0].classList.remove('d-none')
+                else 
+                    document.getElementsByClassName('no_friend_box')[0].classList.remove('d-none')
+
+                // Profile details
+                let profileDetailsBox = document.getElementsByClassName('profile_details')[0]
+                let profileDetailNode = profileDetailsBox.getElementsByClassName('profile_detail')[0]
+
+                    // Coderbooker since
+                let joinDNode = profileDetailNode.cloneNode(true)
+                joinDNode.innerHTML = joinDNode.innerHTML + ' Se unió el ' + getTimeToDate(profileUser.created_at)
+                joinDNode.getElementsByClassName('fas')[0].classList.add('fa-calendar-check')
+                joinDNode.classList.remove('d-none')
+                profileDetailsBox.appendChild(joinDNode)
+                    // Birthday date
+                if(profileUser.birth_date != null){
+                    let birthDNode = profileDetailNode.cloneNode(true)
+                    birthDNode.innerHTML = birthDNode.innerHTML + ' Nació el  ' + getTimeToDate(profileUser.birth_date)
+                    birthDNode.getElementsByClassName('fas')[0].classList.add('fa-calendar-day')
+                    birthDNode.classList.remove('d-none')
+                    profileDetailsBox.appendChild(birthDNode)
+                }
+
+
+                // GET PHOTOS
+                if(profileUser.recent_photos.length > 0){
+
+                    profileUser.recent_photos.forEach(function(photo, i){
+                        let photoNode = document.getElementsByClassName('profile-photo-'+(i+1))[0]
+                        photoNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+photo.url+"')"
+                        photoNode.classList.remove('d-none')
+                    })
+
+                }
+                
+                // Get POSTS
+
+                $.ajax({
+                    method: "GET",
+                    url: "http://localhost:8000/posts/users/"+ profileUser.id +"/25",
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader('api_token', api_token)
+                        xhr.setRequestHeader('user_id', user_id)
+                    },
+                    contentType: "application/json"
+                }).done(function(response){
+                var postNode = document.getElementById('postNode');
+                    var posts = document.getElementById('posts');
+                    response.forEach(function(post){
+                        let postObj = new Post(post, ownUser)
+                        let newPost = postNode.cloneNode(true);
+                        posts.appendChild(postObj.createNode(newPost));
+                    })
                 })
+
+            }).fail(function(error){
+                
+                window.location.href = 'profile.php?uid='+user_id
+
             })
+
+            
+
 
     
         }).fail(function(error){
@@ -200,6 +267,11 @@ function changeLikes(likes, post, reaction = '?', className = 'post-likes'){
     post.getElementsByClassName(className)[0].innerHTML = msg
     
 
+}
+
+function getTimeToDate(time){
+    let date = new Date(time * 1000).toLocaleDateString("es-MX")
+    return date
 }
 
 function getTimeStr(time){

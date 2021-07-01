@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'wallpaper_pic_id', 'profile_pic_id', 'rankId', 'api_token', 'created_at', 'updated_at', 'lastIp'
+        'password', 'wallpaper_pic_id', 'profile_pic_id', 'rankId', 'api_token', 'updated_at', 'lastIp'
     ];
 
     public function getPosts(){
@@ -46,7 +46,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function recentPhotos(){
-        return $this->hasMany(MMedia::class)->select(['id', 'url', 'type'])->where('type', '!=', 'mp4');
+        return $this->hasMany(MMedia::class)->select(['id', 'url', 'type'])->where('type', '!=', 'mp4')->orderByDesc('id');
     }
 
     public function recentFriends(){
@@ -76,6 +76,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function isOnFillable($key){
         return in_array($key, $this->fillable);
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+    }
+
+    public function getBirthDateAttribute($date)
+    {
+        return strtotime($date);
     }
 
 }

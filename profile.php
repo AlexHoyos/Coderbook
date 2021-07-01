@@ -7,6 +7,7 @@
     <title>Alex Hoyos | Coderbook</title>
     <?php include_once 'templates/header/bootstrapcdn.php' ?>
     <script src="./resources/js/functions/time.js"></script>
+    <script src="./resources/js/functions/routing.js"></script>
     <script src="./resources/js/models/User.js"></script>
     <script src="./resources/js/models/Post.js"></script>
     <script src="./resources/js/profile.js"></script>
@@ -28,8 +29,8 @@
         <div class="col-10 row mx-auto mt-5 text-center ">
 
             <div class="col-12">
-                <h4><b>Alex Hoyos</b></h4>
-                <p>Hola:3</p>
+                <h4><b id="profile_fullname">Alex Hoyos</b></h4>
+                <p id="profile_info">Hola:3</p>
                 <hr>
             </div>
 
@@ -43,10 +44,23 @@
                 </nav>
             </div>
 
-            <div class="col-6 text-right">
+            <div class="col-6 text-right d-none no_friend_box">
                 
                 <button class="btn btn-primary"> <i class="fas fa-user-plus"></i> Agregar</button>
                 <button class="btn btn-secondary"> <i class="fas fa-comment-dots"></i></button>
+
+            </div>
+
+            <div class="col-6 text-right d-none friend_box">
+                
+                <button class="btn btn-primary"> <i class="fas fa-user-minus"></i> Eliminar</button>
+                <button class="btn btn-secondary"> <i class="fas fa-comment-dots"></i></button>
+
+            </div>
+
+            <div class="col-6 text-right d-none yourself_box">
+                
+                <button class="btn btn-secondary"> <i class="fas fa-cog"></i> Configuracion</button>
 
             </div>
 
@@ -60,10 +74,9 @@
     <div class="col-4">
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-body profile_details">
                 <h5 class="card-title">Detalles</h5>
-                <p class="card-text"> <i class="fas fa-calendar-check text-muted" style="font-size:1.15em"></i> Se unió el 22 de junio de 2021</p>
-                <p class="card-text"> <i class="fas fa-birthday-cake text-muted" style="font-size:1.15em"></i> Nació el 8 de marzo de 2002</p>
+                <p class="card-text profile_detail d-none"> <i class="fas text-muted" style="font-size:1.15em"></i> </p>
             </div>
         </div>
 
@@ -74,15 +87,15 @@
                 <br>
                 <div class="row m-0 p-0 justify-content-center w-100">
 
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-1" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-2" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-3" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-4" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-5" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-6" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-7" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-8" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-9" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-1 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-2 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-3 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-4 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-5 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-6 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-7 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-8 d-none" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-9 d-none" ></div>
                 </div>
                 
             </div>
@@ -95,15 +108,15 @@
                 <br>
                 <div class="row m-0 p-0 justify-content-center w-100">
 
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-1" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-2" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-3" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-4" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-5" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-6" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-7" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-8" ></div>
-                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo profile-photo-9" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-1" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-2" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-3" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-4" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-5" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-6" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-7" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-8" ></div>
+                    <div class="col-3 m-1 embed-responsive embed-responsive-1by1 prof-photo d-none friend-photo-9" ></div>
                 </div>
                 
             </div>

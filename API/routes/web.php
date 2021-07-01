@@ -24,6 +24,7 @@ $router->group(['middleware'=>'jsonHead'], function() use ($router){
     $router->group(['middleware'=>'user_auth'], function() use ($router){
 
         $router->get('/users/{id}', ['uses'=>'UsersController@getUser']);
+        $router->get('/users/profile/{id}', ['uses'=>'UsersController@getUserProfile']);
         $router->patch('/users/{id}', ['uses'=>'UsersController@update']);
 
         $router->post('/reactions', ['uses'=>'ReactionController@create']);

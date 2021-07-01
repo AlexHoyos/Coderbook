@@ -4,7 +4,7 @@ class Post {
         Object.assign(this, post);
         this.ownUser = ownUser
         this.sharedContent = sharedContent
-        console.log(Object.values(this))
+        //console.log(Object.values(this))
     }
 
     createNode(newPost){
@@ -149,7 +149,7 @@ class Post {
             alert("Compartido!")
 
         }).fail(function(res){
-            console.log(res)
+            //console.log(res)
         })
 
     }
