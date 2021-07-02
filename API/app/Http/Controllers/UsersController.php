@@ -36,6 +36,8 @@ class UsersController extends Controller
             $user->wallpaperPic;
             $user->recentPhotos;
             $user->recentFriends();
+            $user->friendsCount();
+            $user->relation;
             return response()->json($user, 200);
         } else {
             return response()->json(['error'=>'El usuario no existe'], 404);

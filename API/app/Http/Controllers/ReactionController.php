@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Event;
+use App\Events\ReactedToPost;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Reaction;
@@ -69,7 +71,10 @@ class ReactionController extends Controller
         if(isset($data['post_id'])){
             $post->reactionsCount();
             $post->getMostReact();
+            //event(new ReactedToPost($reaction));
+            Event::dispatch(new ReactedToPost($reaction));
             return response()->json($post, 201);
+
         } else {
             $comment->reactionsCount();
             $comment->getMostReact();

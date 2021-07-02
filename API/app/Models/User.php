@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'wallpaper_pic_id', 'profile_pic_id', 'rankId', 'api_token', 'updated_at', 'lastIp'
+        'password', 'wallpaper_pic_id', 'profile_pic_id', 'rankId', 'api_token', 'updated_at', 'lastIp', 'relation_with_id'
     ];
 
     public function getPosts(){
@@ -43,6 +43,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function wallpaperPic(){
         return $this->belongsTo(MMedia::class, 'wallpaper_pic_id')->select(['id', 'url']);
+    }
+
+    public function relation(){
+        return $this->belongsTo(Self::class, 'relation_with_id')->select(['id', 'name', 'lname']);
     }
 
     public function recentPhotos(){
@@ -68,6 +72,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
 
         $this->recent_friends = $recent_friends;
+    }
+
+    public function friendsCount(){
+        $incoming = $this
+            ->hasMany(Friend::class, 'sender_id')
+            ->select(['id', 'target_id', 'accepted'])
+            ->where('accepted', '=', 'y')
+            ->count();
+        $outgoing = $this
+            ->hasMany(Friend::class, 'target_id')
+            ->select(['id', 'sender_id', 'accepted'])
+            ->where('accepted', '=', 'y')
+            ->count();
+        $this->total_friends = $incoming + $outgoing;
     }
 
     public function reacts(){
