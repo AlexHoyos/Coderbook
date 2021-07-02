@@ -27,6 +27,10 @@ $(document).ready(function(){
             }).done(function(profileUser){
 
                 console.log(profileUser)
+                // Change title
+                document.title = profileUser.name + ' ' + profileUser.lname + ' | Coderbook'
+                // Change WAY thinking textarea
+                document.getElementById('way_thinking').setAttribute('placeholder', 'Publicar en la biografia de '+profileUser.name+'...')
 
                 // Change wallpaper and profile picture
                 if(profileUser.wallpaper_pic != null)
@@ -38,6 +42,8 @@ $(document).ready(function(){
                 document.getElementById('profile_fullname').innerHTML = profileUser.name + ' ' + profileUser.lname
                 document.getElementById('profile_info').innerHTML = (profileUser.bio_info === null) ? '' : profileUser.bio_info
                 
+
+
                 // Right box (add friend, config, delete friend, etc)
                 if(profileUser.id == ownUser.id)
                     document.getElementsByClassName('yourself_box')[0].classList.remove('d-none')
@@ -55,7 +61,7 @@ $(document).ready(function(){
                 joinDNode.classList.remove('d-none')
                 profileDetailsBox.appendChild(joinDNode)
                     // Birthday date
-                if(profileUser.birth_date != null){
+                if(profileUser.birth_date){
                     let birthDNode = profileDetailNode.cloneNode(true)
                     birthDNode.innerHTML = birthDNode.innerHTML + ' Nació el  ' + getTimeToDate(profileUser.birth_date)
                     birthDNode.getElementsByClassName('fas')[0].classList.add('fa-calendar-day')
@@ -63,6 +69,16 @@ $(document).ready(function(){
                     profileDetailsBox.appendChild(birthDNode)
                 }
 
+                    // Civil Status
+                if(profileUser.civil_status == "relationship"){
+                    if(profileUser.relation != null){
+                        let relationDNode = profileDetailNode.cloneNode(true)
+                        relationDNode.innerHTML = relationDNode.innerHTML + ' En una relacion con <b class="text-muted">' + profileUser.relation.name  + ' ' + profileUser.relation.lname + '</b>'
+                        relationDNode.getElementsByClassName('fas')[0].classList.add('fa-heart')
+                        relationDNode.classList.remove('d-none')
+                        profileDetailsBox.appendChild(relationDNode)
+                    }
+                }
 
                 // GET PHOTOS
                 if(profileUser.recent_photos.length > 0){
@@ -71,6 +87,18 @@ $(document).ready(function(){
                         let photoNode = document.getElementsByClassName('profile-photo-'+(i+1))[0]
                         photoNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+photo.url+"')"
                         photoNode.classList.remove('d-none')
+                    })
+
+                }
+                // GET FRIENDS
+                    //Total friends
+                document.getElementById('total_friends').innerHTML = profileUser.total_friends + ' amigo' + ((profileUser.total_friends == 1) ? '' : 's')
+                if(profileUser.recent_friends.length > 0){
+
+                    profileUser.recent_friends.forEach(function(friend, i){
+                        let friendNode = document.getElementsByClassName('friend-photo-'+(i+1))[0]
+                        friendNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ friend.id +"/"+friend.profile_pic.url+"')"
+                        friendNode.classList.remove('d-none')
                     })
 
                 }

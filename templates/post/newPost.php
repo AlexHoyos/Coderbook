@@ -5,7 +5,7 @@
         <option value="public" selected>Publico</option>
         <option value="private">Privado</option>
     </select>
-    <textarea  style="resize: none;" class="form-control mt-1" id="exampleFormControlTextarea1" placeholder="¿Qué estas pensando, (?)?" rows="3"></textarea>
+    <textarea  style="resize: none;" class="form-control mt-1" id="way_thinking" placeholder="¿Qué estas pensando, (?)?" rows="3"></textarea>
     <a href="#" class="btn btn-primary mt-1">Publicar</a>
   </div>
 </div>
