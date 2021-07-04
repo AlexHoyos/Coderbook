@@ -145,7 +145,7 @@ $(document).ready(function(){
     
 
 })
-
+/*
 function like(post_id, reaction){
 
     var post = document.getElementById('post-'+post_id)
@@ -302,7 +302,7 @@ function changeLikes(likes, post, reaction = '?', className = 'post-likes'){
     
 
 }
-
+*/
 function getTimeToDate(time){
     let date = new Date(time * 1000).toLocaleDateString("es-MX")
     return date

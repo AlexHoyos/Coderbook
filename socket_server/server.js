@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
     console.log(socket.handshake.auth)
     let clientdata = socket.handshake.auth
 
-    /* AUTHENTICATION OF USER */
+    /* USER AUTHENTICATION */
     if(clientdata.type == 'user'){
         axios.get('http://localhost:8000/users/'+clientdata.uid, {
           headers: {
