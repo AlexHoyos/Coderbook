@@ -13,5 +13,14 @@ La API de Coderbook está desarrollada en **PHP** utilizando el micro-framework 
 
 Prepara tu archivo  *.env* en la carpeta de la API. Posteriormente ejecuta el siguiente comando en la terminal
 
-> php -S localhost:8000 -t public
+> php -S 127.0.0.1:8000 -t public
 
+# WebSockets Server
+
+El servidor de websockerts esta desarrollado en Javascript utilizando **Express** y **Socket.IO**. La carpeta en donde se encuentra es */socket_server*
+
+## Inicialización
+
+Dirigirse a la carpeta del WebSocket server y ejecutar el siguiente comando en la terminal
+
+> node server.js
