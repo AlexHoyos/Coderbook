@@ -1,3 +1,45 @@
+<!-- WAITING MODAL -->
+
+<div class="modal" id="waitingModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Publicando...</h5>
+      </div>
+      <div class="modal-body text-center">
+
+                    <div class="loadingio-spinner-pulse-73hpm1me5ss"><div class="ldio-eocps6p8ny">
+                    <div></div><div></div><div></div>
+                    </div></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END WAITING MODAL -->
+
+<!-- POSTED MODAL -->
+
+<div class="modal" id="postedModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Publicado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <i class="fas fa-check text-success" style="font-size:3em"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END POSTED MODAL -->
+
+
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">¡Cuenta algo nuevo!</h5>
@@ -28,17 +70,18 @@
 <!-- END CAROUSEL -->
     <a href="#" class="btn btn-primary mt-1" onclick="publishPost()">Publicar</a>
     <label for="upload-photo" class="btn btn-secondary mt-2"> <i class="fas fa-camera"></i> </label>
-    <input type="file" name="photo" class="d-none" id="upload-photo" onchange="uploadImages(event)" multiple/>
+    <input type="file" name="photo" class="d-none"  accept="image/png, image/gif, image/jpeg" id="upload-photo" onchange="uploadImages(event)" multiple/>
   </div>
 </div>
 
 <script>
 
+
   var fileList = {}
   var fileId = 0
 
-function publishPost(){
-
+function publishPost(profile = false){
+    $('#waitingModal').modal({backdrop: 'static', keyboard: false})
     var postData = new FormData();
     postData.append('content', document.getElementById('way_thinking').value)
     postData.append('privacy', document.getElementById('privacy').value)
@@ -59,10 +102,19 @@ function publishPost(){
             contentType: false,
             cache: false,
         }).done(function(post){
+          //alert("Publicacion realizada con exito!")
+          
           console.log(post)
+          $('#waitingModal').modal('hide')
+          $('#postedModal').modal('show')
+          $('#postedModal').on('hidden.bs.modal', function(e){
+            window.location.href= "./home.php"
+          })
+
         }).fail(function(error){
           alert("Error al intentar crear el post!")
           console.log(error)
+          $('#waitingModal').modal('hide')
         })
 
 }
