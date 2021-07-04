@@ -12,7 +12,7 @@ class MMedia extends Model
     ];
 
     public static function saveMMedia($user_id, $file){
-        $newName = $user_id . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $newName = $user_id . '_' . time() + rand(1,10000) . '.' . $file->getClientOriginalExtension();
         $file->move('media/usr/'.$user_id.'/', $newName);
         return $newName;
     }

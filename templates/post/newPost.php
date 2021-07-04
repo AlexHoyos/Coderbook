@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">¡Cuenta algo nuevo!</h5>
-    <select class="custom-select custom-select-sm w-25">
+    <select id="privacy" class="custom-select custom-select-sm w-25">
         <option value="public" selected>Publico</option>
         <option value="private">Privado</option>
     </select>
@@ -26,7 +26,7 @@
         </a>
       </div>
 <!-- END CAROUSEL -->
-    <a href="#" class="btn btn-primary mt-1">Publicar</a>
+    <a href="#" class="btn btn-primary mt-1" onclick="publishPost()">Publicar</a>
     <label for="upload-photo" class="btn btn-secondary mt-2"> <i class="fas fa-camera"></i> </label>
     <input type="file" name="photo" class="d-none" id="upload-photo" onchange="uploadImages(event)" multiple/>
   </div>
@@ -34,9 +34,38 @@
 
 <script>
 
-  var postData = new FormData();
   var fileList = {}
   var fileId = 0
+
+function publishPost(){
+
+    var postData = new FormData();
+    postData.append('content', document.getElementById('way_thinking').value)
+    postData.append('privacy', document.getElementById('privacy').value)
+    postData.append('type', 'normal')
+    for (let fileId in fileList) {
+      postData.append('mmedias[]', fileList[fileId]);
+    }
+    $.ajax({
+            method: 'POST',
+            enctype: 'multipart/form-data',
+            url: "http://localhost:8000/posts",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('api_token', api_token)
+                xhr.setRequestHeader('user_id', user_id)
+            },
+            data: postData,
+            processData: false,
+            contentType: false,
+            cache: false,
+        }).done(function(post){
+          console.log(post)
+        }).fail(function(error){
+          alert("Error al intentar crear el post!")
+          console.log(error)
+        })
+
+}
 
 function deleteImage(imgId){
 

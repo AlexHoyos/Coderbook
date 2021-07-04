@@ -61,7 +61,7 @@ class PostController extends Controller
             'content' => 'present|required_if:type,==,normal',
             'privacy' => 'required',
             'type' => 'required',
-            'mmedias.*' => 'mimes:jpg,mp4,png,gif'
+            'mmedias.*' => 'mimes:jpg,png,gif'
         ], [
             'required' => 'No se recibieron todos los parametros necesarios :attribute'
         ]);
@@ -165,7 +165,7 @@ class PostController extends Controller
         $validator = Validator::make($data, [
             'content' => 'required',
             'privacy' => 'required',
-            'mmedias.*' => 'mimes:jpg,mp4,png,gif'
+            'mmedias.*' => 'mimes:jpg,png,gif'
         ], [
             'required' => 'No se recibieron todos los parametros necesarios'
         ]);

@@ -89,6 +89,10 @@ class Post {
                 window.sessionStorage.setItem('post-'+this.id, JSON.stringify(this))
             }
 
+            if(this.privacy == 'private'){
+                newPost.getElementsByClassName('post-privacy')[0].classList.remove('fa-globe-americas')
+                newPost.getElementsByClassName('post-privacy')[0].classList.add('fa-lock')
+            }
             
 
             newPost.getElementsByClassName('basic-actions-post')[0].classList.remove('d-none')
