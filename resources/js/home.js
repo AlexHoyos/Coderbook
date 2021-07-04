@@ -40,10 +40,14 @@ $(document).ready(function(){
     
         }).fail(function(error){
             console.log(error);
+            window.sessionStorage.removeItem('user_id')
+            window.sessionStorage.removeItem('api_token')
             window.location.href='./'
         })
 
     } else {
+        window.sessionStorage.removeItem('user_id')
+        window.sessionStorage.removeItem('api_token')
         window.location.href='./'
     }
 
@@ -82,7 +86,7 @@ function like(post_id, reaction){
         likebtn.getElementsByClassName('reaction')[4].setAttribute('onClick', 'like('+post_id+', \'sad\')')
         likebtn.getElementsByClassName('reaction')[5].setAttribute('onClick', 'like('+post_id+', \'angry\')')
         changeLikes(response.reactions_count, post, response.most_react);
-
+        socket.emit('post_react', response);
     }).fail(function(error){
         console.log(error);
     })

@@ -18,6 +18,7 @@
 <body>
     <?php include('templates/notification/connection.php')?>
     <?php include('templates/home/navbar.php'); ?>
+    <?php include('templates/notification/post_react.php')?>
     <div class="row m-0 p-0 shadow-sm pb-1 bg-light">
     
         <div class="col-10 row m-0 p-0 mx-auto wallpaper_pic" >

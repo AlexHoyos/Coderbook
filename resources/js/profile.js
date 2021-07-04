@@ -152,9 +152,13 @@ function like(post_id, reaction){
     var likebtn = post.getElementsByClassName('like-btn')[0];
 
     var method = "POST"
+    let noti = true
     //console.log(likebtn.getElementsByClassName('fas')[0].classList.contains('liked'));
-    if(likebtn.getElementsByClassName('fas')[0].classList.contains('liked'))
+    if(likebtn.getElementsByClassName('fas')[0].classList.contains('liked')){
         method = "PUT";
+        noti = false
+    }
+        
 
     $.ajax({
         method: method,
@@ -177,7 +181,9 @@ function like(post_id, reaction){
         likebtn.getElementsByClassName('reaction')[4].setAttribute('onClick', 'like('+post_id+', \'sad\')')
         likebtn.getElementsByClassName('reaction')[5].setAttribute('onClick', 'like('+post_id+', \'angry\')')
         changeLikes(response.reactions_count, post, response.most_react);
-
+        response.reaction = reaction
+        if(noti)
+            socket.emit('post_react', response);
     }).fail(function(error){
         console.log(error);
     })

@@ -16,6 +16,8 @@
 <body>
     
     <?php include('templates/home/navbar.php'); ?>
+    <?php include('templates/notification/connection.php')?>
+    <?php include('templates/notification/post_react.php')?>
 
     <!-- POST CONTENT MODAL -->
 
