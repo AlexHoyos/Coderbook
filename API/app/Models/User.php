@@ -50,7 +50,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function recentPhotos(){
-        return $this->hasMany(MMedia::class)->select(['id', 'url', 'type'])->where('type', '!=', 'mp4')->orderByDesc('id');
+        return $this->hasMany(MMedia::class)->select(['id', 'url', 'type'])->where('type', '!=', 'mp4')->orderByDesc('id')->limit(9);
     }
 
     public function recentFriends(){

@@ -82,7 +82,7 @@ $(document).ready(function(){
 
                 // GET PHOTOS
                 if(profileUser.recent_photos.length > 0){
-
+                    console.log(profileUser.recent_photos)
                     profileUser.recent_photos.forEach(function(photo, i){
                         let photoNode = document.getElementsByClassName('profile-photo-'+(i+1))[0]
                         photoNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+photo.url+"')"
