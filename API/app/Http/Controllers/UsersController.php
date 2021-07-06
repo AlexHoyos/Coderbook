@@ -158,4 +158,58 @@ class UsersController extends Controller
 
     }
 
+    public function getUserFriends(Request $request, $id){
+
+        $reqUser = User::where('id', '=', $request->header('user_id'))->get()->first();
+        if($reqUser instanceof User){
+
+            if($reqUser->id == $id || $reqUser->isFriendOf($id)){
+
+                $targetUser = User::where('id', '=', $id)->get()->first();
+                $targetUser->friends();
+                return $targetUser->friends;
+
+            } else{
+              return response()->json(['error'=>'No tienes permisos para ver esto'], 401);
+            }
+
+        }
+
+    }
+
+    public function getMessages(Request $request, $id){
+
+        $user = User::where('id', '=', $request->header('user_id'))->get()->first();
+        if($user instanceof User){
+
+            return response()->json($user->getMessages($id));
+
+        } else {
+            response()->json(['error'=>'Contenido no disponible'], 404);
+        }
+
+    }
+
+    public function getFriendsChat(Request $request){
+
+        $user = User::where('id', '=', $request->header('user_id'))->get()->first();
+
+        if($user instanceof User){
+
+            $user->friends();
+            $friendsChat = [];
+            foreach($user->friends as $friend){
+                $friend->userData;
+                $friend->last_message = $user->getLastMessage($friend->user_id);
+                $friendsChat[] = $friend;
+            }
+
+            return response()->json($friendsChat);
+
+        } else {
+            response()->json(['error'=>'Contenido no disponible'], 404);
+        }
+
+    }
+
 }

@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friend extends Model
 {
-    public function targetData(){
-        $this->user = $this->belongsTo('App\Models\User', 'target_id')->where('id', '=', $this->id)->select(['name', 'lname', 'profile_pic_id'])->with('profilePic');
+    public function userData(){
+        return $this->belongsTo('App\Models\User', 'user_id', )->select(['id', 'name', 'lname', 'profile_pic_id'])->with('profilePic');
     }
 
-    public function senderData(){
-        $this->user = $this->belongsTo('App\Models\User', 'sender_id')->where('id', '=', $this->id)->select(['name', 'lname', 'profile_pic_id'])->with('profilePic');
-    }
+
 }

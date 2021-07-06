@@ -74,6 +74,32 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->recent_friends = $recent_friends;
     }
 
+    public function friends(){
+        $friends_target = $this->hasMany(Friend::class, 'sender_id')->select(['id', 'target_id as user_id', 'accepted'])->where('accepted', '=', 'y')->with('userData')->getResults()->all();
+        $friends_sender = $this->hasMany(Friend::class, 'target_id')->select(['id', 'sender_id as user_id', 'accepted'])->where('accepted', '=', 'y')->with('userData')->getResults()->all();
+        $this->friends = array_merge($friends_sender, $friends_target);
+    }
+
+    public function getMessages($uid){
+
+        $messages = Message::where('sender_id', '=', $uid)->where('target_id', '=', $this->id)->orWhere('sender_id', '=', $this->id)->where('target_id', '=', $uid)->orderBy('id', 'desc')->get()->all();
+        return $messages;
+
+    }
+
+    public function getLastMessage($uid){
+
+        $messages = Message::where('sender_id', '=', $uid)->where('target_id', '=', $this->id)->orWhere('sender_id', '=', $this->id)->where('target_id', '=', $uid)->orderBy('id', 'desc')->limit(1)->get()->all();
+        return $messages;
+
+    }
+
+    public function isFriendOf($uid){
+        $isSender = Friend::where('sender_id', '=', $this->id)->where('target_id', '=', $uid)->get()->count();
+        $isTarget = Friend::where('target_id', '=', $this->id)->where('sender_id', '=', $uid)->get()->count();
+        return ($isSender || $isTarget);
+    }
+
     public function friendsCount(){
         $incoming = $this
             ->hasMany(Friend::class, 'sender_id')
