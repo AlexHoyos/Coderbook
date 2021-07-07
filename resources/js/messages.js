@@ -70,6 +70,7 @@ function setChatTo(uid){
     }).done(function(messages){
         console.log(messages)
          var messageModels = document.getElementById('messageModels')
+         document.getElementById('sender-msg-btn').setAttribute('onClick', 'sendMsg('+uid+')')
         messages.forEach(function(message){
             // Almacenamos la direccion del mensaje (el cual es una clase de css), si viene del usuario o del amigo
             let direction = (message.sender_id == user_id) ? 'user-sender' : 'friend-sender' 
@@ -88,4 +89,17 @@ function setChatTo(uid){
     })
 
    
+}
+
+function sendMsg(uid){
+
+    var senderMsg = document.getElementById('sender-msg')
+    socket.emit('message', {
+        sender_id: user_id,
+        target_id: uid,
+        message: senderMsg.value
+    })
+
+    senderMsg.value = ""
+
 }

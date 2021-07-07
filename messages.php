@@ -86,10 +86,10 @@
 
                 <div class="col-12 row m-0 p-0 align-self-end">
                     <div class="col-10 py-2">
-                        <textarea style="resize:none;border-radius:2em;" onkeydown="sendComment(event, this)" class="form-control post-create-comment" placeholder="Escribe un mensaje..." id="" cols="30" rows="1"></textarea>
+                        <textarea style="resize:none;border-radius:2em;" class="form-control post-create-comment" placeholder="Escribe un mensaje..." id="sender-msg" cols="30" rows="1"></textarea>
                     </div>
                     <div class="col-2 py-2">
-                        <button class="pp-bubble p-0 text-center bg-primary" style="height:35px;width:35px;font-size:.8em"> <i class="fas fa-paper-plane mr-1"></i> </button>
+                        <button class="pp-bubble p-0 text-center bg-primary" style="height:35px;width:35px;font-size:.8em" id="sender-msg-btn"> <i class="fas fa-paper-plane mr-1"></i> </button>
                     </div>
                 </div>
 

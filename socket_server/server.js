@@ -53,6 +53,10 @@ io.on('connection', (socket) => {
 
             /* END POST REACTION */
 
+            socket.on('message', (msg) => {
+              console.log(msg)
+            })
+
             socket.on('disconnect', () => {
               users['user-'+clientdata.uid] = undefined
             })
