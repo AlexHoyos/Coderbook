@@ -9,6 +9,8 @@
     <script src="./resources/js/functions/time.js"></script>
     <script src="./resources/js/functions/routing.js"></script>
     <script src="./resources/js/models/User.js"></script>
+    <script src="./resources/js/models/Message.js"></script>
+    <script src="./resources/js/messages.js"></script>
     <link rel="stylesheet" href="./resources/css/home.css">
     <link rel="stylesheet" href="./resources/css/messages.css">
 </head>
@@ -31,63 +33,32 @@
         <div class="col-6 m-0 p-0" id="friendsList">
             
             <div class="col-12 bg-light px-3 pt-4 row m-0 mb-3">
-                <h5 class="align-self-center">Amigos</h5>
-            </div>
-
-            <div class="col-12 row m-0 p-2 border-top border-bottom align-items-center" style="cursor:pointer;">
-                <div class="col-1">
-                    <div class="pp-bubble" style="background-image: url('http://localhost:8000/media/usr/5/5_1625361480.jpg');height:50px;width:50px"></div>
-                </div>
-                <div class="col-8 row m-0 p-0 ml-1 align-self-center">
-                    <div class="col-12 row m-0 p-0">
-                        <h6 class="ml-2 mt-1" ><b>Dianna Carballo</b></h6>
-                        <h6 class="ml-2"> <i class="fas fa-circle text-success" style="font-size:.4em"></i> </h6>
-                    </div>
-                    <div class="col-12 m-0 p-0 pl-2" >
-                        <p style="margin-top:-10px">Este es un mensaje cualquiera, es solamente para pro...</p>
-                    </div>
-                </div>
+                <h5 class="align-self-center">Chats recientes</h5>
             </div>
 
 
-            <div class="col-12 row m-0 p-2 border-top border-bottom align-items-center" style="cursor:pointer;">
-                <div class="col-1">
-                    <div class="pp-bubble" style="background-image: url('http://localhost:8000/media/usr/4/4_1625180986.jpg');height:50px;width:50px"></div>
+            <div class="col-12 row m-0 p-2 border-top border-bottom align-items-center d-none" style="cursor:pointer;" id="friendChatModel">
+                <div class="col-2 col-lg-1">
+                    <div class="pp-bubble" style="background-image: url('');height:50px;width:50px"></div>
                 </div>
                 <div class="col-8 row m-0 p-0 ml-1 align-self-center">
                     <div class="col-12 row m-0 p-0">
-                        <h6 class="ml-2 mt-1" ><b>Victor Garcia</b></h6>
-                        <h6 class="ml-2"> <i class="fas fa-circle text-success" style="font-size:.4em"></i> </h6>
+                        <h6 class="ml-2 mt-1 friend-fullname" ><b>name lname</b></h6>
+                        <h6 class="ml-2 user-online"> <i class="fas fa-circle text-success" style="font-size:.4em"></i> </h6>
                     </div>
                     <div class="col-12 m-0 p-0 pl-2" >
-                        <p style="margin-top:-10px;font-weight:bold">Oye esto es un mensaje de prueba para poder ver...</p>
+                        <p style="margin-top:-10px;" class="friend-message"></p>
                     </div>
                 </div>
                 <div class="col-1 ml-auto">
-                    <i class="fas fa-circle text-primary" style="font-size:.5em"></i>
-                </div>
-            </div>
-
-
-            <div class="col-12 row m-0 p-2 border-top border-bottom align-items-center" style="cursor:pointer;">
-                <div class="col-1">
-                    <div class="pp-bubble" style="background-image: url('http://localhost:8000/media/usr/3/3_1624665343.jpg');height:50px;width:50px"></div>
-                </div>
-                <div class="col-8 row m-0 p-0 ml-1 align-self-center">
-                    <div class="col-12 row m-0 p-0">
-                        <h6 class="ml-2 mt-1" ><b>Ricardo Ortiz</b></h6>
-                        
-                    </div>
-                    <div class="col-12 m-0 p-0 pl-2" >
-                        <p style="margin-top:-10px">Este es un mensaje cualquiera, es solamente para pro...</p>
-                    </div>
+                    <i class="fas fa-circle text-primary d-none user-seen" style="font-size:.5em"></i>
                 </div>
             </div>
 
 
         </div>
 
-        <div class="col-6 row justify-content-center d-none" style="height:80vh" id="noFriendChat">
+        <div class="col-6 row justify-content-center" style="height:80vh" id="noFriendChat">
             
             <div class="col-12 align-self-center text-center">
                 <h1 class=" text-muted"> <i class="fas fa-comments p-block"></i></h1>
@@ -96,54 +67,20 @@
 
         </div>
 
-        <div class="col-6 m-0 p-0 shadow-sm" id="friendChat">
+        <div class="col-6 m-0 p-0 shadow-sm d-none" id="friendChat">
 
            <div class="row m-0 p-0">
            
                 <div class="col-12 row m-0 p-0 pl-3 shadow-sm" style="height:70px">
                     <div class="pp-bubble align-self-center" style="background-image: url('http://localhost:8000/media/usr/5/5_1625361480.jpg');"></div>
-                    <h6 class="align-self-center ml-2 mt-1" ><b>Dianna Carballo</b></h6>
+                    <h6 class="align-self-center ml-2 mt-1 chatbox-friendname" ><b>Dianna Carballo</b></h6>
                     <h6 class="align-self-center ml-2"> <i class="fas fa-circle text-success" style="font-size:.6em"></i> </h6>
                 </div>
                 
 
-                <div class="row m-0 p-0" style="height:72vh;overflow: auto;" id="chatBox">
 
-                    <div class="col-12 p-0 m-0 pr-2 pb-2">
-                        <div class="ml-auto bg-primary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-
-                    <div class="col-12 p-0 m-0 pl-2 pb-2">
-                        <div class="mr-auto bg-secondary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-                    <div class="col-12 p-0 m-0 pr-2 pb-2">
-                        <div class="ml-auto bg-primary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-
-                    <div class="col-12 p-0 m-0 pl-2 pb-2">
-                        <div class="mr-auto bg-secondary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-                    <div class="col-12 p-0 m-0 pr-2 pb-2">
-                        <div class="ml-auto bg-primary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-
-                    <div class="col-12 p-0 m-0 pl-2 pb-2">
-                        <div class="mr-auto bg-secondary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-                    <div class="col-12 p-0 m-0 pr-2 pb-2">
-                        <div class="ml-auto bg-primary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-
-                    <div class="col-12 p-0 m-0 pl-2 pb-2">
-                        <div class="mr-auto bg-secondary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-                    <div class="col-12 p-0 m-0 pr-2 pb-2">
-                        <div class="ml-auto bg-primary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
-
-                    <div class="col-12 p-0 m-0 pl-2 pb-2">
-                        <div class="mr-auto bg-secondary text-light p-2" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
-                    </div>
+                <div class="col-12 row m-0 p-0 pt-2 align-items-end" style="height:72vh;overflow: auto;" id="chatBox">
+                    
 
                 </div>
 
@@ -160,6 +97,17 @@
 
         </div>
 
+    </div>
+
+    <div id="messageModels" class="d-none">
+        <div class="col-12 p-0 m-0 pr-2 pb-2 user-sender">
+            <div class="ml-auto bg-primary text-light p-2 message" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
+        </div>
+
+        <div class="col-12 p-0 m-0 pl-2 pb-2 friend-sender">
+            <div class="mr-auto bg-secondary text-light p-2 message" style="max-width: 50%;">Este es un mensaje cualquiera, es solamente para probar el diseño del chat lol</div>
+        </div>
+                    
     </div>
 
 </body>

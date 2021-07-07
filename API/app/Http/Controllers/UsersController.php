@@ -200,8 +200,12 @@ class UsersController extends Controller
             $friendsChat = [];
             foreach($user->friends as $friend){
                 $friend->userData;
-                $friend->last_message = $user->getLastMessage($friend->user_id);
-                $friendsChat[] = $friend;
+                $friend->last_message = User::where('id', '=', $friend->user_id)->get()->first()->getLastMessage($user->id);
+                if($friend->last_message != null){
+                    $friend->last_message->shortMessage();
+                    $friendsChat[] = $friend;
+                }
+
             }
 
             return response()->json($friendsChat);

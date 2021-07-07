@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('target_id');
             $table->longText('message');
+            $table->enum('seen', ['n', 'y'])->default('n');
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users');
