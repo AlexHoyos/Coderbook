@@ -1,4 +1,7 @@
 const express = require('express');
+
+const API_URL = "http://localhost:8000/"
+
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -19,7 +22,7 @@ io.on('connection', (socket) => {
 
     /* USER AUTHENTICATION */
     if(clientdata.type == 'user'){
-        axios.get('http://localhost:8000/users/'+clientdata.uid, {
+        axios.get(API_URL + 'users/'+clientdata.uid, {
           headers: {
             'Content-Type': 'application/json',
             user_id: clientdata.uid,
@@ -59,7 +62,7 @@ io.on('connection', (socket) => {
               console.log(msg)
               let config = getAuthConfig(socket);
               // Send Message
-              axios.post('http://localhost:8000/user/messages/'+msg.target_id,
+              axios.post(API_URL + 'user/messages/'+msg.target_id,
               {message: msg.message},
               {headers: config}
               ).then(res => {
