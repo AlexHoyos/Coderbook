@@ -92,7 +92,7 @@ function publishPost(profile = false){
     $.ajax({
             method: 'POST',
             enctype: 'multipart/form-data',
-            url: "http://localhost:8000/posts",
+            url: API_URL + "posts",
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
