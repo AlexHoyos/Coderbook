@@ -6,11 +6,11 @@ class User {
 
     getProfilePic(){
 
-        if(this.profile_pic.url === undefined){
+        if(this.profile_pic === undefined){
             this.profile_pic.url = 'default.png'
         }
 
-        return 'http://localhost:8000/media/usr/' +  this.id + '/' + this.profile_pic.url
+        return API_URL + 'media/usr/' +  this.id + '/' + this.profile_pic.url
     }
 
     getFullname(){
