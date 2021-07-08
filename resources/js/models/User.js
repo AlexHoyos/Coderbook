@@ -6,11 +6,13 @@ class User {
 
     getProfilePic(){
 
-        if(this.profile_pic === undefined){
+        if(this.profile_pic === null){
             return API_URL + 'media/usr/default.png'
+        } else {
+            return API_URL + 'media/usr/' +  this.id + '/' + this.profile_pic.url
         }
 
-        return API_URL + 'media/usr/' +  this.id + '/' + this.profile_pic.url
+        
     }
 
     getFullname(){
