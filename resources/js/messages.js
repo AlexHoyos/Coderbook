@@ -7,7 +7,7 @@ $(document).ready(function(){
     // GET FRIENDS CHAT
     $.ajax({
         method: 'GET',
-        url: 'http://localhost:8000/user/messages/',
+        url: API_URL + 'user/messages/',
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
             xhr.setRequestHeader('user_id', user_id)
@@ -27,7 +27,7 @@ $(document).ready(function(){
             friendChatNode.getElementsByClassName('friend-fullname')[0].innerHTML = '<b>'+ chat.user_data.name + ' '+ chat.user_data.lname +'</b>'
             
             // Put the pofile picture
-            friendChatNode.getElementsByClassName('pp-bubble')[0].style.backgroundImage = "url('http://localhost:8000/media/usr/"+ chat.user_data.id + '/' + chat.user_data.profile_pic.url +"')"
+            friendChatNode.getElementsByClassName('pp-bubble')[0].style.backgroundImage = "url('" +API_URL + "media/usr/" + chat.user_data.id + '/' + chat.user_data.profile_pic.url +"')"
 
             // Put the message
             if(chat.last_message.sender_id == user_id){
@@ -86,7 +86,7 @@ function setChatTo(uid){
     $.ajax({
 
         method: 'GET',
-        url: 'http://localhost:8000/user/messages/'+uid,
+        url: API_URL + 'user/messages/'+uid,
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
             xhr.setRequestHeader('user_id', user_id)

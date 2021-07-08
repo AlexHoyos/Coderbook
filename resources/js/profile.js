@@ -7,7 +7,7 @@ $(document).ready(function(){
 
         $.ajax({
             method: "GET",
-            url: "http://localhost:8000/users/"+user_id,
+            url: API_URL + "users/"+user_id,
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
@@ -18,7 +18,7 @@ $(document).ready(function(){
             // Get User Profile
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8000/users/profile/"+getParameterByName('uid'),
+                url: API_URL + "users/profile/"+getParameterByName('uid'),
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
@@ -34,9 +34,9 @@ $(document).ready(function(){
 
                 // Change wallpaper and profile picture
                 if(profileUser.wallpaper_pic != null)
-                    document.getElementsByClassName('wallpaper_pic')[0].style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+profileUser.wallpaper_pic.url+"')"
+                    document.getElementsByClassName('wallpaper_pic')[0].style.backgroundImage = "url('" + API_URL + "media/usr/"+ profileUser.id +"/"+profileUser.wallpaper_pic.url+"')"
                 if(profileUser.profile_pic != null)
-                    document.getElementsByClassName('profile_pic')[0].style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+profileUser.profile_pic.url+"')"
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundImage = "url('" + API_URL + "media/usr/"+ profileUser.id +"/"+profileUser.profile_pic.url+"')"
 
                 // Change fullname and bio info
                 document.getElementById('profile_fullname').innerHTML = profileUser.name + ' ' + profileUser.lname
@@ -85,7 +85,7 @@ $(document).ready(function(){
                     console.log(profileUser.recent_photos)
                     profileUser.recent_photos.forEach(function(photo, i){
                         let photoNode = document.getElementsByClassName('profile-photo-'+(i+1))[0]
-                        photoNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ profileUser.id +"/"+photo.url+"')"
+                        photoNode.style.backgroundImage = "url('" + API_URL + "media/usr/"+ profileUser.id +"/"+photo.url+"')"
                         photoNode.classList.remove('d-none')
                     })
 
@@ -97,7 +97,7 @@ $(document).ready(function(){
 
                     profileUser.recent_friends.forEach(function(friend, i){
                         let friendNode = document.getElementsByClassName('friend-photo-'+(i+1))[0]
-                        friendNode.style.backgroundImage = "url('http://localhost:8000/media/usr/"+ friend.id +"/"+friend.profile_pic.url+"')"
+                        friendNode.style.backgroundImage = "url('" + API_URL + "media/usr/"+ friend.id +"/"+friend.profile_pic.url+"')"
                         friendNode.classList.remove('d-none')
                     })
 
@@ -107,7 +107,7 @@ $(document).ready(function(){
 
                 $.ajax({
                     method: "GET",
-                    url: "http://localhost:8000/posts/users/"+ profileUser.id +"/25",
+                    url: API_URL + "posts/users/"+ profileUser.id +"/25",
                     beforeSend: function(xhr){
                         xhr.setRequestHeader('api_token', api_token)
                         xhr.setRequestHeader('user_id', user_id)
@@ -162,7 +162,7 @@ function like(post_id, reaction){
 
     $.ajax({
         method: method,
-        url: 'http://localhost:8000/reactions',
+        url: '" + API_URL + "reactions',
         data: JSON.stringify({post_id:post_id, reaction:reaction}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
@@ -195,7 +195,7 @@ function unlike(post_id){
     var likebtn = post.getElementsByClassName('like-btn')[0];
     $.ajax({
         method: "delete",
-        url: 'http://localhost:8000/reactions',
+        url: '" + API_URL + "reactions',
         data: JSON.stringify({post_id:post_id}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)

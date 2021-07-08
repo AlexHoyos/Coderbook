@@ -16,7 +16,7 @@ function login(){
     var password = document.getElementById('passw').value
    $.ajax({
         method: "POST",
-        url: "http://localhost:8000/users/login/",
+        url: API_URL + "users/login/",
         data: JSON.stringify({username:username, password:password}),
         contentType: "application/json",
     }).done(function(response){
@@ -42,7 +42,7 @@ function register(){
 
         $.ajax({
             method: "POST",
-            url: "http://localhost:8000/users/",
+            url: API_URL + "users/",
             data: JSON.stringify({name:name, lname:lname, username:username, password:password, email:email}),
             contentType: "application/json",
         }).done(function(response){

@@ -13,7 +13,7 @@ function sendComment(event, commentBox, postid){
             
             method: 'POST',
             enctype: 'multipart/form-data',
-            url:'http://localhost:8000/posts/comments/'+postid,
+            url:API_URL + 'posts/comments/'+postid,
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
@@ -44,7 +44,7 @@ function sendResponse(event, commentBox, commentid){
             
             method: 'POST',
             enctype: 'multipart/form-data',
-            url:'http://localhost:8000/comments/responses/'+commentid,
+            url:API_URL + 'comments/responses/'+commentid,
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
@@ -93,7 +93,7 @@ function showResponses(commentid, toggle=false){
         $.ajax({
             
             method: 'GET',
-            url: 'http://localhost:8000/comments/responses/'+commentid,
+            url: API_URL + 'comments/responses/'+commentid,
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
@@ -117,7 +117,7 @@ function showResponses(commentid, toggle=false){
 
                     actualResponseNode = responseModel.cloneNode(true)
                     actualResponseNode.classList.add('comment-'+response.id)
-                    actualResponseNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage =  'url(\'http://localhost:8000/media/usr/'+response.user.id+'/'+response.user.profile_pic.url+'\')'
+                    actualResponseNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage =  'url(\''+API_URL+'media/usr/'+response.user.id+'/'+response.user.profile_pic.url+'\')'
                     actualResponseNode.getElementsByClassName('response-profile-link')[0].innerHTML = '<b>' + response.user.name + ' ' + response.user.lname + '</b>'
                     actualResponseNode.getElementsByClassName('response-content')[0].innerHTML = response.comment
 
@@ -182,7 +182,7 @@ function showComments(postid, toggle = false){
         $.ajax({
 
             method: 'GET',
-            url: 'http://localhost:8000/posts/comments/'+postid,
+            url: API_URL + 'posts/comments/'+postid,
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
@@ -207,8 +207,8 @@ function showComments(postid, toggle = false){
                     
                     actualCommentNode = commentNode.cloneNode(true)
                     actualCommentNode.classList.add('comment-'+comment.id)
-                    actualCommentNode.getElementsByClassName('comment-own-pp')[0].style.backgroundImage = 'url(\'http://localhost:8000/media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
-                    //actualCommentNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage = 'url(\'http://localhost:8000/media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
+                    actualCommentNode.getElementsByClassName('comment-own-pp')[0].style.backgroundImage = 'url(\''+API_URL+'media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
+                    //actualCommentNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage = 'url(\''+API_URL+'media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
                     actualCommentNode.getElementsByClassName('comment-profile-link')[0].innerHTML = '<b>' + comment.user.name + ' ' + comment.user.lname + '</b>'
                     actualCommentNode.getElementsByClassName('comment-content')[0].innerHTML = comment.comment
                     
@@ -280,7 +280,7 @@ function likeComment(comment_id, reaction){
 
     $.ajax({
         method: method,
-        url: 'http://localhost:8000/reactions',
+        url: API_URL + 'reactions',
         data: JSON.stringify({comment_id:comment_id, reaction:reaction}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
@@ -316,7 +316,7 @@ function unlikeComment(comment_id){
     var likebtn = commentNode.getElementsByClassName('like-btn')[0]
     $.ajax({
         method: "delete",
-        url: 'http://localhost:8000/reactions',
+        url: API_URL + 'reactions',
         data: JSON.stringify({comment_id:comment_id}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)

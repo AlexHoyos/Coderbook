@@ -38,7 +38,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function profilePic(){
-        return $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url']);
+        $profile_pic = $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url']);
+        return $profile_pic;
     }
 
     public function wallpaperPic(){

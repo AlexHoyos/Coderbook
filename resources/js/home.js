@@ -7,7 +7,7 @@ $(document).ready(function(){
 
         $.ajax({
             method: "GET",
-            url: "http://localhost:8000/users/"+user_id,
+            url: API_URL + "users/"+user_id,
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
@@ -22,7 +22,7 @@ $(document).ready(function(){
 
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8000/posts/users/"+ user_id +"/25",
+                url: API_URL + "posts/users/"+ user_id +"/25",
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
