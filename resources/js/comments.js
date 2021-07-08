@@ -114,10 +114,10 @@ function showResponses(commentid, toggle=false){
                 var today = Math.floor(Date.now()/1000)
                 
                 responses.forEach(function(response){
-
+                    let user = new User(response.user)
                     actualResponseNode = responseModel.cloneNode(true)
                     actualResponseNode.classList.add('comment-'+response.id)
-                    actualResponseNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage =  'url(\''+API_URL+'media/usr/'+response.user.id+'/'+response.user.profile_pic.url+'\')'
+                    actualResponseNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage =  'url(\''+user.getProfilePic()+'\')'
                     actualResponseNode.getElementsByClassName('response-profile-link')[0].innerHTML = '<b>' + response.user.name + ' ' + response.user.lname + '</b>'
                     actualResponseNode.getElementsByClassName('response-content')[0].innerHTML = response.comment
 
@@ -204,10 +204,11 @@ function showComments(postid, toggle = false){
                 var today = Math.floor(Date.now()/1000)
 
                 comments.forEach(function(comment){
-                    
+                    console.log(comment)
+                    let user = new User(comment.user)
                     actualCommentNode = commentNode.cloneNode(true)
                     actualCommentNode.classList.add('comment-'+comment.id)
-                    actualCommentNode.getElementsByClassName('comment-own-pp')[0].style.backgroundImage = 'url(\''+API_URL+'media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
+                    actualCommentNode.getElementsByClassName('comment-own-pp')[0].style.backgroundImage = 'url(\''+ user.getProfilePic() +'\')'
                     //actualCommentNode.getElementsByClassName('response-own-pp')[0].style.backgroundImage = 'url(\''+API_URL+'media/usr/'+comment.user.id+'/'+comment.user.profile_pic.url+'\')'
                     actualCommentNode.getElementsByClassName('comment-profile-link')[0].innerHTML = '<b>' + comment.user.name + ' ' + comment.user.lname + '</b>'
                     actualCommentNode.getElementsByClassName('comment-content')[0].innerHTML = comment.comment

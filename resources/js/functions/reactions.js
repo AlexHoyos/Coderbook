@@ -40,7 +40,7 @@ function like(post_id, reaction){
 
     $.ajax({
         method: method,
-        url: 'http://localhost:8000/reactions',
+        url: API_URL + 'reactions',
         data: JSON.stringify({post_id:post_id, reaction:reaction}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
@@ -73,7 +73,7 @@ function unlike(post_id){
     var likebtn = post.getElementsByClassName('like-btn')[0];
     $.ajax({
         method: "delete",
-        url: 'http://localhost:8000/reactions',
+        url: API_URL + 'reactions',
         data: JSON.stringify({post_id:post_id}),
         beforeSend: function(xhr){
             xhr.setRequestHeader('api_token', api_token)
