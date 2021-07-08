@@ -47,7 +47,7 @@ class UsersController extends Controller
 
     public function register(Request $request){
 
-        $data = $request->input();
+        $data = $request->only(['name', 'lname', 'username', 'email', 'password']);
 
         /*$pUser1 = User::where('username', '=', $data['username'])->get()->first();
         $pUser2 = User::where('email', '=', $data['email'])->get()->first();
@@ -55,7 +55,7 @@ class UsersController extends Controller
             return response()->json(['error'=>'Ese nombre de usuario ya esta en uso'], 403);
         if($pUser2 instanceof User)
             return response()->json(['error'=>'Ese correo ya esta en uso'], 403);¨*/
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($data, [
             'name' => 'required|min:3|max:30',
             'lname' => 'required|min:3|max:25',
             'username'=>'required|min:4|max:20|unique:users',
@@ -71,7 +71,7 @@ class UsersController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => $validator->errors()->all()], 400);
+            return response()->json(['error' => $validator->errors()->first()], 400);
         }
 
         $data['api_token'] = Str::random(60);
@@ -80,7 +80,7 @@ class UsersController extends Controller
         $user = User::create($data);
 
         $user->save();
-        return response()->json($user, 201);
+        return response()->json(["user"=>$user, 'api_token'=>$user->api_token], 201);
 
     }
 
@@ -201,10 +201,9 @@ class UsersController extends Controller
             foreach($user->friends as $friend){
                 $friend->userData;
                 $friend->last_message = User::where('id', '=', $friend->user_id)->get()->first()->getLastMessage($user->id);
-                if($friend->last_message != null){
+                if($friend->last_message != null)
                     $friend->last_message->shortMessage();
-                    $friendsChat[] = $friend;
-                }
+                $friendsChat[] = $friend;
 
             }
 

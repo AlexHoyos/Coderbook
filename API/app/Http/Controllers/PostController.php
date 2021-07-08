@@ -42,7 +42,8 @@ class PostController extends Controller
 
                 $data[] = $post;
             }
-            $targetUser->profilePic->url;
+            if($targetUser->profilePic)
+                $targetUser->profilePic->url;
 
             return response()->json($data);
 

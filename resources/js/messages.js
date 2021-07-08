@@ -17,6 +17,10 @@ $(document).ready(function(){
         var friendListNode = document.getElementById('friendsList');
         var friendChatModelNode = document.getElementById('friendChatModel');
         chats.forEach(function(chat){
+
+            if(chat.last_message == null){
+                chat.last_message = {message: ''}
+            }
             let friendChatNode = friendChatModelNode.cloneNode(true);
 
             // Put the fullname in the node
@@ -29,10 +33,6 @@ $(document).ready(function(){
             if(chat.last_message.sender_id == user_id){
                 friendChatNode.getElementsByClassName('friend-message')[0].innerHTML = 'Tu: ' + chat.last_message.message
             } else {
-                if(!chat.last_message.seen){
-                    friendChatNode.getElementsByClassName('friend-message')[0].style.fontWeight = 'bold'
-                    friendChatNode.getElementsByClassName('user-seen')[0].classList.remove('d-none')
-                }
                 friendChatNode.getElementsByClassName('friend-message')[0].innerHTML = chat.last_message.message
             }
 
@@ -44,6 +44,31 @@ $(document).ready(function(){
 
     }).fail(function(error){
         console.log(error);
+    })
+
+    socket.on('message', (message) => {
+        console.log(message)
+        if(getPageName() == 'messages'){
+            if(actualUserId == message.sender_id || user_id == message.sender_id){
+                let chatBoxNode = document.getElementById('chatBox')
+                let bubbleModels = document.getElementById('messageModels')
+                let Msg = new Message(message) 
+                chatBoxNode.appendChild(Msg.createMessageBubble(bubbleModels))
+                chatBoxNode.scrollTop = chatBoxNode.scrollHeight - chatBoxNode.clientHeight
+            }
+            
+            if(user_id == message.sender_id){
+                let friendChatNode = document.getElementById('friend-'+message.target_id)
+                friendChatNode.getElementsByClassName('friend-message')[0].innerHTML = 'Tu: ' + message.message
+            } else {
+                let friendChatNode = document.getElementById('friend-'+message.sender_id)
+                friendChatNode.getElementsByClassName('friend-message')[0].innerHTML =  message.message
+            }
+            
+            
+        } else {
+            
+        }
     })
 
 })
@@ -69,17 +94,13 @@ function setChatTo(uid){
 
     }).done(function(messages){
         console.log(messages)
-         var messageModels = document.getElementById('messageModels')
+         var bubbleModels = document.getElementById('messageModels')
          document.getElementById('sender-msg-btn').setAttribute('onClick', 'sendMsg('+uid+')')
-        messages.forEach(function(message){
-            // Almacenamos la direccion del mensaje (el cual es una clase de css), si viene del usuario o del amigo
-            let direction = (message.sender_id == user_id) ? 'user-sender' : 'friend-sender' 
-            // Clonamos el nodo correspondiente a la direccion
-            let messageNode = messageModels.getElementsByClassName(direction)[0].cloneNode(true)
-
-            // Le añadimos el mensaje
-            messageNode.getElementsByClassName('message')[0].innerHTML = message.message
-            chatBoxNode.appendChild(messageNode)
+        actualUserId = uid
+         messages.forEach(function(message){
+           
+            let Msg = new Message(message) 
+            chatBoxNode.appendChild(Msg.createMessageBubble(bubbleModels))
 
         })
          
@@ -90,6 +111,7 @@ function setChatTo(uid){
 
    
 }
+
 
 function sendMsg(uid){
 

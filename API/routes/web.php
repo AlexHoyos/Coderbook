@@ -29,6 +29,7 @@ $router->get('/', function () use ($router) {
         $router->patch('/users/{id}', ['uses'=>'UsersController@update']);
 
         $router->get('/user/messages', ['uses'=>'UsersController@getFriendsChat']);
+        $router->post('/user/messages/{target_id}', ['uses'=>'MessageController@sendMsg']);
         $router->get('/user/messages/{id}', ['uses'=>'UsersController@getMessages']);
 
         $router->post('/reactions', ['uses'=>'ReactionController@create']);

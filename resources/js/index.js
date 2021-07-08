@@ -30,3 +30,32 @@ function login(){
     })
 
 }
+
+function register(){
+    var username = document.getElementById('rusern').value
+    var password = document.getElementById('rpassw').value
+    var rpassword = document.getElementById('rrpassw').value
+    var name = document.getElementById('rname').value
+    var lname = document.getElementById('rlname').value
+    var email = document.getElementById('remail').value
+    if(password === rpassword){
+
+        $.ajax({
+            method: "POST",
+            url: "http://localhost:8000/users/",
+            data: JSON.stringify({name:name, lname:lname, username:username, password:password, email:email}),
+            contentType: "application/json",
+        }).done(function(response){
+    
+            window.sessionStorage.setItem('api_token', response.api_token);
+            window.sessionStorage.setItem('user_id', response.user.id);
+            window.location.href = './home.php'
+    
+        }).fail(function(error){
+            alert("Oh no, " + error.responseJSON.error);
+        })
+
+    } else {
+        alert("Las contraseñas no coinciden")
+    }
+}

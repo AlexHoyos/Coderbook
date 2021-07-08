@@ -54,7 +54,7 @@
                 </div>
             </div>
                 <label><input type="checkbox" id="cbox1" value="first_checkbox"> Acepto terminos y condiciones</label><br>
-                <button type="submit" class="btn btn-primary">Unirme</button>
+                <button type="submit" class="btn btn-primary" onclick="register()">Unirme</button>
 
             </div>
 

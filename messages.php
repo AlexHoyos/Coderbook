@@ -33,7 +33,7 @@
         <div class="col-6 m-0 p-0" id="friendsList">
             
             <div class="col-12 bg-light px-3 pt-4 row m-0 mb-3">
-                <h5 class="align-self-center">Chats recientes</h5>
+                <h5 class="align-self-center">Amigos</h5>
             </div>
 
 

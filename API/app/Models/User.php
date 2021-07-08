@@ -82,7 +82,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getMessages($uid){
 
-        $messages = Message::where('sender_id', '=', $uid)->where('target_id', '=', $this->id)->orWhere('sender_id', '=', $this->id)->where('target_id', '=', $uid)->orderBy('id', 'desc')->get()->all();
+        $messages = Message::where('sender_id', '=', $uid)->where('target_id', '=', $this->id)->orWhere('sender_id', '=', $this->id)->where('target_id', '=', $uid)->orderBy('id', 'asc')->get()->all();
         return $messages;
 
     }

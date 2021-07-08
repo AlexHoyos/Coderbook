@@ -14,7 +14,7 @@ const io = require("socket.io")(server, {
 var users = {}
 
 io.on('connection', (socket) => {
-    console.log(socket.handshake.auth)
+    
     let clientdata = socket.handshake.auth
 
     /* USER AUTHENTICATION */
@@ -26,9 +26,9 @@ io.on('connection', (socket) => {
             api_token: clientdata.api_token
           }
         }).then(res => {
-            console.log(res.status)
+            
             socket.fullname = res.data.name + ' ' + res.data.lname
-            socket.profile_pic = res.data.profile_pic.url
+            socket.profile_pic = (res.data.profile_pic) ? res.data.profile_pic.url : 'default.png'
             if(users['user-'+clientdata.uid] != undefined && users['user-'+clientdata.uid] != socket){
               //console.log('other user');
                 users['user-'+clientdata.uid].emit('session_end', {message:'Se ha iniciado sesión en otro dispositivo'})
@@ -53,9 +53,27 @@ io.on('connection', (socket) => {
 
             /* END POST REACTION */
 
+            /* ON USER MESSAGE */
             socket.on('message', (msg) => {
+
               console.log(msg)
+              let config = getAuthConfig(socket);
+              // Send Message
+              axios.post('http://localhost:8000/user/messages/'+msg.target_id,
+              {message: msg.message},
+              {headers: config}
+              ).then(res => {
+                  socket.emit('message', res.data)
+                  if(users['user-'+msg.target_id] != undefined){
+                      users['user-'+msg.target_id].emit('message', res.data)
+                  }
+              }).catch(error => {
+                  console.log('Error while sending message...')
+                  //console.log(error)
+              })
+
             })
+            /* END USER MESSAGE */
 
             socket.on('disconnect', () => {
               users['user-'+clientdata.uid] = undefined
@@ -76,3 +94,12 @@ io.on('connection', (socket) => {
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
+
+function getAuthConfig(socket){
+  let clientdata = socket.handshake.auth
+  let config = {
+    user_id: clientdata.uid,
+    api_token: clientdata.api_token
+  }
+  return config
+}

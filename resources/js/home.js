@@ -29,6 +29,7 @@ $(document).ready(function(){
                 },
                 contentType: "application/json"
             }).done(function(response){
+                console.log("xd")
                 var postNode = document.getElementById('postNode');
                 var posts = document.getElementById('posts');
                 response.forEach(function(post){
@@ -36,6 +37,8 @@ $(document).ready(function(){
                     let newPost = postNode.cloneNode(true);
                     posts.appendChild(postObj.createNode(newPost));
                 })
+            }).fail(function(xhr, textStatus, errorThrown){
+                console.log(errorThrown);
             })
 
     
