@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000", {
+const socket = io(SOCKET_URL, {
     auth: {
         type: 'user',
         uid: window.sessionStorage.getItem('user_id'),

@@ -17,7 +17,7 @@ class Post {
         let Client = new User(this.ownUser)
         let profilePic = Author.getProfilePic();
         images = 0
-        let urlMMedia = 'http://localhost:8000/media/usr/'+Author.id+'/';
+        let urlMMedia = API_URL+'media/usr/'+Author.id+'/';
 
         
         newPost.classList.remove('d-none');
@@ -138,7 +138,7 @@ class Post {
         $.ajax({
             method: 'POST',
             enctype: 'multipart/form-data',
-            url: 'http://localhost:8000/posts',
+            url: API_URL+'posts',
             beforeSend: function(xhr){
                 xhr.setRequestHeader('api_token', api_token)
                 xhr.setRequestHeader('user_id', user_id)
