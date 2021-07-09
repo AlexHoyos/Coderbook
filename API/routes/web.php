@@ -36,7 +36,9 @@ $router->get('/', function () use ($router) {
         $router->put('/reactions', ['uses'=>'ReactionController@update']);
         $router->delete('/reactions', ['uses'=>'ReactionController@delete']);
 
+
         $router->post('/posts', ['uses'=>'PostController@create']);
+        $router->get('/posts/{limit}', ['uses'=>'PostController@userHome']);
         $router->post('/posts/{id}', ['uses'=>'PostController@update']);
         $router->delete('/posts/{id}', ['uses'=>'PostController@delete']);
 
@@ -50,4 +52,5 @@ $router->get('/', function () use ($router) {
         $router->delete('/comments/{commentid}', ['uses'=>'CommentController@delete']);
 
         $router->get('/posts/users/{userid}/{limit}', ['uses'=>'PostController@indexByUserId']);
+
     });

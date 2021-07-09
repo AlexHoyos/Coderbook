@@ -18,7 +18,7 @@ const io = require("socket.io")(server, {
 var users = {}
 
 io.on('connection', (socket) => {
-    
+    //console.log(socket.id)
     let clientdata = socket.handshake.auth
 
     /* USER AUTHENTICATION */
@@ -33,20 +33,23 @@ io.on('connection', (socket) => {
             
             socket.fullname = res.data.name + ' ' + res.data.lname
             socket.profile_pic = (res.data.profile_pic) ? res.data.profile_pic.url : 'default.png'
-            if(users['user-'+clientdata.uid] != undefined && users['user-'+clientdata.uid] != socket){
-              //console.log('other user');
-                users['user-'+clientdata.uid].emit('session_end', {message:'Se ha iniciado sesión en otro dispositivo'})
-                users['user-'+clientdata.uid].disconnect();
-                users['user-'+clientdata.uid] = socket
-            } else {
-                users['user-'+clientdata.uid] = socket
+
+            if(users['user-'+clientdata.uid] == undefined){
+              users['user-'+clientdata.uid] = {}
             }
+
+            users['user-'+clientdata.uid][socket.id] = socket
 
 
             /* ON POST REACTION */
             socket.on('post_react', (data) => {
               if(users['user-'+data.user_id] != undefined){
-                users['user-'+data.user_id].emit('post_react', {
+                /*users['user-'+data.user_id].emit('post_react', {
+                  body: '<b>' + socket.fullname + '</b> reaccionó a tu publicación',
+                  img: socket.profile_pic,
+                  reaction: data.reaction
+                })*/
+                userEmit(data.user_id, 'post_react', {
                   body: '<b>' + socket.fullname + '</b> reaccionó a tu publicación',
                   img: socket.profile_pic,
                   reaction: data.reaction
@@ -67,26 +70,29 @@ io.on('connection', (socket) => {
               {message: msg.message},
               {headers: config}
               ).then(res => {
-                  socket.emit('message', res.data)
-                  if(users['user-'+msg.target_id] != undefined){
-                      users['user-'+msg.target_id].emit('message', res.data)
-                  }
+                  //socket.emit('message', res.data)
+
+                  userEmit(clientdata.uid, 'message', res.data)
+                  userEmit(msg.target_id, 'message', res.data)
+                  
+
               }).catch(error => {
                   console.log('Error while sending message...')
-                  //console.log(error)
+                  console.log(error)
               })
 
             })
             /* END USER MESSAGE */
 
             socket.on('disconnect', () => {
-              users['user-'+clientdata.uid] = undefined
+              delete users['user-'+clientdata.uid][socket.id]
             })
 
             //console.log(users['user-'+clientdata.uid])
 
         }).catch((error) => {
           // Kill Connection
+          console.log(error)
             socket.disconnect();
         })
     }
@@ -106,4 +112,15 @@ function getAuthConfig(socket){
     api_token: clientdata.api_token
   }
   return config
+}
+
+function userEmit(uid, name, data){
+    if(users['user-'+uid] != undefined){
+
+      let userSockets = users['user-'+uid]
+      for(const socketid in userSockets){
+        userSockets[socketid].emit(name, data)
+      }
+
+    }
 }

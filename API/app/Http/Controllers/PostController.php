@@ -6,10 +6,51 @@ use App\Models\MMedia;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+
+    public function userHome(Request $request, $limit){
+        $User = User::where('id', '=', $request->header('user_id'))->get()->first();
+        if($User instanceof User){
+
+            $User->friends();
+            $data = [];
+            $posts = Post::
+                join('friends', function($join){
+                    $join->on('posts.user_id', '=', 'friends.sender_id')
+                        ->orOn('posts.user_id', '=', 'friends.target_id');
+                })
+                ->where('user_id', '!=', $User->id)
+                ->where(function($query) use ($User){
+                    $query->where('target_id', '=', $User->id)
+                        ->orWhere('sender_id', '=', $User->id);
+                })
+                ->orderBy('posts.id', 'desc')->limit($limit);
+            foreach($posts->get(['posts.*']) as $post){
+                $post->id;
+                $post->user;
+                $post->mmedias;
+                $post->reactionsCount();
+                $post->getMostReact();
+                $post->commentsCount();
+                $post->sharedCount();
+                $post->userLiked($User);
+
+                if($post->type == 'shared'){
+                    $post->sharedPost;
+                }
+                $data[] = $post;
+            }
+
+            return response()->json($data);
+
+        } else {
+            return response()->json(['error'=>'Usuario desconocido'], 404);
+        }
+    }
 
     public function indexByUserId(Request $request, $userid, $limit){
 
