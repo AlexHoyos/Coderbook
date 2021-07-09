@@ -1,8 +1,8 @@
 const socket = io(SOCKET_URL, {
     auth: {
         type: 'user',
-        uid: window.sessionStorage.getItem('user_id'),
-        api_token: window.sessionStorage.getItem('api_token')
+        uid: window.localStorage.getItem('user_id'),
+        api_token: window.localStorage.getItem('api_token')
       }
 });
 
@@ -13,8 +13,8 @@ socket.on('connect', () => {
 
 socket.on('session_end', (data) => {
     document.getElementById('wsToast').getElementsByClassName('toast-body')[0].innerHTML = data.message
-    window.sessionStorage.removeItem('user_id')
-    window.sessionStorage.removeItem('api_token')
+    window.localStorage.removeItem('user_id')
+    window.localStorage.removeItem('api_token')
     setTimeout(function(){
         window.location.href="./"
     }, 5000)
