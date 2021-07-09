@@ -1,5 +1,5 @@
-var api_token = window.sessionStorage.getItem('api_token')
-var user_id = window.sessionStorage.getItem('user_id')
+var api_token = window.localStorage.getItem('api_token')
+var user_id = window.localStorage.getItem('user_id')
 $(document).ready(function(){
 
     
@@ -361,7 +361,7 @@ function openShareContentModal(id){
     let sharedPostClone = null
     document.getElementById('sharePostContent').setAttribute('onClick', 'Post.share('+id+', true)')
     if(postNode == null){
-        let post = window.sessionStorage.getItem('post-'+id);
+        let post = window.localStorage.getItem('post-'+id);
         let sharedPostNode = document.getElementsByClassName('postNodeShared')[0];
         postNode = new Post(JSON.parse(post), null, true)
         sharedPostClone = postNode.createNode(sharedPostNode).cloneNode(true)

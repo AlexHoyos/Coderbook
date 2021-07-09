@@ -234,7 +234,7 @@ function openShareContentModal(id){
     let sharedPostClone = null
     document.getElementById('sharePostContent').setAttribute('onClick', 'Post.share('+id+', true)')
     if(postNode == null){
-        let post = window.sessionStorage.getItem('post-'+id);
+        let post = window.localStorage.getItem('post-'+id);
         let sharedPostNode = document.getElementsByClassName('postNodeShared')[0];
         postNode = new Post(JSON.parse(post), null, true)
         sharedPostClone = postNode.createNode(sharedPostNode).cloneNode(true)

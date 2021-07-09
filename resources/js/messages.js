@@ -1,5 +1,5 @@
-var api_token = window.sessionStorage.getItem('api_token')
-var user_id = window.sessionStorage.getItem('user_id')
+var api_token = window.localStorage.getItem('api_token')
+var user_id = window.localStorage.getItem('user_id')
 var actualUserId = null
 
 $(document).ready(function(){

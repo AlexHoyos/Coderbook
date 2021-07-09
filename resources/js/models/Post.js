@@ -86,7 +86,7 @@ class Post {
             } else {
                 newPost.getElementsByClassName('post-shareNow')[0].setAttribute('onClick', 'Post.share('+this.id+')')
                 newPost.getElementsByClassName('post-shareWithContent')[0].setAttribute('onClick', 'openShareContentModal('+this.id+')')
-                window.sessionStorage.setItem('post-'+this.id, JSON.stringify(this))
+                window.localStorage.setItem('post-'+this.id, JSON.stringify(this))
             }
 
             if(this.privacy == 'private'){

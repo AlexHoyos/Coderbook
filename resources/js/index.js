@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-    var api_token = window.sessionStorage.getItem('api_token')
-    var user_id = window.sessionStorage.getItem('user_id')
+    var api_token = window.localStorage.getItem('api_token')
+    var user_id = window.localStorage.getItem('user_id')
     if(api_token !== null && api_token != "" && user_id !== null && user_id != ""){
 
         window.location.href = './home.php'
@@ -21,8 +21,8 @@ function login(){
         contentType: "application/json",
     }).done(function(response){
 
-        window.sessionStorage.setItem('api_token', response.api_token);
-        window.sessionStorage.setItem('user_id', response.user.id);
+        window.localStorage.setItem('api_token', response.api_token);
+        window.localStorage.setItem('user_id', response.user.id);
         window.location.href = './home.php'
 
     }).fail(function(error){
@@ -47,8 +47,8 @@ function register(){
             contentType: "application/json",
         }).done(function(response){
     
-            window.sessionStorage.setItem('api_token', response.api_token);
-            window.sessionStorage.setItem('user_id', response.user.id);
+            window.localStorage.setItem('api_token', response.api_token);
+            window.localStorage.setItem('user_id', response.user.id);
             window.location.href = './home.php'
     
         }).fail(function(error){

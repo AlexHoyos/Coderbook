@@ -1,5 +1,5 @@
-var api_token = window.sessionStorage.getItem('api_token')
-var user_id = window.sessionStorage.getItem('user_id')
+var api_token = window.localStorage.getItem('api_token')
+var user_id = window.localStorage.getItem('user_id')
 $(document).ready(function(){
 
     
@@ -44,14 +44,14 @@ $(document).ready(function(){
     
         }).fail(function(error){
             console.log(error);
-            window.sessionStorage.removeItem('user_id')
-            window.sessionStorage.removeItem('api_token')
+            window.localStorage.removeItem('user_id')
+            window.localStorage.removeItem('api_token')
             window.location.href='./'
         })
 
     } else {
-        window.sessionStorage.removeItem('user_id')
-        window.sessionStorage.removeItem('api_token')
+        window.localStorage.removeItem('user_id')
+        window.localStorage.removeItem('api_token')
         window.location.href='./'
     }
 
