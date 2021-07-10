@@ -215,4 +215,34 @@ class UsersController extends Controller
 
     }
 
+    public function setSeeNotif(Request $request, $bool){
+        $User = User::where('id', '=', $request->header('user_id'));
+        if($User instanceof User){
+
+            $bool = ($bool == 'y') ? 'y' : 'n';
+
+            $User->see_notif = $bool;
+            $User->update();
+            return response()->json([], 204);
+
+        } else {
+            return response()->json(['error'=>'El usuario no existe'], 404);
+        }
+    }
+
+    public function setSeeMsg(Request $request, $bool){
+        $User = User::where('id', '=', $request->header('user_id'));
+        if($User instanceof User){
+
+            $bool = ($bool == 'y') ? 'y' : 'n';
+
+            $User->see_msg = $bool;
+            $User->update();
+            return response()->json([], 204);
+
+        } else {
+            return response()->json(['error'=>'El usuario no existe'], 404);
+        }
+    }
+
 }
