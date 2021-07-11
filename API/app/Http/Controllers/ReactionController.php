@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UnreactToPost;
 use Event;
 use App\Events\ReactedToPost;
 use App\Models\Comment;
@@ -71,7 +72,6 @@ class ReactionController extends Controller
         if(isset($data['post_id'])){
             $post->reactionsCount();
             $post->getMostReact();
-            //event(new ReactedToPost($reaction));
             Event::dispatch(new ReactedToPost($reaction));
             return response()->json($post, 201);
 
@@ -141,6 +141,7 @@ class ReactionController extends Controller
                 return response()->json(['error'=>'Contenido no disponible'], 400);
 
             $react_id = $user->reacts->where('post_id', $post->id)->first()->id;
+            Event::dispatch(new UnreactToPost(Reaction::find($react_id)));
 
         } else if(isset($data['comment_id'])){
 
@@ -154,6 +155,7 @@ class ReactionController extends Controller
         }
 
         $reaction = Reaction::destroy($react_id);
+
         if(isset($data['post_id'])){
             $post->reactionsCount();
             $post->getMostReact();

@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ReactedToPost extends Event
 {
-    use InteractsWithSockets, SerializesModels;
+    use SerializesModels;
     public $reaction;
 
     /**
@@ -17,19 +17,12 @@ class ReactedToPost extends Event
      *
      * @return void
      */
-    public function __construct(Reaction $reaction)
+    public function __construct(Reaction $reaction, $re_react = false)
     {
         $this->reaction = $reaction;
+        $this->rreact = $re_react;
     }
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     * */
 
-    public function broadcastOn()
-    {
-        return ['post_reaction.'.$this->reaction->id];
-    }
+
 }

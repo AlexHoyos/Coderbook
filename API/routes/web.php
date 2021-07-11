@@ -30,6 +30,9 @@ $router->get('/', function () use ($router) {
         $router->put('/users/see_notif/{bool}', ['uses'=>'UsersController@setSeeNotif']);
         $router->put('/users/see_msg/{bool}', ['uses'=>'UsersController@setSeeMsg']);
 
+        $router->get('/user/friendrequest/incoming', ['uses'=>'FriendRequestController@getIncomingFriends']);
+        $router->get('/user/friendrequest/outgoing', ['uses'=>'FriendRequestController@getOutgoingFriends']);
+
         $router->get('/user/messages', ['uses'=>'UsersController@getFriendsChat']);
         $router->post('/user/messages/{target_id}', ['uses'=>'MessageController@sendMsg']);
         $router->get('/user/messages/{id}', ['uses'=>'UsersController@getMessages']);

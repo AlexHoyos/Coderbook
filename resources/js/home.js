@@ -16,6 +16,14 @@ $(document).ready(function(){
         }).done(function(ownUser){
     
             console.log(ownUser);
+            
+            if(ownUser.see_notif == 'y'){
+                document.getElementById('see_notif').classList.add('d-none')
+            }
+
+            if(ownUser.see_msg == 'y'){
+                document.getElementById('see_msg').classList.add('d-none')
+            }
 
             // Get POSTS
             document.getElementById('way_thinking').setAttribute('placeholder', '¿Qué estas pensando, '+ownUser.name+'?');

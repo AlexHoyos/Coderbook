@@ -44,7 +44,7 @@
             <div class="dropdown show">
                 <button class="button-bubble" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-comment-dots"></i>
-                    <i class="fas fa-circle text-danger" style="position:absolute;top:-1px;font-size:10px"></i>
+                    <i class="fas fa-circle text-danger" id="see_msg" style="position:absolute;top:-1px;font-size:10px"></i>
                 </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -57,7 +57,7 @@
             <div class="dropdown show">
                 <button class="button-bubble" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <i class="fas fa-circle text-danger" style="position:absolute;top:-1px;font-size:10px"></i>
+                    <i class="fas fa-circle text-danger" id="see_notif" style="position:absolute;top:-1px;font-size:10px"></i>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">

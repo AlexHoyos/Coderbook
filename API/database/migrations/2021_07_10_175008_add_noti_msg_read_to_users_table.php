@@ -14,8 +14,8 @@ class AddNotiMsgReadToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('see_notif', ['y', 'n'])->default('y');
-            $table->enum('see_msg', ['y', 'n'])->default('y');
+            $table->enum('see_notif', ['y', 'n'])->default('y')->after('sex');
+            $table->enum('see_msg', ['y', 'n'])->default('y')->after('sex');
         });
     }
 
