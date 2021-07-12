@@ -45,10 +45,34 @@ $(document).ready(function(){
 
 
                 // Right box (add friend, config, delete friend, etc)
-                if(profileUser.id == ownUser.id)
-                    document.getElementsByClassName('yourself_box')[0].classList.remove('d-none')
-                else 
-                    document.getElementsByClassName('no_friend_box')[0].classList.remove('d-none')
+
+                setFriendshipStatus(profileUser.friendship, profileUser.id, true)
+
+                /*switch(profileUser.friendship){
+                    case 'myself':
+                        document.getElementsByClassName('yourself_box')[0].classList.remove('d-none')
+                        break;
+                    case 'friends':
+                        let friend_box = document.getElementsByClassName('friend_box')[0]
+                        friend_box.classList.remove('d-none')
+                        friend_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ profileUser.id +', "setFriendshipStatus(\'unknowable\')")')
+                        break;
+                    case 'sent':
+                        let sent_box = document.getElementsByClassName('sent_box')[0]
+                        sent_box.classList.remove('d-none')
+                        sent_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ profileUser.id +', "setFriendshipStatus(\'unknowable\')")')
+                        break;
+                    case 'pending':
+                        let pending_box = document.getElementsByClassName('pending_box')[0]
+                        pending_box.classList.remove('d-none')
+                        pending_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ profileUser.id +', "setFriendshipStatus(\'unknowable\')")')
+                        pending_box.getElementsByTagName('button')[1].setAttribute('onClick', 'acceptFriend('+ profileUser.id +', "setFriendshipStatus(\'friends\')")')
+                        break;
+                    default:
+                        let no_friends_box = document.getElementsByClassName('no_friend_box')[0]
+                        no_friends_box.classList.remove('d-none')
+                        no_friends_box.getElementsByTagName('button')[0].setAttribute('onClick', 'sendFriendRequest('+ profileUser.id +', "setFriendshipStatus(\'sent\')")')
+                }*/
 
                 // Profile details
                 let profileDetailsBox = document.getElementsByClassName('profile_details')[0]
@@ -145,164 +169,7 @@ $(document).ready(function(){
     
 
 })
-/*
-function like(post_id, reaction){
 
-    var post = document.getElementById('post-'+post_id)
-    var likebtn = post.getElementsByClassName('like-btn')[0];
-
-    var method = "POST"
-    let noti = true
-    //console.log(likebtn.getElementsByClassName('fas')[0].classList.contains('liked'));
-    if(likebtn.getElementsByClassName('fas')[0].classList.contains('liked')){
-        method = "PUT";
-        noti = false
-    }
-        
-
-    $.ajax({
-        method: method,
-        url: '" + API_URL + "reactions',
-        data: JSON.stringify({post_id:post_id, reaction:reaction}),
-        beforeSend: function(xhr){
-            xhr.setRequestHeader('api_token', api_token)
-            xhr.setRequestHeader('user_id', user_id)
-        },
-        contentType: 'application/json'
-    }).done(function(response){
-        console.log(response);
-        var msg = react(post, reaction)
-        likebtn.innerHTML = msg + document.getElementsByClassName('like-btn')[0].innerHTML
-        likebtn.getElementsByTagName('span')[0].setAttribute('onClick', 'unlike('+post_id+')')
-        likebtn.getElementsByClassName('reaction')[0].setAttribute('onClick', 'like('+post_id+', \'like\')')
-        likebtn.getElementsByClassName('reaction')[1].setAttribute('onClick', 'like('+post_id+', \'love\')')
-        likebtn.getElementsByClassName('reaction')[2].setAttribute('onClick', 'like('+post_id+', \'lol\')')
-        likebtn.getElementsByClassName('reaction')[3].setAttribute('onClick', 'like('+post_id+', \'wow\')')
-        likebtn.getElementsByClassName('reaction')[4].setAttribute('onClick', 'like('+post_id+', \'sad\')')
-        likebtn.getElementsByClassName('reaction')[5].setAttribute('onClick', 'like('+post_id+', \'angry\')')
-        changeLikes(response.reactions_count, post, response.most_react);
-        response.reaction = reaction
-        if(noti)
-            socket.emit('post_react', response);
-    }).fail(function(error){
-        console.log(error);
-    })
-
-}
-
-function unlike(post_id){
-    var post = document.getElementById('post-'+post_id)
-    var likebtn = post.getElementsByClassName('like-btn')[0];
-    $.ajax({
-        method: "delete",
-        url: '" + API_URL + "reactions',
-        data: JSON.stringify({post_id:post_id}),
-        beforeSend: function(xhr){
-            xhr.setRequestHeader('api_token', api_token)
-            xhr.setRequestHeader('user_id', user_id)
-        },
-        contentType: 'application/json'
-    }).done(function(response){
-
-        var msg = '<span><li class="fas fa-thumbs-up"></li> Chilo</span>';
-        likebtn.style.color = "rgb(98, 98, 98)";
-        likebtn.innerHTML = msg + document.getElementsByClassName('like-btn')[0].innerHTML
-        likebtn.getElementsByTagName('span')[0].setAttribute('onClick', 'like('+post_id+', \'like\')')
-        likebtn.getElementsByClassName('reaction')[0].setAttribute('onClick', 'like('+post_id+', \'like\')')
-        likebtn.getElementsByClassName('reaction')[1].setAttribute('onClick', 'like('+post_id+', \'love\')')
-        likebtn.getElementsByClassName('reaction')[2].setAttribute('onClick', 'like('+post_id+', \'lol\')')
-        likebtn.getElementsByClassName('reaction')[3].setAttribute('onClick', 'like('+post_id+', \'wow\')')
-        likebtn.getElementsByClassName('reaction')[4].setAttribute('onClick', 'like('+post_id+', \'sad\')')
-        likebtn.getElementsByClassName('reaction')[5].setAttribute('onClick', 'like('+post_id+', \'angry\')')
-        changeLikes(response.reactions_count, post, response.most_react);
-
-    }).fail(function(error){
-        console.log(error);
-    })
-
-}
-
-function react(node, reaction, post = true){
-    var msg = 'Chilo';
-    var color = "rgb(100,160,240)";
-    var icon = '<li class="fas fa-thumbs-up liked"></li>'
-    
-
-    if(reaction == 'love'){
-        color = "rgb(242, 82, 104)"
-        msg = 'Amo'
-        icon = '<li class="fas fa-heart liked"></li>'
-    }
-    if(reaction == 'lol'){
-        color = "rgb(240, 186, 21)"
-        msg = 'Jajaja'
-        icon = '<li class="fas fa-laugh-squint liked"></li>'
-    }
-    if(reaction == 'wow'){
-        color = "rgb(240, 186, 21)"
-        msg = 'Wow'
-        icon = '<li class="fas fa-surprise liked"></li>'
-    }
-    if(reaction == 'sad'){
-        color = "rgb(240, 186, 21)"
-        msg = 'Chale'
-        icon = '<li class="fas fa-sad-tear liked"></li>'
-    }
-    if(reaction == 'angry'){
-        color = "rgb(247, 113, 75)"
-        msg = 'Angery'
-        icon = '<li class="fas fa-angry liked"></li>'
-    }
-
-    
-    if(post){
-        node.getElementsByClassName('like-btn')[0].style.color = color
-        return '<span>' + icon + ' '+ msg + '</span>';
-    } else{
-        return '<span style="color:'+ color +'">' + msg + '</span>';
-    }
-}
-
-function changeLikes(likes, post, reaction = '?', className = 'post-likes'){
-    var msg = '<li class="fas fa-thumbs-up" style="color:rgb(100,160,240);"></li> ' + likes
-
-    if(reaction == 'love'){
-        color = "rgb(242, 82, 104)"
-        msg = '<li class="fas fa-heart liked" style="color:'+color+';"></li> ' + likes
-    }
-    if(reaction == 'lol'){
-        color = "rgb(240, 186, 21)"
-        msg = '<li class="fas fa-laugh-squint liked" style="color:'+color+';"></li> ' + likes
-    }
-    if(reaction == 'wow'){
-        color = "rgb(240, 186, 21)"
-        msg = '<li class="fas fa-surprise liked" style="color:'+color+';"></li> ' + likes
-    }
-    if(reaction == 'sad'){
-        color = "rgb(240, 186, 21)"
-        msg = '<li class="fas fa-sad-tear liked" style="color:'+color+';"></li> ' + likes
-    }
-    if(reaction == 'angry'){
-        color = "rgb(247, 113, 75)"
-        msg = '<li class="fas fa-angry liked" style="color:'+color+';"></li> ' + likes
-    }
-
-    if(likes == 0){
-        msg = ''
-    }
-
-    if(className == 'comment-reactions' && likes <= 0){
-        post.getElementsByClassName(className)[0].classList.add('d-none')
-    } else {
-        post.getElementsByClassName(className)[0].classList.remove('d-none')
-    }
-
-
-    post.getElementsByClassName(className)[0].innerHTML = msg
-    
-
-}
-*/
 function getTimeToDate(time){
     let date = new Date(time * 1000).toLocaleDateString("es-MX")
     return date
@@ -382,3 +249,37 @@ $(document).on('hide.bs.modal', '#postContent', function(e){
     console.log('yea')
 })
 
+function setFriendshipStatus(friendship, uid, hidden = false){
+    var friend_box = document.getElementsByClassName('friend_box')[0]
+    var sent_box = document.getElementsByClassName('sent_box')[0]
+    var pending_box = document.getElementsByClassName('pending_box')[0]
+    var no_friends_box = document.getElementsByClassName('no_friend_box')[0]
+
+    switch(friendship){
+        case 'myself':
+            document.getElementsByClassName('yourself_box')[0].classList.remove('d-none')
+            break;
+        case 'friends':
+            pending_box.classList.add('d-none')
+            friend_box.classList.remove('d-none')
+            friend_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ uid +', "setFriendshipStatus(\'unknowable\', '+ uid +')")')
+            break;
+        case 'sent':
+            no_friends_box.classList.add('d-none')
+            sent_box.classList.remove('d-none')
+            sent_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ uid +', "setFriendshipStatus(\'unknowable\', '+ uid +')")')
+            break;
+        case 'pending':
+            pending_box.classList.remove('d-none')
+            pending_box.getElementsByTagName('button')[0].setAttribute('onClick', 'deleteFriend('+ uid +', "setFriendshipStatus(\'unknowable\', '+ uid +')")')
+            pending_box.getElementsByTagName('button')[1].setAttribute('onClick', 'acceptFriend('+ uid +', "setFriendshipStatus(\'friends\', '+ uid +')")')
+            break;
+        default:
+            friend_box.classList.add('d-none')
+            sent_box.classList.add('d-none')
+            pending_box.classList.add('d-none')
+            no_friends_box.classList.remove('d-none')
+            no_friends_box.getElementsByTagName('button')[0].setAttribute('onClick', 'sendFriendRequest('+ uid +', "setFriendshipStatus(\'sent\', '+ uid +')")')
+    }
+
+}

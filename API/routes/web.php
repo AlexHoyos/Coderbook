@@ -32,6 +32,9 @@ $router->get('/', function () use ($router) {
 
         $router->get('/user/friendrequest/incoming', ['uses'=>'FriendRequestController@getIncomingFriends']);
         $router->get('/user/friendrequest/outgoing', ['uses'=>'FriendRequestController@getOutgoingFriends']);
+        $router->post('/user/friendrequest/{target_id}', ['uses'=>'FriendRequestController@sendRequest']);
+        $router->put('/user/friendrequest/{sender_id}', ['uses'=>'FriendRequestController@acceptFriend']);
+        $router->delete('/user/friendrequest/{target_id}', ['uses'=>'FriendRequestController@delete']);
 
         $router->get('/user/messages', ['uses'=>'UsersController@getFriendsChat']);
         $router->post('/user/messages/{target_id}', ['uses'=>'MessageController@sendMsg']);

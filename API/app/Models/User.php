@@ -95,6 +95,34 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     }
 
+    public function friendship($uid){
+        if($uid == $this->id){
+            $this->friendship = 'myself';
+        } else {
+
+            $friendReq = Friend::findFriendship($uid, $this->id);
+            if($friendReq instanceof Friend){
+
+                if($friendReq->accepted == 'y'){
+                    $this->friendship = 'friends';
+                } else {
+
+                    if($friendReq->sender_id == $uid){
+                        $this->friendship = 'sent';
+                    } else {
+                        $this->friendship = 'pending';
+                    }
+
+                }
+
+            } else {
+                $this->friendship = 'unknowable';
+            }
+
+        }
+
+    }
+
     public function isFriendOf($uid){
         $isSender = Friend::where('sender_id', '=', $this->id)->where('target_id', '=', $uid)->get()->count();
         $isTarget = Friend::where('target_id', '=', $this->id)->where('sender_id', '=', $uid)->get()->count();

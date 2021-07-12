@@ -13,6 +13,7 @@
     <script src="./resources/js/models/Post.js"></script>
     <script src="./resources/js/profile.js"></script>
     <script src="./resources/js/comments.js"></script>
+    <script src="./resources/js/functions/friendRequest.js"></script>
     <link rel="stylesheet" href="./resources/css/home.css">
     <link rel="stylesheet" href="./resources/css/profile.css">
 </head>
@@ -46,21 +47,33 @@
                 </nav>
             </div>
 
-            <div class="col-6 text-right d-none no_friend_box">
+            <div class="col-6 text-right d-none friendship_box no_friend_box">
                 
                 <button class="btn btn-primary"> <i class="fas fa-user-plus"></i> Agregar</button>
-                <button class="btn btn-secondary"> <i class="fas fa-comment-dots"></i></button>
 
             </div>
 
-            <div class="col-6 text-right d-none friend_box">
+            <div class="col-6 text-right d-none friendship_box friend_box">
                 
                 <button class="btn btn-primary"> <i class="fas fa-user-minus"></i> Eliminar</button>
                 <button class="btn btn-secondary"> <i class="fas fa-comment-dots"></i></button>
 
             </div>
 
-            <div class="col-6 text-right d-none yourself_box">
+            <div class="col-6 text-right d-none friendship_box sent_box">
+                
+                <button class="btn btn-danger"> <i class="fas fa-user-minus"></i> Eliminar peticion</button>
+
+            </div>
+
+            <div class="col-6 text-right d-none friendship_box pending_box">
+                
+                <button class="btn btn-danger"> <i class="fas fa-user-minus"></i> Eliminar</button>
+                <button class="btn btn-primary"> <i class="fas fa-user-plus"></i> Aceptar</button>
+
+            </div>
+
+            <div class="col-6 text-right d-none friendship_box yourself_box">
                 
                 <button class="btn btn-secondary"> <i class="fas fa-cog"></i> Configuracion</button>
 

@@ -61,7 +61,7 @@ class FriendRequestController extends Controller
                 $query->where('sender_id', $Sender->id)
                     ->where('target_id', $target_id);
             })
-                -orWhere(function($query) use ($Sender, $target_id){
+                ->orWhere(function($query) use ($Sender, $target_id){
                     $query->where('sender_id', $target_id)
                         ->where('target_id', $Sender->id);
                 })->get()->count();
@@ -90,14 +90,18 @@ class FriendRequestController extends Controller
             $Target = User::findOrFail($request->header('user_id'));
 
             $friendReq = User\Friend::where('sender_id', $Sender->id)
-                -where('target_id', $Target->id)->get()->first();
+                ->where('target_id', $Target->id)->get()->first();
 
-            if($friendReq->accepted == 'y')
-                return response()->json(['error'=>'Ya has aceptado esta solicitud'], 400);
+            if($friendReq instanceof User\Friend){
+                if($friendReq->accepted == 'y')
+                    return response()->json(['error'=>'Ya has aceptado esta solicitud'], 400);
 
-            $friendReq->accepted = 'y';
-            $friendReq->update();
-            return response()->json($friendReq);
+                $friendReq->accepted = 'y';
+                $friendReq->update();
+                return response()->json($friendReq);
+            } else {
+                return response()->json(['error'=>'No tienes solicitud de dicho usuario'], 404);
+            }
 
         } catch(ModelNotFoundException $e){
             return response()->json(['error'=>'Usuario no encontrado'], 404);
@@ -111,14 +115,7 @@ class FriendRequestController extends Controller
             $Sender = User::findOrFail($request->header('user_id'));
             $Target = User::findOrFail($target_id);
 
-            $friendReq = User\Friend::where(function($query) use ($Sender, $target_id){
-                    $query->where('sender_id', $Sender->id)
-                        ->where('target_id', $target_id);
-                })
-                -orWhere(function($query) use ($Sender, $target_id){
-                    $query->where('sender_id', $target_id)
-                        ->where('target_id', $Sender->id);
-                })->get()->first();
+            $friendReq = User\Friend::findFriendship($Sender->id, $Target->id);
 
             if(!($friendReq instanceof User\Friend))
                 return response()->json(['error'=>'No existe una amistad a rechazar'], 400);

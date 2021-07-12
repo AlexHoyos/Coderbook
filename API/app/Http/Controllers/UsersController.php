@@ -38,6 +38,7 @@ class UsersController extends Controller
             $user->recentFriends();
             $user->friendsCount();
             $user->relation;
+            $user->friendship($request->header('user_id'));
             return response()->json($user, 200);
         } else {
             return response()->json(['error'=>'El usuario no existe'], 404);
