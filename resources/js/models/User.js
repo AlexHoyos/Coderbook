@@ -23,4 +23,8 @@ class User {
         return this.username
     }
 
+    static goToProfile(uid){
+        window.location.href = SERVER_URL + 'profile.php?uid='+uid
+    }
+
 }

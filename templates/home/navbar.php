@@ -8,14 +8,14 @@
 
     <div class="col-4">
     
-        <div class="input-group mt-4">
-            <input type="text" class="form-control" placeholder="Buscar personas, paginas, grupos...">
+        <form class="input-group mt-4" action="./search.php">
+            <input type="text" class="form-control" name="search" placeholder="Buscar personas, paginas, grupos...">
             <div class="input-group-append">
-            <button class="btn btn-light" type="button">
+            <button class="btn btn-light" type="submit">
                 <i class="fa fa-search"></i>
             </button>
             </div>
-        </div>
+        </form>
 
     </div>
 

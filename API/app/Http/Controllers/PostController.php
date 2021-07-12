@@ -24,6 +24,7 @@ class PostController extends Controller
                         ->orOn('posts.user_id', '=', 'friends.target_id');
                 })
                 ->where('user_id', '!=', $User->id)
+                ->where('accepted', 'y')
                 ->where(function($query) use ($User){
                     $query->where('target_id', '=', $User->id)
                         ->orWhere('sender_id', '=', $User->id);

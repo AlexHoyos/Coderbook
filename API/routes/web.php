@@ -61,4 +61,6 @@ $router->get('/', function () use ($router) {
 
         $router->get('/posts/users/{userid}/{limit}', ['uses'=>'PostController@indexByUserId']);
 
+        $router->get('/search/{search}', ['uses'=>'SearchController@generalSearch']);
+
     });
