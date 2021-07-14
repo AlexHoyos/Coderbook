@@ -124,6 +124,7 @@ class UsersController extends Controller
                'username'=>'min:4|max:20|unique:users,username,'.$id,
                'email'=>'email|unique:users,email,'.$id,
                 'password'=>'min:4|max:100',
+                'bio_info'=>'max:250',
                 'old_password'=>'required'
             ], [
                 'old_password.required' => 'Se requiere que ingreses tu contraseña',
@@ -136,14 +137,14 @@ class UsersController extends Controller
             ]);
 
             if($validator->fails()){
-                return response()->json(['error' => $validator->errors()->all()], 400);
+                return response()->json(['error' => $validator->errors()->first()], 400);
             }
 
             if(!Hash::check($data['old_password'], $user->password))
-                return response()->json(['error'=>['La contraseña es incorrecta']]);
+                return response()->json(['error'=>'La contraseña es incorrecta'], 400);
 
             foreach ($data as $key => $val){
-                if($key == 'name' || $key == 'lname' || $key == 'email' || $key == 'username'){
+                if($key == 'name' || $key == 'lname' || $key == 'email' || $key == 'username' || $key == 'bio_info'){
                     $user->$key = $val;
                 } else if($key == 'password'){
                     $user->password = Hash::make($val);
