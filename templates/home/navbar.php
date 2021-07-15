@@ -1,3 +1,51 @@
+<!-- CREATE PAGE MODAL -->
+
+<div class="modal" id="createPage" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear página</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+            <div class="col-12">
+                <label for="page-title">Título / Nombre de la página</label>
+                <input type="text" class="form-control" placeholder="Título" id="page-title">
+            </div>
+
+            <div class="col-6">
+                <label for="page-visibility">Visibilidad</label>
+                <select id="page-visibility" class="form-control">
+                    <option value="public" selected>Público</option>
+                    <option value="private">Privado</option>
+                </select>
+            </div>
+
+            <div class="col-6">
+                <label for="page-category">Categoria</label>
+                <input type="text" class="form-control" placeholder="Ej: Blog personal, Noticiero, Entretenimiento, etc..." id="page-category">
+            </div>
+
+            <div class="col-12">
+                <label for="page-description">Descripción</label>
+                <textarea id="page-description" style="resize:none;" cols="30" rows="3" class="form-control" placeholder="Añade una descripción de tu pagina"></textarea>
+            </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="createNewPage()">Crear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---->
+
 <div class="row p-0 m-0 home-nav max-he">
 
     <div class="col-3">
@@ -34,10 +82,9 @@
                     <i class="fa fa-plus"></i>
                 </button>
 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#" onclick="openCreatePage()"> <i class="fas fa-file-alt text-warning"></i> Página</a>
+                    <a class="dropdown-item" href="#"> <i class="fas fa-users text-danger"></i> Grupo</a>
                 </div>
             </div>
 

@@ -47,7 +47,7 @@
         <option value="public" selected>Publico</option>
         <option value="private">Privado</option>
     </select>
-    <textarea  style="resize: none;" class="form-control mt-1" id="way_thinking" placeholder="¿Qué estas pensando, (?)?" rows="3"></textarea>
+    <textarea  style="resize: none;" class="form-control mt-1" id="way_thinking" placeholder="" rows="3"></textarea>
 <!-- CAROUSEL -->
       <div id="photosCarousel" class="carousel slide mt-1 d-none" data-ride="carousel" data-interval="false">
         <div class="carousel-inner" id="photosContainer">

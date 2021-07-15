@@ -63,4 +63,7 @@ $router->get('/', function () use ($router) {
 
         $router->get('/search/{search}', ['uses'=>'SearchController@generalSearch']);
 
+        $router->get('pages/{id}', ['uses'=>'PageController@getPage']);
+        $router->post('/pages', ['uses'=>'PageController@create']);
+
     });
