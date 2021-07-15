@@ -34,11 +34,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     public function getPosts(){
-        return $this->hasMany('App\Models\Post');
+        return Post::where('user_id', $this->id)->orWhere('to_user_id', $this->id);
     }
 
     public function profilePic(){
-        $profile_pic = $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url']);
+        $profile_pic = $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url', 'pp_x', 'pp_y', 'pp_size']);
         return $profile_pic;
     }
 

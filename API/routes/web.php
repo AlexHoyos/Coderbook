@@ -26,7 +26,7 @@ $router->get('/', function () use ($router) {
         $router->get('/users/{id}/friends', ['uses'=>'UsersController@getUserFriends']);
         $router->get('/users/{id}', ['uses'=>'UsersController@getUser']);
         $router->get('/users/profile/{id}', ['uses'=>'UsersController@getUserProfile']);
-        $router->patch('/users/{id}', ['uses'=>'UsersController@update']);
+        $router->patch('/users', ['uses'=>'UsersController@update']);
         $router->put('/users/see_notif/{bool}', ['uses'=>'UsersController@setSeeNotif']);
         $router->put('/users/see_msg/{bool}', ['uses'=>'UsersController@setSeeMsg']);
 

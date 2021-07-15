@@ -28,17 +28,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                
-                <div class="row m-0 justify-content-center post-profile-img">
+            <textarea  style="resize: none;" class="form-control mt-1 mb-1 mx-auto w-100" id="postContent" placeholder="Añade una descripción..." rows="3"></textarea>
 
+                <div class="row m-0 justify-content-center post-profile-img d-none" id="profile-pic-opt">
                     <div class="col-10 m-1 post-img profile-pic"> </div>
                     <input type="range" class="form-control-range" id="profilePicSize" value="20">
+                </div>
+
+                <div class="row m-0 justify-content-center d-none" id="wallpaper-pic-opt">
+                        <div class="col-10 m-1 wallpaper-pic post-img"></div>
                 </div>
             
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnConfirm">Publicar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
             </div>
         </div>
@@ -113,16 +117,43 @@
                     <textarea name="bio_info" id="bio_info" cols="30" rows="5" class="form-control" placeholder="Hablanos de ti (máx 250 caracteres)"></textarea>
                 </div>
                 <div class="col mt-2">
-                    <button type="button" class="btn btn-primary"> <i class="fas fa-save"></i> Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="updateProfile()"> <i class="fas fa-save"></i> Guardar</button>
                 </div>
 
             </div>
         </div>
 
         <div class="col-6 menu d-none" id="security">
+
+            <h4>Seguridad</h4>
+                <div class="form-row">
+
+                    <div class="col-12">
+                        <label for="oldpassw">Contraseña actual</label>
+                        <input type="password" name="oldpassw" id="oldpassw" class="form-control">
+                    </div>
+
+                    <div class="col-6">
+                        <label for="passw">Nueva contraseña</label>
+                        <input type="password" name="passw" id="passw" class="form-control">
+                    </div>
+
+                    <div class="col-6">
+                        <label for="rpassw">Repitela</label>
+                        <input type="password" name="rpassw" id="rpassw" class="form-control">
+                    </div>
+
+                    <div class="col mt-2">
+                        <button type="button" class="btn btn-primary" onclick="updatePassword()"> <i class="fas fa-save"></i> Cambiar</button>
+                    </div>
+
+                </div>
+
         </div>
 
         <div class="col-6 menu d-none" id="danger">
+            <h4 class="text-danger">Peligro</h4>
+            <button type="button" class="btn btn-danger" onclick=""> <i class="fas fa-trash"></i> Eliminar cuenta</button>
         </div>
 
     </div>

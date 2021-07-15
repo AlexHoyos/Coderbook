@@ -9,5 +9,7 @@ function getPageName(){
     let pathname = window.location.pathname
     if(pathname.includes('/messages')){
         return 'messages'
+    } else if(pathname.includes('/profile')){
+        return 'profile'
     }
 }

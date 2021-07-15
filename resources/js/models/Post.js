@@ -27,6 +27,9 @@ class Post {
             mmediasNode = newPost.getElementsByClassName('post-profile-img')[0];
             mmediasNode.classList.remove('d-none')
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundImage = 'url(\''+urlMMedia + this.mmedias[0].url+'\')'
+            mmediasNode.getElementsByClassName('post-img')[0].style.backgroundPositionX = this.mmedias[0].pp_x + 'px'
+            mmediasNode.getElementsByClassName('post-img')[0].style.backgroundPositionY = this.mmedias[0].pp_y + 'px'
+            mmediasNode.getElementsByClassName('post-img')[0].style.backgroundSize = this.mmedias[0].pp_size + '%'
         } else if(this.type == 'shared'){
             
             var sharedPost = new Post(this.shared_post, this.ownUser, true)
@@ -118,6 +121,9 @@ class Post {
             extraData = ' ha cambiado su foto de portada'
         } else if(this.type == 'shared'){
             extraData = ' ha compartido una publicacion'
+        } else if(this.type == 'to_user'){
+            let toUser = new User(this.to_user)
+            extraData = ' <i class="fas fa-caret-right"></i><b> ' + toUser.getFullname() + '</b>'
         }
         return'<b>'+ Author.getFullname() +'</b>'+extraData
     }

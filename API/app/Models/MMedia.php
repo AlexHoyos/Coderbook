@@ -8,7 +8,7 @@ class MMedia extends Model
 {
 
     protected $fillable = [
-        'user_id', 'post_id', 'type', 'url'
+        'user_id', 'post_id', 'type', 'url', 'pp_x', 'pp_y', 'pp_size'
     ];
 
     public static function saveMMedia($user_id, $file){

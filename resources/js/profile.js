@@ -1,5 +1,6 @@
 var api_token = window.localStorage.getItem('api_token')
 var user_id = window.localStorage.getItem('user_id')
+var selfProfile = false
 $(document).ready(function(){
 
     
@@ -30,14 +31,28 @@ $(document).ready(function(){
                 // Change title
                 document.title = profileUser.name + ' ' + profileUser.lname + ' | Coderbook'
                 // Change WAY thinking textarea
-                document.getElementById('way_thinking').setAttribute('placeholder', 'Publicar en la biografia de '+profileUser.name+'...')
+                if(getParameterByName('uid') == user_id){
+                    document.getElementById('way_thinking').setAttribute('placeholder', '¿Que estas pensando, '+ profileUser.name +'?')
+                } else{
+                    if(profileUser.friendship == 'unknowable' || profileUser.friendship == 'sent'){
+                        document.getElementById('newPost').classList.add("d-none")
+                    } else {
+                        document.getElementById('way_thinking').setAttribute('placeholder', 'Publicar en la biografia de '+profileUser.name+'...')
+                    }
+                    
+                }
 
                 // Change wallpaper and profile picture
                 if(profileUser.wallpaper_pic != null)
                     document.getElementsByClassName('wallpaper_pic')[0].style.backgroundImage = "url('" + API_URL + "media/usr/"+ profileUser.id +"/"+profileUser.wallpaper_pic.url+"')"
-                if(profileUser.profile_pic != null)
+                if(profileUser.profile_pic != null){
                     document.getElementsByClassName('profile_pic')[0].style.backgroundImage = "url('" + API_URL + "media/usr/"+ profileUser.id +"/"+profileUser.profile_pic.url+"')"
-
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundPosition = 'center'
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundPositionX = (profileUser.profile_pic.pp_x*.48) + 'px'
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundPositionY = (profileUser.profile_pic.pp_y*.48) + 'px'
+                    document.getElementsByClassName('profile_pic')[0].style.backgroundSize = profileUser.profile_pic.pp_size + '%'
+                
+                }
                 // Change fullname and bio info
                 document.getElementById('profile_fullname').innerHTML = profileUser.name + ' ' + profileUser.lname
                 document.getElementById('profile_info').innerHTML = (profileUser.bio_info === null) ? '' : profileUser.bio_info
@@ -140,6 +155,7 @@ $(document).ready(function(){
                 }).done(function(response){
                 var postNode = document.getElementById('postNode');
                     var posts = document.getElementById('posts');
+                    console.log(response)
                     response.forEach(function(post){
                         let postObj = new Post(post, ownUser)
                         let newPost = postNode.cloneNode(true);

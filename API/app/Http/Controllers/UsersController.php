@@ -112,22 +112,20 @@ class UsersController extends Controller
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
-        $user = User::where('id','=',$id)->get()->first();
+        $user = User::where('id','=',$request->header('user_id'))->get()->first();
         if($user instanceof User){
 
             $data = $request->input();
             $validator = Validator::make($request->all(), [
                'name' => 'min:3|max:30',
                'lname' => 'min:3|max:25',
-               'username'=>'min:4|max:20|unique:users,username,'.$id,
-               'email'=>'email|unique:users,email,'.$id,
+               'username'=>'min:4|max:20|unique:users,username,'.$user->id,
+               'email'=>'email|unique:users,email,'.$user->id,
                 'password'=>'min:4|max:100',
                 'bio_info'=>'max:250',
-                'old_password'=>'required'
             ], [
-                'old_password.required' => 'Se requiere que ingreses tu contraseña',
                 'unique'=> 'Ya existe una cuenta con ese :attribute',
                 'lname.min'=> 'El apellido debe ser mayor a :min caracteres',
                 'lname.max'=> 'El apellido debe ser menor a :max caracteres',
@@ -140,13 +138,16 @@ class UsersController extends Controller
                 return response()->json(['error' => $validator->errors()->first()], 400);
             }
 
-            if(!Hash::check($data['old_password'], $user->password))
-                return response()->json(['error'=>'La contraseña es incorrecta'], 400);
-
             foreach ($data as $key => $val){
                 if($key == 'name' || $key == 'lname' || $key == 'email' || $key == 'username' || $key == 'bio_info'){
                     $user->$key = $val;
                 } else if($key == 'password'){
+
+                    if(!array_key_exists("old_password", $data))
+                        return response()->json(['error'=>'Debes proporcionar la vieja contraseña'], 400);
+
+                    if(!Hash::check($data['old_password'], $user->password))
+                        return response()->json(['error'=>'La contraseña es incorrecta'], 400);
                     $user->password = Hash::make($val);
                 }
             }
@@ -245,6 +246,19 @@ class UsersController extends Controller
         } else {
             return response()->json(['error'=>'El usuario no existe'], 404);
         }
+    }
+
+    public function deleteSelf(Request $request){
+        $User = User::find($request->header('user_id'));
+
+        if($User instanceof User){
+
+            User::destroy($User->id);
+
+        } else {
+            return response()->json(['error'=>'El usuario no existe'], 404);
+        }
+
     }
 
 }

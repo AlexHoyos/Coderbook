@@ -82,6 +82,10 @@ class PostController extends Controller
                     $post->sharedPost;
                 }
 
+                if($post->type == 'to_user'){
+                    $post->toUser;
+                }
+
                 $data[] = $post;
             }
             if($targetUser->profilePic)
@@ -104,13 +108,17 @@ class PostController extends Controller
             'content' => 'present|required_if:type,==,normal',
             'privacy' => 'required',
             'type' => 'required',
-            'mmedias.*' => 'mimes:jpg,png,gif'
+            'to_user_id'=>'required_if:type,==,to_user',
+            'mmedias.*' => 'mimes:jpg,png,gif',
+            'pp_x'=>'required_if:type,==,profile_pic',
+            'pp_y'=>'required_if:type,==,profile_pic',
+            'pp_size'=>'required_if:type,==,profile_pic'
         ], [
             'required' => 'No se recibieron todos los parametros necesarios :attribute'
         ]);
 
         if ($validator->fails())
-            return response()->json($validator->errors()->all(), 400);
+            return response()->json($validator->errors()->first(), 400);
 
         // Types: normal, shared, to_user, profile_pic, wallpaper_pic
 
@@ -129,6 +137,8 @@ class PostController extends Controller
             $toUser = User::where('id', '=', $data['to_user_id'])->get()->first();
             if (!($toUser instanceof User))
                 return response()->json(['error' => 'El usuario al que se le va a publicar no existe'], 400);
+            if(!$toUser->isFriendOf($request->header('user_id')))
+                return response()->json(['error'=>'No eres amigo de este usuario:('], 400);
         } else if ($data['type'] == 'to_user') {
             return response()->json(['error' => 'El usuario al que se le va a publicar no existe'], 400);
         }
@@ -149,23 +159,39 @@ class PostController extends Controller
 
         if ($data['type'] == 'profile_pic' || $data['type'] == 'wallpaper_pic') {
 
-            // TODO: Change user picture
             $user = User::where('id','=',intval($request->header('user_id')))->get()->first();
             $mmedia = $request->mmedias;
             $mmediaName = MMedia::saveMMedia(intval($request->header('user_id')), $mmedia);
-            $mmediaObj = new MMedia([
-                'user_id' => $user->id,
-               'post_id' => $post->id,
-               'type' => $mmedia->getClientOriginalExtension(),
-               'url' => $mmediaName
-            ]);
+
+            if($data['type'] == 'profile_pic'){
+                $mmediaObj = new MMedia([
+                    'user_id'=>$user->id,
+                    'post_id'=>$post->id,
+                    'type'=>$mmedia->getClientOriginalExtension(),
+                    'url'=>$mmediaName,
+                    'pp_x'=>intval($data['pp_x']),
+                    'pp_y'=>intval($data['pp_y']),
+                    'pp_size'=>intval($data['pp_size'])]);
+            } else {
+                $mmediaObj = new MMedia([
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                    'type' => $mmedia->getClientOriginalExtension(),
+                    'url' => $mmediaName
+                ]);
+            }
+
+
             $mmediaObj->save();
 
 
-            if($data['type'] == 'profile_pic')
+            if($data['type'] == 'profile_pic') {
+
                 $user->profile_pic_id = $mmediaObj->id;
-            else
+
+            }else {
                 $user->wallpaper_pic_id = $mmediaObj->id;
+            }
 
             $user->update();
 
@@ -174,11 +200,13 @@ class PostController extends Controller
 
             foreach ($mmedias as $mmedia) {
                 $mmediaName = MMedia::saveMMedia(intval($request->header('user_id')), $mmedia);
+
                 $mmediaObj = new MMedia([
                     'user_id'=>intval($request->header('user_id')),
                     'post_id'=>$post->id,
                     'type'=>$mmedia->getClientOriginalExtension(),
                     'url'=>$mmediaName]);
+
                 $mmediaObj->save();
 
             }

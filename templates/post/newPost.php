@@ -40,7 +40,7 @@
 <!-- END POSTED MODAL -->
 
 
-<div class="card">
+<div class="card" id="newPost">
   <div class="card-body">
     <h5 class="card-title">¡Cuenta algo nuevo!</h5>
     <select id="privacy" class="custom-select custom-select-sm w-25">
@@ -85,7 +85,20 @@ function publishPost(profile = false){
     var postData = new FormData();
     postData.append('content', document.getElementById('way_thinking').value)
     postData.append('privacy', document.getElementById('privacy').value)
-    postData.append('type', 'normal')
+    if(getPageName() == 'profile'){
+
+      if(getParameterByName('uid') == user_id){
+        postData.append('type', 'normal')
+      } else {
+        postData.append('type', 'to_user')
+        postData.append('to_user_id', getParameterByName('uid'))
+      }
+
+    } else {
+      postData.append('type', 'normal')
+    }
+    
+
     for (let fileId in fileList) {
       postData.append('mmedias[]', fileList[fileId]);
     }
@@ -108,7 +121,7 @@ function publishPost(profile = false){
           $('#waitingModal').modal('hide')
           $('#postedModal').modal('show')
           $('#postedModal').on('hidden.bs.modal', function(e){
-            window.location.href= "./home.php"
+            window.location.reload()
           })
 
         }).fail(function(error){

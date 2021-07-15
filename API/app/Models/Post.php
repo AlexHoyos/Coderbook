@@ -26,6 +26,10 @@ class Post extends Model
         return $user;
     }
 
+    public function toUser(){
+        return $this->belongsTo('App\Models\User', 'to_user_id')->select(['id', 'name', 'lname']);
+    }
+
     public function reactions(){
         return $this->hasMany('App\Models\Reaction')->select(['id', 'user_id', 'reaction'])->with(['user']);
     }
