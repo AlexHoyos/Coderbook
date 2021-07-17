@@ -26,7 +26,44 @@ class PageController extends Controller
             if($Page->visibilty == 'private' && !$Page->admin)
                 return response()->json(['error'=>'No tienes permisos para ver esta pagina'], 403);
 
+            $Page->principalPic;
+            $Page->likesCount();
+            $Page->userLiked($User->id);
             return response()->json($Page, 200);
+
+        } else {
+            return response()->json(['error'=>'La pagina solicitada no existe'], 404);
+        }
+
+    }
+
+    public function likePage(Request $request, $id){
+
+        $Page = Page::find($id);
+
+        if($Page instanceof Page){
+
+            $User = User::find($request->header('user_id'));
+
+            if(!($User instanceof User))
+                return response()->json(['error'=>'Usuario no encontrado'], 404);
+
+            if($User->likedPage($Page->id)){
+
+                $like = Page\Like::where('page_id', $Page->id)->where('user_id', $User->id)->get()->first();
+                Page\Like::destroy($like->id);
+                return response()->json(['user_liked'=>false], 200);
+
+            } else {
+
+                $like = new Page\Like([
+                   'page_id' => $Page->id,
+                   'user_id' => $User->id
+                ]);
+                $like->save();
+                return response()->json(['user_liked'=>true], 201);
+
+            }
 
         } else {
             return response()->json(['error'=>'La pagina solicitada no existe'], 404);
@@ -71,6 +108,7 @@ class PageController extends Controller
     public function update(Request $request){
 
     }
+
 
     public function addAdmin(Request $request){
 

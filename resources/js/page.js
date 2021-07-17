@@ -29,6 +29,18 @@ $(document).ready(function(){
                 console.log(pageData)
                 document.getElementById('page_title').innerText = pageData.title
                 document.getElementById('page_category').innerText = pageData.category
+                
+                    // Change wallpaper and profile picture
+                    if(pageData.wallpaper_pic != null)
+                        document.getElementsByClassName('wallpaper_pic')[0].style.backgroundImage = "url('" + API_URL + "media/page/"+ pageData.id +"/"+pageData.wallpaper_pic.url+"')"
+                    if(pageData.principal_pic != null){
+                        document.getElementsByClassName('profile_pic')[0].style.backgroundImage = "url('" + API_URL + "media/page/"+ pageData.id +"/"+pageData.principal_pic.url+"')"
+                        document.getElementsByClassName('profile_pic')[0].style.backgroundPosition = 'center'
+                        document.getElementsByClassName('profile_pic')[0].style.backgroundPositionX = (pageData.principal_pic.pp_x*.48) + 'px'
+                        document.getElementsByClassName('profile_pic')[0].style.backgroundPositionY = (pageData.principal_pic.pp_y*.48) + 'px'
+                        document.getElementsByClassName('profile_pic')[0].style.backgroundSize = pageData.principal_pic.pp_size + '%'
+
+                    }
 
                 if(pageData.admin === true){
                     document.getElementsByClassName('admin')[0].classList.remove('d-none')
@@ -39,6 +51,36 @@ $(document).ready(function(){
                 }
 
                 document.getElementsByClassName('page_description')[0].innerText = pageData.description
+                document.getElementById('page_likes').innerHTML = document.getElementById('page_likes').innerHTML + pageData.likes_count + ' '+  ((pageData.likes_count == 1) ? 'persona' : 'personas')  +' les gusta esto'
+
+                if(pageData.user_liked === true){
+                    document.getElementById('likeBtn').classList.remove('btn-outline-primary')
+                    document.getElementById('likeBtn').classList.add('btn-primary')
+                }
+
+   
+                $.ajax({
+                    method: "GET",
+                    url: API_URL + "posts/page/"+ pageData.id +"/25",
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader('api_token', api_token)
+                        xhr.setRequestHeader('user_id', user_id)
+                    },
+                    contentType: "application/json"
+                }).done(function(response){
+                var postNode = document.getElementById('postNode');
+                    var posts = document.getElementById('posts');
+                    console.log(response)
+                    response.forEach(function(post){
+                        let postObj = new Post(post, ownUser, false, true)
+                        let newPost = postNode.cloneNode(true);
+                        posts.appendChild(postObj.createNode(newPost));
+                    })
+                }).fail(function(error){
+                    console.log(error)
+                })
+
+
 
             }).fail(function(error){
                 window.location.href='./home.php'
@@ -49,3 +91,28 @@ $(document).ready(function(){
     }
 
 })
+
+function likePage(){
+
+    $.ajax({
+        method: 'POST',
+        url: API_URL + 'like/page/'+getParameterByName('page'),
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('api_token', api_token)
+            xhr.setRequestHeader('user_id', user_id)
+        }
+    }).done(function(response){
+
+        if(response.user_liked === true){
+            document.getElementById('likeBtn').classList.remove('btn-outline-primary')
+            document.getElementById('likeBtn').classList.add('btn-primary')
+        } else {
+            document.getElementById('likeBtn').classList.add('btn-outline-primary')
+            document.getElementById('likeBtn').classList.remove('btn-primary')
+        }
+
+    }).fail(function(error){
+        console.log(error)
+    })
+
+}

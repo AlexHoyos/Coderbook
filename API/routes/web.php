@@ -60,10 +60,13 @@ $router->get('/', function () use ($router) {
         $router->delete('/comments/{commentid}', ['uses'=>'CommentController@delete']);
 
         $router->get('/posts/users/{userid}/{limit}', ['uses'=>'PostController@indexByUserId']);
+        $router->get('/posts/page/{id}/{limit}', ['uses'=>'PostController@indexByPageId']);
 
         $router->get('/search/{search}', ['uses'=>'SearchController@generalSearch']);
 
-        $router->get('pages/{id}', ['uses'=>'PageController@getPage']);
+        $router->get('/pages/{id}', ['uses'=>'PageController@getPage']);
         $router->post('/pages', ['uses'=>'PageController@create']);
+
+        $router->post('/like/page/{id}', ['uses'=>'PageController@likePage']);
 
     });

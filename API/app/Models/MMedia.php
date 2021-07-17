@@ -8,13 +8,19 @@ class MMedia extends Model
 {
 
     protected $fillable = [
-        'user_id', 'post_id', 'type', 'url', 'pp_x', 'pp_y', 'pp_size'
+        'user_id', 'post_id', 'page_id', 'type', 'url', 'pp_x', 'pp_y', 'pp_size'
     ];
 
-    public static function saveMMedia($user_id, $file){
-        $newName = $user_id . '_' . (time() + rand(1,10000)) . '.' . $file->getClientOriginalExtension();
-        $file->move('media/usr/'.$user_id.'/', $newName);
-        return $newName;
+    public static function saveMMedia($id, $file, $page = false){
+        if($page){
+            $newName = $id . '_' . (time() + rand(1,10000)) . '.' . $file->getClientOriginalExtension();
+            $file->move('media/page/'.$id.'/', $newName);
+            return $newName;
+        } else {
+            $newName = $id . '_' . (time() + rand(1,10000)) . '.' . $file->getClientOriginalExtension();
+            $file->move('media/usr/'.$id.'/', $newName);
+            return $newName;
+        }
     }
 
 }

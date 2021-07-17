@@ -1,9 +1,10 @@
 class Post {
 
-    constructor(post ,ownUser, sharedContent = false){
+    constructor(post ,ownUser, sharedContent = false, isPage = false){
         Object.assign(this, post);
         this.ownUser = ownUser
         this.sharedContent = sharedContent
+        this.isPage = isPage
         //console.log(Object.values(this))
     }
 
@@ -12,12 +13,21 @@ class Post {
         let mmediasNode = null
         let images = 0
         let postedSince = ""
-
-        let Author = new User(this.user)
+        let Author = null;
+        if(this.isPage === true){
+            Author = new Page(this.page)
+        } else {
+            Author = new User(this.user)
+        }
         let Client = new User(this.ownUser)
         let profilePic = Author.getProfilePic();
         images = 0
-        let urlMMedia = API_URL+'media/usr/'+Author.id+'/';
+        let urlMMedia = ""
+        if(this.isPage === true){
+            urlMMedia = API_URL+'media/page/'+Author.id+'/';
+        } else {
+            urlMMedia = API_URL+'media/usr/'+Author.id+'/';
+        }
 
         
         newPost.classList.remove('d-none');

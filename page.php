@@ -9,6 +9,7 @@
     <script src="./resources/js/functions/time.js"></script>
     <script src="./resources/js/functions/reactions.js"></script>
     <script src="./resources/js/functions/routing.js"></script>
+    <script src="./resources/js/models/Page.js"></script>
     <script src="./resources/js/models/User.js"></script>
     <script src="./resources/js/models/Post.js"></script>
     <script src="./resources/js/page.js"></script>
@@ -21,6 +22,8 @@
     <?php include('templates/notification/connection.php')?>
     <?php include('templates/home/navbar.php'); ?>
     <?php include('templates/notification/post_react.php')?>
+    <?php include('templates/post/shareModal.php')?>
+   
     
     <div class="row m-0 p-0 shadow-sm pb-1 bg-light">
     
@@ -56,7 +59,7 @@
             <div class="col-6 text-right d-none admin">
                 
                 <button class="btn btn-secondary"> <i class="fas fa-cog"></i> Configuracion</button>
-                <button class="btn btn-outline-primary"> <i class="fas fa-thumbs-up"></i> Chilo</button>
+                <button class="btn btn-outline-primary" onclick="likePage()" id="likeBtn"> <i class="fas fa-thumbs-up"></i> Chilo</button>
 
             </div>
 
@@ -72,6 +75,11 @@
                 <div class="card-body profile_details">
                     <h5 class="card-title">Descripción</h5>
                     <p class="card-text page_description"></p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body profile_details">
+                    <p class="card-text text-muted" id="page_likes"> <i class="fas fa-thumbs-up text-muted"></i> </p>
                 </div>
             </div>
         </div>

@@ -259,6 +259,7 @@ function openShareContentModal(id){
     
 
 }
+
 $(document).on('hide.bs.modal', '#postContent', function(e){
     let sharedPostBody = document.getElementById("sharedPostBody")
     sharedPostBody.innerHTML = "";

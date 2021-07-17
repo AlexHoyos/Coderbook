@@ -97,6 +97,10 @@ function publishPost(profile = false){
     } else {
       postData.append('type', 'normal')
     }
+
+    if(getPageName() == 'page'){
+      postData.append('page_id', getParameterByName('page'))
+    }
     
 
     for (let fileId in fileList) {

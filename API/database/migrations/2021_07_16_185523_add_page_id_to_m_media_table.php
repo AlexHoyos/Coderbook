@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class AddPageIdGroupIdToPostsTable extends Migration
+class AddPageIdToMMediaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +13,9 @@ class AddPageIdGroupIdToPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->unsignedBigInteger('page_id')->nullable();
-            $table->unsignedBigInteger('group_id')->nullable();
+        Schema::table('m_media', function (Blueprint $table) {
+            $table->unsignedBigInteger('page_id')->after('post_id')->nullable();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
-
         });
     }
 
@@ -29,10 +26,9 @@ class AddPageIdGroupIdToPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-
+        Schema::table('m_media', function (Blueprint $table) {
             $table->dropForeign(['page_id']);
-            $table->dropColumn(['page_id', 'group_id']);
+            $table->dropColumn('page_id');
         });
     }
 }

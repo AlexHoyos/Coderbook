@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MMedia;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,6 +100,48 @@ class PostController extends Controller
 
     }
 
+    public function indexByPageId(Request $request, $id, $limit){
+
+        $Page = Page::find($id);
+
+        if($Page instanceof Page){
+
+            $User = User::find($request->header('user_id'));
+
+            if(!($User instanceof User))
+                return response()->json(['error'=>'Usuario no encontrado'], 404);
+
+            $Page->checkAdmin($User->id);
+
+            if($Page->visibilty == 'private' && !$Page->admin)
+                return response()->json(['error'=>'No tienes permisos para ver esta pagina'], 403);
+
+            $data = [];
+            foreach($Page->posts as $post){
+                $post->page;
+                $post->mmedias;
+                $post->reactionsCount();
+                $post->getMostReact();
+                $post->commentsCount();
+                $post->sharedCount();
+                $post->userLiked(User::where('id','=',$User->id)->get()->first());
+
+                $data[] = $post;
+            }
+
+            if($Page->principalPic)
+                $Page->principalPic->url;
+
+            return response()->json($data);
+
+            //return response()->json($Page->posts, 200);
+
+        } else {
+            return response()->json(['error'=>'La pagina solicitada no existe'], 404);
+        }
+
+    }
+
 
     public function create(Request $request)
     {
@@ -112,7 +155,7 @@ class PostController extends Controller
             'mmedias.*' => 'mimes:jpg,png,gif',
             'pp_x'=>'required_if:type,==,profile_pic',
             'pp_y'=>'required_if:type,==,profile_pic',
-            'pp_size'=>'required_if:type,==,profile_pic'
+            'pp_size'=>'required_if:type,==,profile_pic',
         ], [
             'required' => 'No se recibieron todos los parametros necesarios :attribute'
         ]);
@@ -120,9 +163,9 @@ class PostController extends Controller
         if ($validator->fails())
             return response()->json($validator->errors()->first(), 400);
 
-        // Types: normal, shared, to_user, profile_pic, wallpaper_pic
+        // Types: normal, shared, to_user, profile_pic, wallpaper_pic, page, group
 
-        if ($data['type'] != 'normal' && $data['type'] != 'shared' && $data['type'] != 'to_user' && $data['type'] != 'profile_pic' && $data['type'] != 'wallpaper_pic')
+        if ($data['type'] != 'normal' && $data['type'] != 'shared' && $data['type'] != 'to_user' && $data['type'] != 'profile_pic' && $data['type'] != 'wallpaper_pic' && $data['type'] != 'page' && $data['type'] != 'group')
             return response()->json(['error' => 'Ocurrio un error al crear el post!'], 400);
 
         if ($data['type'] == 'normal' && !$request->hasFile('mmedias') && empty($data['content']))
@@ -141,6 +184,14 @@ class PostController extends Controller
                 return response()->json(['error'=>'No eres amigo de este usuario:('], 400);
         } else if ($data['type'] == 'to_user') {
             return response()->json(['error' => 'El usuario al que se le va a publicar no existe'], 400);
+        }
+
+        if(isset($data['page_id'])){
+
+            $Page = Page::find($data['page_id']);
+            if(!$Page->checkAdmin($request->header('user_id')))
+                return response()->json(['error'=>'No tienes permisos de publicar en nombre de esta pagina'], 403);
+
         }
 
         if ($data['type'] == 'shared' && isset($data['shared_post_id'])) {
@@ -198,18 +249,39 @@ class PostController extends Controller
         } else if ($request->has('mmedias')) {
             $mmedias = $request->mmedias;
 
-            foreach ($mmedias as $mmedia) {
-                $mmediaName = MMedia::saveMMedia(intval($request->header('user_id')), $mmedia);
+            if(isset($data['page_id'])){
 
-                $mmediaObj = new MMedia([
-                    'user_id'=>intval($request->header('user_id')),
-                    'post_id'=>$post->id,
-                    'type'=>$mmedia->getClientOriginalExtension(),
-                    'url'=>$mmediaName]);
+                foreach ($mmedias as $mmedia) {
+                    $mmediaName = MMedia::saveMMedia($Page->id, $mmedia, true);
 
-                $mmediaObj->save();
+                    $mmediaObj = new MMedia([
+                        'page_id'=>$Page->id,
+                        'post_id'=>$post->id,
+                        'type'=>$mmedia->getClientOriginalExtension(),
+                        'url'=>$mmediaName]);
+
+                    $mmediaObj->save();
+
+                }
+
+            } else {
+
+                foreach ($mmedias as $mmedia) {
+                    $mmediaName = MMedia::saveMMedia(intval($request->header('user_id')), $mmedia);
+
+                    $mmediaObj = new MMedia([
+                        'user_id'=>intval($request->header('user_id')),
+                        'post_id'=>$post->id,
+                        'type'=>$mmedia->getClientOriginalExtension(),
+                        'url'=>$mmediaName]);
+
+                    $mmediaObj->save();
+
+                }
 
             }
+
+
 
         }
 

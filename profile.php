@@ -21,6 +21,8 @@
     <?php include('templates/notification/connection.php')?>
     <?php include('templates/home/navbar.php'); ?>
     <?php include('templates/notification/post_react.php')?>
+    <?php include('templates/post/shareModal.php')?>
+   
     
     <div class="row m-0 p-0 shadow-sm pb-1 bg-light">
     

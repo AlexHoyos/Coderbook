@@ -8,7 +8,7 @@ class Post extends Model
 {
     protected $tablename = 'posts';
     protected $fillable = [
-      'user_id', 'content', 'privacy', 'type', 'to_user_id', 'shared_post_id'
+      'user_id', 'content', 'privacy', 'type', 'to_user_id', 'shared_post_id', 'page_id'
     ];
 
     public $postedSince;
@@ -24,6 +24,10 @@ class Post extends Model
     public function user(){
         $user = $this->belongsTo('App\Models\User')->select(['id','name','lname','profile_pic_id'])->with(['profilePic']);
         return $user;
+    }
+
+    public function page(){
+        return $this->belongsTo(Page::class)->select(['id', 'title', 'principal_pic_id'])->with(['principalPic']);
     }
 
     public function toUser(){

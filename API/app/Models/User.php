@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Page\Like;
 use App\Models\User\Friend;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -145,6 +146,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function reacts(){
         return $this->hasMany('App\Models\Reaction');
+    }
+
+    public function likedPage($id){
+        $like = Like::where('page_id', $id)->where('user_id', $id)->get()->count();
+
+        if($like > 0){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public function isOnFillable($key){

@@ -11,5 +11,7 @@ function getPageName(){
         return 'messages'
     } else if(pathname.includes('/profile')){
         return 'profile'
+    } else if(pathname.includes('/page')){
+        return 'page'
     }
 }
