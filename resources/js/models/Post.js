@@ -5,6 +5,11 @@ class Post {
         this.ownUser = ownUser
         this.sharedContent = sharedContent
         this.isPage = isPage
+
+        if(this.page_id != null){
+            this.isPage = true;
+        }
+
         //console.log(Object.values(this))
     }
 
@@ -41,8 +46,12 @@ class Post {
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundPositionY = this.mmedias[0].pp_y + 'px'
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundSize = this.mmedias[0].pp_size + '%'
         } else if(this.type == 'shared'){
-            
-            var sharedPost = new Post(this.shared_post, this.ownUser, true)
+            var sharedPost = null;
+            if(this.shared_post.page_id == null){
+                sharedPost = new Post(this.shared_post, this.ownUser, true)
+            } else {
+                sharedPost = new Post(this.shared_post, this.ownUser, true, true)
+            }
             let sharedPostNode = newPost.getElementsByClassName('postNodeShared')[0];
             sharedPost.createNode(sharedPostNode)
             

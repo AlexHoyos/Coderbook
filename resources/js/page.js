@@ -102,7 +102,7 @@ function likePage(){
             xhr.setRequestHeader('user_id', user_id)
         }
     }).done(function(response){
-
+        console.log(response)
         if(response.user_liked === true){
             document.getElementById('likeBtn').classList.remove('btn-outline-primary')
             document.getElementById('likeBtn').classList.add('btn-primary')

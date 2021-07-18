@@ -66,12 +66,13 @@ class PostController extends Controller
             if($userid == $owner_id){
                 $posts = $targetUser->getPosts()->orderByDesc('id')->limit($limit);
             } else {
-                $posts = $targetUser->getPosts()->orderByDesc('id')->where('privacy','=','public')->limit($limit);
+                $posts = $targetUser->getPosts()->orderByDesc('id')->where('privacy', '=', 'public')->limit($limit);
             }
 
             $data = [];
             foreach($posts->get() as $post){
                 $post->user;
+                $post->page;
                 $post->mmedias;
                 $post->reactionsCount();
                 $post->getMostReact();

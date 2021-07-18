@@ -14,7 +14,7 @@ class Post extends Model
     public $postedSince;
 
     public function sharedPost(){
-        return $this->belongsTo(Self::class, 'shared_post_id')->with(['user', 'mmedias']);
+        return $this->belongsTo(Self::class, 'shared_post_id')->with(['user', 'mmedias', 'page']);
     }
 
     public function mmedias(){

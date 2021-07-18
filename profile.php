@@ -10,6 +10,7 @@
     <script src="./resources/js/functions/reactions.js"></script>
     <script src="./resources/js/functions/routing.js"></script>
     <script src="./resources/js/models/User.js"></script>
+    <script src="./resources/js/models/Page.js"></script>
     <script src="./resources/js/models/Post.js"></script>
     <script src="./resources/js/profile.js"></script>
     <script src="./resources/js/comments.js"></script>

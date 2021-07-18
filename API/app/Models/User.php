@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Page\Like;
 use App\Models\User\Friend;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -35,7 +34,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     public function getPosts(){
-        return Post::where('user_id', $this->id)->orWhere('to_user_id', $this->id);
+        return Post::where(function($query){
+            $query->where('user_id', $this->id)
+                ->whereNull('page_id');
+        })->orWhere('to_user_id', $this->id);
     }
 
     public function profilePic(){
@@ -149,13 +151,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function likedPage($id){
-        $like = Like::where('page_id', $id)->where('user_id', $id)->get()->count();
+        $like = Page\Like::where('page_id', $id)->where('user_id', $this->id)->get()->first();
 
-        if($like > 0){
-            return true;
-        } else {
-            return false;
-        }
+        return ($like instanceof Page\Like);
 
     }
 
