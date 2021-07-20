@@ -32,7 +32,6 @@ function getTimeStr(time){
                             }
                             
                         } else {
-                            console.log(time)
                             time = Math.ceil(time/30)
                             return time + ' m'
                         }
