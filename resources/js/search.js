@@ -24,7 +24,9 @@ $(document).ready(function(){
                     xhr.setRequestHeader('user_id', user_id)
                 }
             }).done(function(results){
+                console.log(results)
                 let users = results.users
+                let pages = results.pages
                 if(users.length > 0){
                     
                     var userModel = document.getElementById('userModel')
@@ -41,11 +43,31 @@ $(document).ready(function(){
                         usersList.appendChild(userNode)
                     }
 
-                } else {
-                    document.getElementById('noResults').classList.remove('d-none')
                 }
+                
+                if(pages.length > 0){
+
+                    var pageModel = document.getElementById('pageModel')
+                    var pagesList = document.getElementById('pagesList')
+                    pagesList.classList.remove('d-none')
+                    for(let key in pages){
+                        let page = new Page(pages[key])
+                        let pageNode = pageModel.cloneNode(true)
+                        pageNode.getElementsByClassName('pp-bubble')[0].style.backgroundImage = 'url(\''+ page.getProfilePic() +'\')'
+                        pageNode.getElementsByClassName('page-title')[0].innerHTML = '<b>' + page.title + '</b>'
+                        pageNode.setAttribute('onClick', 'javascript:Page.goToPage('+ page.id +')')
+                        pageNode.id = 'page-'+page.id
+                        pageNode.classList.remove('d-none')
+                        pagesList.appendChild(pageNode)
+                    }
+
+                }
+
+                if( users.length == 0 && pages.length == 0 )
+                    document.getElementById('noResults').classList.remove('d-none')
             }).fail(function(error){
                 document.getElementById('noResults').classList.remove('d-none')
+                console.log(error)
             })
 
         }

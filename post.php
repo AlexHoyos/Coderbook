@@ -12,7 +12,7 @@
     <script src="./resources/js/models/User.js"></script>
     <script src="./resources/js/models/Page.js"></script>
     <script src="./resources/js/models/Post.js"></script>
-    <script src="./resources/js/home.js"></script>
+    <script src="./resources/js/post.js"></script>
     <script src="./resources/js/comments.js"></script>
     <link rel="stylesheet" href="./resources/css/home.css">
 </head>
@@ -31,7 +31,6 @@
         </div>
 
         <div class="col-12 col-lg-6 float-right mt-2 mt-lg-0" id="posts">
-        <?php include('templates/post/newPost.php'); ?>
 
         <?php include('templates/post/postTemplate.php'); ?>
 

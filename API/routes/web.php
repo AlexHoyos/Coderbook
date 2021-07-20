@@ -47,6 +47,7 @@ $router->get('/', function () use ($router) {
 
         $router->post('/posts', ['uses'=>'PostController@create']);
         $router->get('/posts/{limit}', ['uses'=>'PostController@userHome']);
+        $router->get('/post/{id}', ['uses'=>'PostController@getPost']);
         $router->post('/posts/{id}', ['uses'=>'PostController@update']);
         $router->delete('/posts/{id}', ['uses'=>'PostController@delete']);
 

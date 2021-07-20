@@ -49,7 +49,7 @@
 <div class="row p-0 m-0 home-nav max-he">
 
     <div class="col-3">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="./home.php">
             <img src="./resources/images/logo_white.png" width="160" class="m-4" alt="">
         </a>
     </div>
@@ -121,10 +121,13 @@
                 <i class="fa fa-chevron-down"></i>
                 </button>
 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">msg</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="./profile.php"> <i class="fas fa-user"></i> Mi perfil</a>
+                    <a class="dropdown-item" href="./config.php"> <i class="fas fa-cog"></i> Configuración</a>
+                    <a href="./mypages.php" class="dropdown-item"> <i class="fas fa-file-alt"></i> Mis paginas</a>
+                    <a href="./mygroups.php" class="dropdown-item"> <i class="fas fa-users"></i> Mis grupos</a>
+                    <hr>
+                    <a class="dropdown-item" href="./logout.php"> <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
                 </div>
             </div>
 

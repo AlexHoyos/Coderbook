@@ -17,37 +17,25 @@ $(document).ready(function(){
         }).done(function(ownUser){
     
             console.log(ownUser);
-            
-            if(ownUser.see_notif == 'y'){
-                document.getElementById('see_notif').classList.add('d-none')
-            }
-
-            if(ownUser.see_msg == 'y'){
-                document.getElementById('see_msg').classList.add('d-none')
-            }
-
-            // Get POSTS
-            document.getElementById('way_thinking').setAttribute('placeholder', '¿Qué estas pensando, '+ownUser.name+'?');
 
             $.ajax({
                 method: "GET",
-                url: API_URL + "posts/25",
+                url: API_URL + "post/"+getParameterByName('id'),
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('api_token', api_token)
                     xhr.setRequestHeader('user_id', user_id)
                 },
                 contentType: "application/json"
             }).done(function(response){
-                console.log("xd")
+                console.log(response)
                 var postNode = document.getElementById('postNode');
                 var posts = document.getElementById('posts');
-                response.forEach(function(post){
-                    let postObj = new Post(post, ownUser)
-                    let newPost = postNode.cloneNode(true);
-                    posts.appendChild(postObj.createNode(newPost));
-                })
+                let postObj = new Post(response, ownUser)
+                let newPost = postNode.cloneNode(true);
+                posts.appendChild(postObj.createNode(newPost));
             }).fail(function(xhr, textStatus, errorThrown){
-                console.log(errorThrown);
+                window.location.href = './home.php'
+                console.log(xhr.responseJSON.error)
             })
 
     

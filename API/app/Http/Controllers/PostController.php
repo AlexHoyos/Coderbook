@@ -13,6 +13,37 @@ use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
 
+    public function getPost(Request $request, $id){
+
+        $Post = Post::find($id);
+
+        if($Post instanceof Post){
+
+            $User = User::find($request->header('user_id'));
+
+            if(!($User instanceof User))
+                return response()->json(['error'=>'No puedes ver este contenido'], 403);
+
+            if($Post->privacy == 'private' && $Post->user_id != $User->id && $Post->to_user_id != $User->id)
+                return response()->json(['error'=>'No puedes ver este contenido'], 403);
+            
+            $Post->id;
+            $Post->user;
+            $Post->mmedias;
+            $Post->reactionsCount();
+            $Post->getMostReact();
+            $Post->commentsCount();
+            $Post->sharedCount();
+            $Post->userLiked($User);
+
+            return response()->json($Post);
+
+        } else {
+            return response()->json(['error'=>'Contenido no disponible'], 404);
+        }
+
+    }
+
     public function userHome(Request $request, $limit){
         $User = User::where('id', '=', $request->header('user_id'))->get()->first();
         if($User instanceof User){
@@ -25,6 +56,8 @@ class PostController extends Controller
                         ->orOn('posts.user_id', '=', 'friends.target_id');
                 })
                 ->where('user_id', '!=', $User->id)
+                ->whereNull('page_id')
+                ->whereNull('to_user_id')
                 ->where('accepted', 'y')
                 ->where(function($query) use ($User){
                     $query->where('target_id', '=', $User->id)

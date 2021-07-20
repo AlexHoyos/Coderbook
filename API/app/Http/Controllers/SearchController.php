@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +21,15 @@ class SearchController extends Controller
             ->where(DB::raw("concat_ws(' ', name, lname)"), 'LIKE', '%'.$search.'%')
             ->orWhere('username', 'LIKE', '%'.$search.'%')
             ->orderBy('id', 'asc')
+            ->limit(5)
+            ->get();
+        $pages = Page::with('principalPic')
+            ->where('title', 'LIKE', '%'. $search .'%')
+            ->orderBy('id', 'asc')
+            ->limit(5)
             ->get();
         $results['users'] = $users;
+        $results['pages'] = $pages;
 
         return response()->json($results);
 

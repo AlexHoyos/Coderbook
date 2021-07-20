@@ -10,6 +10,24 @@ class Post {
             this.isPage = true;
         }
 
+        let Author = null;
+        if(this.isPage === true){
+            Author = new Page(this.page)
+        } else {
+            Author = new User(this.user)
+        }
+
+        this.Author = Author
+
+        let urlMMedia = ""
+        if(this.isPage === true){
+            urlMMedia = API_URL+'media/page/'+Author.id+'/';
+        } else {
+            urlMMedia = API_URL+'media/usr/'+Author.id+'/';
+        }
+
+        this.urlMMedia = urlMMedia
+
         //console.log(Object.values(this))
     }
 
@@ -18,21 +36,12 @@ class Post {
         let mmediasNode = null
         let images = 0
         let postedSince = ""
-        let Author = null;
-        if(this.isPage === true){
-            Author = new Page(this.page)
-        } else {
-            Author = new User(this.user)
-        }
+        let Author = this.Author;
+        
         let Client = new User(this.ownUser)
         let profilePic = Author.getProfilePic();
         images = 0
-        let urlMMedia = ""
-        if(this.isPage === true){
-            urlMMedia = API_URL+'media/page/'+Author.id+'/';
-        } else {
-            urlMMedia = API_URL+'media/usr/'+Author.id+'/';
-        }
+        let urlMMedia = this.urlMMedia
 
         
         newPost.classList.remove('d-none');
@@ -45,6 +54,7 @@ class Post {
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundPositionX = this.mmedias[0].pp_x + 'px'
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundPositionY = this.mmedias[0].pp_y + 'px'
             mmediasNode.getElementsByClassName('post-img')[0].style.backgroundSize = this.mmedias[0].pp_size + '%'
+            mmediasNode.getElementsByClassName('post-img')[0].setAttribute('onClick', 'showPostImages('+ this.id +')')
         } else if(this.type == 'shared'){
             var sharedPost = null;
             if(this.shared_post.page_id == null){
@@ -62,9 +72,16 @@ class Post {
             images = (this.mmedias.length > 4) ? 4 : this.mmedias.length;
             mmediasNode = newPost.getElementsByClassName('post-'+images+'-img')[0];
             mmediasNode.classList.remove('d-none');
-            this.mmedias.forEach(function(mmedia, i){
+            /*this.mmedias.forEach(function(mmedia, i){
                 mmediasNode.getElementsByClassName('post-img')[i].style.backgroundImage = 'url(\''+urlMMedia + mmedia.url+'\')'
-            })
+                mmediasNode.getElementsByClassName('post-img')[i].setAttribute('onClick', 'showPostImages('+ this.id +')')
+            })*/
+
+            for(let i = 0; i < images; i++){
+                mmediasNode.getElementsByClassName('post-img')[i].style.backgroundImage = 'url(\''+urlMMedia + this.mmedias[i].url+'\')'
+                mmediasNode.getElementsByClassName('post-img')[i].setAttribute('onClick', 'showPostImages('+ this.id +')')
+            }
+
         }
 
         postedSince = this.getPostedSince()
@@ -105,9 +122,11 @@ class Post {
             if(this.type == 'shared'){
                 newPost.getElementsByClassName('post-shareNow')[0].setAttribute('onClick', 'Post.share('+sharedPost.id+')')
                 newPost.getElementsByClassName('post-shareWithContent')[0].setAttribute('onClick', 'openShareContentModal('+sharedPost.id+')')
+                newPost.getElementsByClassName('post-shareLink')[0].setAttribute('onClick', 'javascript:Post.copyPostUrl('+ sharedPost.id +')')
             } else {
                 newPost.getElementsByClassName('post-shareNow')[0].setAttribute('onClick', 'Post.share('+this.id+')')
                 newPost.getElementsByClassName('post-shareWithContent')[0].setAttribute('onClick', 'openShareContentModal('+this.id+')')
+                newPost.getElementsByClassName('post-shareLink')[0].setAttribute('onClick', 'javascript:Post.copyPostUrl('+ this.id +')')
                 window.localStorage.setItem('post-'+this.id, JSON.stringify(this))
             }
 
@@ -145,6 +164,66 @@ class Post {
             extraData = ' <i class="fas fa-caret-right"></i><b> ' + toUser.getFullname() + '</b>'
         }
         return'<b>'+ Author.getFullname() +'</b>'+extraData
+    }
+
+    showImagesComplete(carouselid){
+
+        let Author = null;
+        if(this.isPage === true){
+            Author = new Page(this.page)
+        } else {
+            Author = new User(this.user)
+        }
+
+        this.Author = Author
+
+        let urlMMedia = ""
+        if(this.isPage === true){
+            urlMMedia = API_URL+'media/page/'+Author.id+'/';
+        } else {
+            urlMMedia = API_URL+'media/usr/'+Author.id+'/';
+        }
+
+        this.urlMMedia = urlMMedia
+
+        let carousel = document.getElementById(carouselid)
+        let carouselInner = carousel.getElementsByClassName('carousel-inner')[0]
+        let carouselItem = carousel.getElementsByClassName('carousel-item')[0]
+
+        carouselInner.innerHTML = ""
+        
+        if(this.mmedias.length == 1){
+            if(!carousel.getElementsByClassName('carousel-control-prev')[0].classList.contains('d-none')){
+                carousel.getElementsByClassName('carousel-control-prev')[0].classList.add('d-none')
+                carousel.getElementsByClassName('carousel-control-next')[0].classList.add('d-none')
+            }
+        } else {
+            if(carousel.getElementsByClassName('carousel-control-prev')[0].classList.contains('d-none')){
+                carousel.getElementsByClassName('carousel-control-prev')[0].classList.remove('d-none')
+                carousel.getElementsByClassName('carousel-control-next')[0].classList.remove('d-none')
+            }
+        }
+
+        this.mmedias.forEach(function(mmedia, i){
+             let carouselItemClone = carouselItem.cloneNode(true)
+             carouselItemClone.getElementsByClassName('car-image')[0].src = urlMMedia + mmedia.url
+             if(i==0){
+                carouselItemClone.classList.add('active')
+            }
+            carouselItemClone.classList.remove('d-none')
+            carouselInner.appendChild(carouselItemClone)
+        })
+
+    }
+
+    static copyPostUrl(id) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", window.location.host + '/social_net1/post.php?id=' + id);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        console.log('copied')
     }
 
     static share(id, withContent=false){

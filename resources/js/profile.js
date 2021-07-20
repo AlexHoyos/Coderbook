@@ -300,3 +300,11 @@ function setFriendshipStatus(friendship, uid, hidden = false){
     }
 
 }
+
+function showPostImages(id){
+
+    let postData = window.localStorage.getItem('post-'+id)
+    let post = new Post(JSON.parse(postData))
+    post.showImagesComplete("showPostImages")
+    $("#showPostImages").modal('show')
+}

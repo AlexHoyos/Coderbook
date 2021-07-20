@@ -23,6 +23,7 @@
     <?php include('templates/home/navbar.php'); ?>
     <?php include('templates/notification/post_react.php')?>
     <?php include('templates/post/shareModal.php')?>
+    <?php include('templates/post/showImages.php')?>
    
     
     <div class="row m-0 p-0 shadow-sm pb-1 bg-light">
@@ -79,7 +80,7 @@
 
             <div class="col-6 text-right d-none friendship_box yourself_box">
                 
-                <button class="btn btn-secondary"> <i class="fas fa-cog"></i> Configuracion</button>
+                <a class="btn btn-secondary" href="./config.php"> <i class="fas fa-cog"></i> Configuracion</a>
 
             </div>
 

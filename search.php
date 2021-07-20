@@ -10,6 +10,7 @@
     <script src="./resources/js/functions/time.js"></script>
     <script src="./resources//js/functions/reactions.js"></script>
     <script src="./resources/js/models/User.js"></script>
+    <script src="./resources/js/models/Page.js"></script>
     <script src="./resources/js/models/Post.js"></script>
     <script src="./resources/js/search.js"></script>
     <script src="./resources/js/comments.js"></script>
@@ -42,6 +43,25 @@
                     <div class="col-8 row m-0 p-0 ml-1 align-self-center">
                         <div class="col-12 row m-0 p-0">
                             <h6 class="mt-1 user-fullname" ><b>Alex Hoyos</b></h6>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            
+            <div class="row m-0 p-0 mt-2 flex-column d-none" id="pagesList">
+                <h5>Paginas: </h5>
+
+                <div class="col-12 row m-0 p-2 border-top border-bottom align-items-center d-none" style="cursor:pointer;" id="pageModel">
+                    <div class="col-2 col-lg-1">
+                        <div class="pp-bubble" style="background-image: url('');height:50px;width:50px"></div>
+                    </div>
+                    <div class="col-8 row m-0 p-0 ml-1 align-self-center">
+                        <div class="col-12 row m-0 p-0">
+                            <h6 class="mt-1 page-title" ><b>Alex Hoyos</b></h6>
                         </div>
                     </div>
                 </div>

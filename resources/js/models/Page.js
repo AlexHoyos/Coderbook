@@ -18,10 +18,10 @@ class Page {
 
     /*getUsername(){
         return this.username
-    }
-
-    static goToProfile(uid){
-        window.location.href = SERVER_URL + 'profile.php?uid='+uid
     }*/
+
+    static goToPage(uid){
+        window.location.href = SERVER_URL + 'page.php?page='+uid
+    }
 
 }

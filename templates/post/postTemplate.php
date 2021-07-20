@@ -154,8 +154,7 @@
                         <div class="dropdown-menu" aria-labelledby="shareOptions">
                             <button class="dropdown-item post-shareNow"> <i class="fas fa-share-square"></i> Compartir ahora</button>
                             <button class="dropdown-item post-shareWithContent"> <i class="fas fa-edit"></i> Escribir publicacion</button>
-                            <button class="dropdown-item"> <i class="fas fa-user-friends"></i> Compartir en el perfil de un amigo</button>
-                            <button class="dropdown-item"> <i class="fas fa-link"></i> Copiar enlace</button>
+                            <button class="dropdown-item post-shareLink"> <i class="fas fa-link"></i> Copiar enlace</button>
                         </div>
                     </div>
                     
