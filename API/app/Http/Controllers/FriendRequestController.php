@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendFriendRequest;
 use App\Models\User;
+use Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -74,6 +76,7 @@ class FriendRequestController extends Controller
             $data['target_id'] = $Target->id;
             $friendReq = new User\Friend($data);
             $friendReq->save();
+            Event::dispatch(new SendFriendRequest($friendReq));
             return response()->json($friendReq, 201);
 
         } catch(ModelNotFoundException $e){
@@ -98,6 +101,7 @@ class FriendRequestController extends Controller
 
                 $friendReq->accepted = 'y';
                 $friendReq->update();
+                Event::dispatch(new SendFriendRequest($friendReq, true));
                 return response()->json($friendReq);
             } else {
                 return response()->json(['error'=>'No tienes solicitud de dicho usuario'], 404);
@@ -120,6 +124,7 @@ class FriendRequestController extends Controller
             if(!($friendReq instanceof User\Friend))
                 return response()->json(['error'=>'No existe una amistad a rechazar'], 400);
 
+            Event::dispatch(new SendFriendRequest($friendReq, true));
             User\Friend::destroy($friendReq->id);
             return response()->json([], 204);
 

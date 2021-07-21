@@ -11,8 +11,7 @@
 <script>
 
     window.onload = function(){
-        window.localStorage.removeItem('user_id');
-        window.localStorage.removeItem('api_token');
+        window.localStorage.clear()
         window.location.href = './'
     }
 

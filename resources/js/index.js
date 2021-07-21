@@ -23,7 +23,7 @@ function login(){
 
         window.localStorage.setItem('api_token', response.api_token);
         window.localStorage.setItem('user_id', response.user.id);
-        window.location.href = './home.php'
+        //window.location.href = './home.php'
 
     }).fail(function(error){
         alert("Oh no, " + error.responseJSON.error);

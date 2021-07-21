@@ -1,3 +1,4 @@
+<script src="./resources/js/nav.js"></script>
 <!-- CREATE PAGE MODAL -->
 
 <div class="modal" id="createPage" tabindex="-1" role="dialog">
@@ -107,12 +108,13 @@
                     <i class="fas fa-circle text-danger" id="see_notif" style="position:absolute;top:-1px;font-size:10px"></i>
                 </button>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#"> <i class="fas fa-heart text-danger"></i> <b>Alex Hoyos</b> reaccionó a tu publicacion </a>
-                    <a class="dropdown-item" href="#"> <i class="fas fa-user-plus text-primary"></i> <b>Pedro</b> quiere ser tu amigo </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" id="last_notifs">
+                    <a class="dropdown-item noti-model d-none" href="#"> <i class="fas fa-heart text-danger"></i> <b>Alex Hoyos</b> reaccionó a tu publicacion </a>
+                    <!--<a class="dropdown-item" href="#"> <i class="fas fa-user-plus text-primary"></i> <b>Pedro</b> quiere ser tu amigo </a>
                     <a class="dropdown-item" href="#"> <i class="fas fa-comment text-secondary"></i> <b>Victor Garcia</b> comento tu publicacion</a>
                     <a class="dropdown-item" href="#"> <i class="fas fa-comments text-secondary"></i> <b>Francisco Acosta</b> respondio tu comentario</a>
-                    <a class="dropdown-item" href="#"> <i class="fas fa-user-tag text-success"></i> <b>Ricardo Ortiz</b> publicó en tu perfil</a>
+                    <a class="dropdown-item" href="#"> <i class="fas fa-user-tag text-success"></i> <b>Ricardo Ortiz</b> publicó en tu perfil</a>-->
+                    <a href="./notifications.php" class="btn btn-link float-right">Ver todas las notificaciones</a>
                 </div>
             </div>
 

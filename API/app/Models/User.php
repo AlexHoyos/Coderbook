@@ -40,6 +40,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         })->orWhere('to_user_id', $this->id);
     }
 
+    public function getNotifications(){
+        return Notification::where('target_id', $this->id);
+    }
+
     public function profilePic(){
         $profile_pic = $this->belongsTo('App\Models\MMedia', 'profile_pic_id')->select(['id','url', 'pp_x', 'pp_y', 'pp_size']);
         return $profile_pic;

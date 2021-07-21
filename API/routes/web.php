@@ -70,4 +70,6 @@ $router->get('/', function () use ($router) {
 
         $router->post('/like/page/{id}', ['uses'=>'PageController@likePage']);
 
+        $router->get('/notifications/last', ['uses'=>'NotificationController@getLastNotifications']);
+
     });

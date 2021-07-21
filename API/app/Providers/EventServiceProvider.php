@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\CommentPost;
 use App\Events\ReactedToPost;
+use App\Events\SendFriendRequest;
+use App\Listeners\FriendRequest;
+use App\Listeners\Post\Comment;
 use App\Listeners\Post\Reaction;
 use Illuminate\Support\Facades\Event;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +26,16 @@ class EventServiceProvider extends ServiceProvider
             [Reaction::class, 'handle']
         );
 
+        Event::listen(
+            CommentPost::class,
+            [Comment::class, 'handle']
+        );
+
+        Event::listen(
+            SendFriendRequest::class,
+            [FriendRequest::class, 'handle']
+        );
+
     }
 
     /**
@@ -36,6 +50,12 @@ class EventServiceProvider extends ServiceProvider
         ReactedToPost::class => [
             Reaction::class,
         ],
+        CommentPost::class => [
+            Comment::class
+        ],
+        SendFriendRequest::class => [
+            FriendRequest::class
+        ]
     ];
 
     public function shouldDiscoverEvents()

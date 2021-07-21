@@ -1,6 +1,6 @@
 var api_token = window.localStorage.getItem('api_token')
 var user_id = window.localStorage.getItem('user_id')
-$(document).ready(function(){
+/*$(document).ready(function(){
 
     
     
@@ -66,7 +66,34 @@ $(document).ready(function(){
 
     
 
-})
+})*/
+
+function webpageLoaded(ownUser){
+     // Get POSTS
+     document.getElementById('way_thinking').setAttribute('placeholder', '¿Qué estas pensando, '+ownUser.name+'?');
+
+        $.ajax({
+            method: "GET",
+            url: API_URL + "posts/25",
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('api_token', api_token)
+                xhr.setRequestHeader('user_id', user_id)
+            },
+            contentType: "application/json"
+        }).done(function(response){
+            console.log("xd")
+            var postNode = document.getElementById('postNode');
+            var posts = document.getElementById('posts');
+            response.forEach(function(post){
+                let postObj = new Post(post, ownUser)
+                let newPost = postNode.cloneNode(true);
+                posts.appendChild(postObj.createNode(newPost));
+            })
+        }).fail(function(xhr, textStatus, errorThrown){
+            console.log(errorThrown);
+        })
+
+}
 
 function showPostImages(id){
 

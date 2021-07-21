@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPost;
 use App\Models\Comment;
 use App\Models\MMedia;
 use App\Models\Post;
 use App\Models\User;
+use Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -109,6 +111,7 @@ class CommentController extends Controller
         ];
         $comment = new Comment($newData);
         $comment->save();
+        Event::dispatch(new CommentPost($comment));
         return response()->json($comment, 201);
 
     }
@@ -230,6 +233,7 @@ class CommentController extends Controller
         if($comment->user_id != $user->id)
             return response()->json(['error'=>'No tienes permisos para eliminar esto'], 403);
 
+        Event::dispatch(new CommentPost($comment, true));
         Comment::destroy($comment->id);
         return response()->json([], 204);
 
