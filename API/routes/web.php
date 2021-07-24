@@ -40,6 +40,7 @@ $router->get('/', function () use ($router) {
         $router->post('/user/messages/{target_id}', ['uses'=>'MessageController@sendMsg']);
         $router->get('/user/messages/{id}', ['uses'=>'UsersController@getMessages']);
 
+        $router->get('/reactions/post/{postid}', ['uses'=>'ReactionController@getReactionsFromPost']);
         $router->post('/reactions', ['uses'=>'ReactionController@create']);
         $router->put('/reactions', ['uses'=>'ReactionController@update']);
         $router->delete('/reactions', ['uses'=>'ReactionController@delete']);

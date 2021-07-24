@@ -23,6 +23,7 @@
     <?php include('templates/notification/post_react.php')?>
     <?php include('templates/post/shareModal.php')?>
     <?php include('templates/post/showImages.php')?>
+    <?php include('templates/post/reactions.php')?>
    
 
     <div class="row m-0 p-0 mt-2">

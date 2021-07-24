@@ -49,16 +49,69 @@ io.on('connection', (socket) => {
                   img: socket.profile_pic,
                   reaction: data.reaction
                 })*/
-                userEmit(data.user_id, 'post_react', {
+                userEmit(data.user_id, 'notification', {
                   body: '<b>' + socket.fullname + '</b> reaccionó a tu publicación',
                   img: socket.profile_pic,
-                  reaction: data.reaction
+                  reaction: data.reaction,
+                  type: 'post_react',
+                  url: './post.php?id='+data.id
                 })
               }
 
             })
 
             /* END POST REACTION */
+
+            /* ON FRIEND REQUEST */
+
+            socket.on('friend_req', (data)=> {
+
+              if(users['user-'+data.target_id] != undefined){
+                userEmit(data.target_id, 'notification', {
+                  body: '<b>' + socket.fullname + '</b> te envio solicitud de amistad',
+                  img: socket.profile_pic,
+                  type: 'friend_req',
+                  url: './profile.php?uid='+clientdata.uid
+                })
+              }
+
+            })
+
+            /* END FRIEND REQUEST */
+
+            /* ON POST BIO */
+
+            socket.on('post_bio', (data)=> {
+
+              if(users['user-'+data.to_user_id] != undefined){
+                userEmit(data.to_user_id, 'notification', {
+                  body: '<b>' + socket.fullname + '</b> publicó en tu perfil',
+                  img: socket.profile_pic,
+                  type: 'post_bio',
+                  url: './post.php?id='+data.id
+                })
+              }
+
+            })
+
+            /* END POST BIO */
+
+            /* ON COMMENT POST */
+
+            socket.on('comment', (data)=> {
+
+              if(users['user-'+data.post.user_id] != undefined){
+                userEmit(data.post.user_id, 'notification', {
+                  body: '<b>' + socket.fullname + '</b> comentó tu publicación',
+                  img: socket.profile_pic,
+                  type: 'comment',
+                  url: './post.php?id='+data.post_id
+                })
+              }
+
+            })
+
+            /* END COMMENT POST */
 
             /* ON USER MESSAGE */
             socket.on('message', (msg) => {

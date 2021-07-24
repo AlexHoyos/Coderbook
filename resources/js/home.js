@@ -1,5 +1,6 @@
 var api_token = window.localStorage.getItem('api_token')
 var user_id = window.localStorage.getItem('user_id')
+
 /*$(document).ready(function(){
 
     

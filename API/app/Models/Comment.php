@@ -15,6 +15,10 @@ class Comment extends Model
         return $this->belongsTo('App\Models\User', 'user_id')->select(['id', 'name', 'lname', 'profile_pic_id'])->with(['profilePic']);
     }
 
+    public function post(){
+        return $this->belongsTo('App\Models\Post', 'post_id')->select(['id', 'user_id']);
+    }
+
     public function reactions(){
         return $this->hasMany('App\Models\Reaction')->select(['id', 'user_id', 'comment_id', 'reaction'])->with(['user']);
     }

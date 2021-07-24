@@ -12,6 +12,7 @@
     <script src="./resources/js/models/User.js"></script>
     <script src="./resources/js/models/Page.js"></script>
     <script src="./resources/js/models/Post.js"></script>
+    <script src="./resources/js/home.js"></script>
     <script src="./resources/js/profile.js"></script>
     <script src="./resources/js/comments.js"></script>
     <script src="./resources/js/functions/friendRequest.js"></script>
@@ -24,13 +25,14 @@
     <?php include('templates/notification/post_react.php')?>
     <?php include('templates/post/shareModal.php')?>
     <?php include('templates/post/showImages.php')?>
+    <?php include('templates/post/reactions.php')?>
    
     
     <div class="row m-0 p-0 shadow-sm pb-1 bg-light">
     
         <div class="col-10 row m-0 p-0 mx-auto wallpaper_pic" >
 
-            <div class="profile_pic mx-auto mt-auto"></div>
+            <div class="profile_profile_pic mx-auto mt-auto"></div>
 
         </div>
 

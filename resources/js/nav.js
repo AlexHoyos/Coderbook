@@ -1,5 +1,4 @@
-var api_token = window.localStorage.getItem('api_token')
-var user_id = window.localStorage.getItem('user_id')
+
 $(document).ready(function(){
 
     if(api_token !== null && api_token != "" && user_id !== null && user_id != ""){
@@ -25,27 +24,7 @@ $(document).ready(function(){
 
             webpageLoaded(ownUser)
 
-            $.ajax({
-                method: 'GET',
-                url: API_URL + 'notifications/last',
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader('api_token', api_token)
-                    xhr.setRequestHeader('user_id', user_id)
-                }
-            }).done(function(response){
-                
-                console.log(response)
-                let notificationsBox = document.getElementById('last_notifs')
-                let notificationModel = notificationsBox.getElementsByClassName('noti-model')[0]
-                response.forEach(function(noti){
-                    let notificationNode = getNotificationNode(noti, notificationModel)
-                    notificationNode.classList.remove('d-none')
-                    notificationsBox.appendChild(notificationNode)
-                })
-
-            }).fail(function(error){
-
-            })
+            loadNotifications();
         
         }).fail(function(error){
             console.log(error);
@@ -79,6 +58,46 @@ function getNotificationNode(notification, model){
     if(notification.type == 'reaction'){
 
         let reaction = notification.reaction.reaction
+        icon = getNotificationIcon('reaction', notification.reaction.reaction)
+
+        let reacted_to = (notification.reaction.post_id == null) ? 'un comentario' : 'una publicación'
+        text = 'reaccionó a '+ reacted_to
+
+        url = './post.php?id='+notification.post_id
+
+    } else if(notification.type == 'comment'){
+
+        icon = getNotificationIcon(notification.type)
+        text = 'comentó tu publicación'
+        url = './post.php?id='+notification.post_id
+
+    } else if(notification.type == 'post_bio'){
+
+        icon = getNotificationIcon(notification.type)
+        text = 'publicó en tu perfil'
+        url = './post.php?id='+notification.post_id
+
+    } else if(notification.type == 'friend_req'){
+        icon = getNotificationIcon(notification.type)
+        text = 'quiere ser tu amigo'
+        url = './profile.php?uid='+author.id
+    } else {
+        icon = getNotificationIcon(notification.type)
+        text = ' tienes una notificacion'
+        url = './notifications.php'
+    }
+
+
+    node.href = url
+    node.innerHTML = icon + '<b>'+author.getFullname() + '</b> ' + text
+    return node
+}
+
+function getNotificationIcon(type, reaction = null){
+
+    if(type == 'reaction'){
+
+        var color = ""
         if(reaction == 'love'){
             color = "rgb(242, 82, 104)"
             icon = '<li class="fas fa-heart" style="color:'+color+';"></li> '
@@ -98,36 +117,18 @@ function getNotificationNode(notification, model){
             icon = '<li class="fas fa-thumbs-up" style="color:rgb(100,160,240);"></li> '
         }
 
-        let reacted_to = (notification.reaction.post_id == null) ? 'un comentario' : 'una publicación'
-        text = 'reaccionó a '+ reacted_to
-
-        url = './post.php?id='+notification.post_id
-
-    } else if(notification.type == 'comment'){
-
+    } else if(type == 'comment'){
         icon = '<i class="fas fa-comment text-secondary"></i> '
-        text = 'comentó tu publicación'
-        url = './post.php?id='+notification.post_id
-
-    } else if(notification.type == 'post_bio'){
-
+    } else if(type == 'post_bio'){
         icon = '<i class="fas fa-user-tag text-success"></i> '
-        text = 'publicó en tu perfil'
-        url = './post.php?id='+notification.post_id
-
-    } else if(notification.type == 'friend_req'){
+    } else if(type == 'friend_req'){
         icon = '<i class="fas fa-user-plus text-primary"></i> '
-        text = 'quiere ser tu amigo'
-        url = './profile.php?uid='+author.id
     } else {
         icon = '<i class="fa fa-bell"></i> '
-        text = ' tienes una notificacion'
-        url = './notifications.php'
     }
 
-    node.href = url
-    node.innerHTML = icon + '<b>'+author.getFullname() + '</b> ' + text
-    return node
+    return icon
+
 }
 
 function createNewPage(){
@@ -157,4 +158,31 @@ function createNewPage(){
         console.log(error.responseJSON.error)
     })
 
+}
+
+function loadNotifications(){
+    $.ajax({
+        method: 'GET',
+        url: API_URL + 'notifications/last',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('api_token', api_token)
+            xhr.setRequestHeader('user_id', user_id)
+        }
+    }).done(function(response){
+        
+        console.log(response)
+        let notificationsBox = document.getElementById('last_notifs')
+
+        notificationsBox.innerHTML = '<a class="dropdown-item noti-model d-none" href="#"> <i class="fas fa-heart text-danger"></i> <b>Alex Hoyos</b> reaccionó a tu publicacion </a><a href="./notifications.php" class="btn btn-link float-right">Ver todas las notificaciones</a>'
+
+        let notificationModel = notificationsBox.getElementsByClassName('noti-model')[0]
+        response.forEach(function(noti){
+            let notificationNode = getNotificationNode(noti, notificationModel)
+            notificationNode.classList.remove('d-none')
+            notificationsBox.appendChild(notificationNode)
+        })
+
+    }).fail(function(error){
+
+    })
 }

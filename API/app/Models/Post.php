@@ -14,7 +14,7 @@ class Post extends Model
     public $postedSince;
 
     public function sharedPost(){
-        return $this->belongsTo(Self::class, 'shared_post_id')->with(['user', 'mmedias', 'page']);
+        return $this->belongsTo(Self::class, 'shared_post_id')->with(['user', 'mmedias', 'page', 'toUser']);
     }
 
     public function mmedias(){
@@ -35,7 +35,7 @@ class Post extends Model
     }
 
     public function reactions(){
-        return $this->hasMany('App\Models\Reaction')->select(['id', 'user_id', 'reaction'])->with(['user']);
+        return $this->hasMany('App\Models\Reaction')->select(['id', 'user_id', 'reaction'])->orderBy('id', 'desc')->with(['user']);
     }
 
     public function comments(){

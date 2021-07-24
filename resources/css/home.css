@@ -223,3 +223,20 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
+
+.reaction_menu {
+    border:0;
+    background: 0;
+    font-size:18px;
+    padding: .5em .8em 0em .8em;
+    text-align:center;
+}
+
+.reaction_selected {
+    border-top: solid 2px rgb(17, 143, 228);
+}
+
+.reactioner_name > a {
+    color:rgba(0, 0, 0, 1);
+    text-decoration-line: none;
+}

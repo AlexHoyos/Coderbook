@@ -1,6 +1,5 @@
-var api_token = window.localStorage.getItem('api_token')
-var user_id = window.localStorage.getItem('user_id')
-$(document).ready(function(){
+
+/*$(document).ready(function(){
 
     
     
@@ -54,7 +53,29 @@ $(document).ready(function(){
 
     
 
-})
+})*/
+
+function webpageLoaded(ownUser){
+    $.ajax({
+        method: "GET",
+        url: API_URL + "post/"+getParameterByName('id'),
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('api_token', api_token)
+            xhr.setRequestHeader('user_id', user_id)
+        },
+        contentType: "application/json"
+    }).done(function(response){
+        console.log(response)
+        var postNode = document.getElementById('postNode');
+        var posts = document.getElementById('posts');
+        let postObj = new Post(response, ownUser)
+        let newPost = postNode.cloneNode(true);
+        posts.appendChild(postObj.createNode(newPost));
+    }).fail(function(xhr, textStatus, errorThrown){
+        window.location.href = './home.php'
+        console.log(xhr.responseJSON.error)
+    })
+}
 
 function showPostImages(id){
 

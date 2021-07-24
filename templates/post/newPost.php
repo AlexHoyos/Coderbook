@@ -122,6 +122,9 @@ function publishPost(profile = false){
           //alert("Publicacion realizada con exito!")
           
           console.log(post)
+          if(post.type == 'to_user'){
+              socket.emit('post_bio', post)
+          }
           $('#waitingModal').modal('hide')
           $('#postedModal').modal('show')
           $('#postedModal').on('hidden.bs.modal', function(e){

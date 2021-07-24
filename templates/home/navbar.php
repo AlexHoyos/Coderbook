@@ -109,12 +109,12 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" id="last_notifs">
-                    <a class="dropdown-item noti-model d-none" href="#"> <i class="fas fa-heart text-danger"></i> <b>Alex Hoyos</b> reaccionó a tu publicacion </a>
-                    <!--<a class="dropdown-item" href="#"> <i class="fas fa-user-plus text-primary"></i> <b>Pedro</b> quiere ser tu amigo </a>
+                    <!--<a class="dropdown-item noti-model d-none" href="#"> <i class="fas fa-heart text-danger"></i> <b>Alex Hoyos</b> reaccionó a tu publicacion </a>
+                    <a class="dropdown-item" href="#"> <i class="fas fa-user-plus text-primary"></i> <b>Pedro</b> quiere ser tu amigo </a>
                     <a class="dropdown-item" href="#"> <i class="fas fa-comment text-secondary"></i> <b>Victor Garcia</b> comento tu publicacion</a>
                     <a class="dropdown-item" href="#"> <i class="fas fa-comments text-secondary"></i> <b>Francisco Acosta</b> respondio tu comentario</a>
-                    <a class="dropdown-item" href="#"> <i class="fas fa-user-tag text-success"></i> <b>Ricardo Ortiz</b> publicó en tu perfil</a>-->
-                    <a href="./notifications.php" class="btn btn-link float-right">Ver todas las notificaciones</a>
+                    <a class="dropdown-item" href="#"> <i class="fas fa-user-tag text-success"></i> <b>Ricardo Ortiz</b> publicó en tu perfil</a>
+                    <a href="./notifications.php" class="btn btn-link float-right">Ver todas las notificaciones</a>-->
                 </div>
             </div>
 

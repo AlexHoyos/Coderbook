@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Events\CommentPost;
+use App\Events\PostInProfile;
 use App\Events\ReactedToPost;
 use App\Events\SendFriendRequest;
 use App\Listeners\FriendRequest;
 use App\Listeners\Post\Comment;
 use App\Listeners\Post\Reaction;
+use App\Listeners\PostedInProfile;
 use Illuminate\Support\Facades\Event;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
@@ -36,6 +38,11 @@ class EventServiceProvider extends ServiceProvider
             [FriendRequest::class, 'handle']
         );
 
+        Event::listen(
+            PostInProfile::class,
+            [PostedInProfile::class, 'handle']
+        );
+
     }
 
     /**
@@ -55,6 +62,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendFriendRequest::class => [
             FriendRequest::class
+        ],
+        PostInProfile::class => [
+            PostedInProfile::class
         ]
     ];
 

@@ -20,10 +20,17 @@ socket.on('session_end', (data) => {
     }, 5000)
 })
 
-socket.on('post_react', (data) => {
+socket.on('notification', (data) => {
     console.log(data)
     let ptrtoast = document.getElementById('ptr_Toast');
-    ptrtoast.getElementsByClassName('toast-body')[0].innerHTML = getReactIcon(data.reaction) + ' ' + data.body
+    if(data.type == 'post_react'){
+        ptrtoast.getElementsByClassName('toast-body')[0].innerHTML = getReactIcon(data.reaction) + ' ' + data.body
+    } else {
+        ptrtoast.getElementsByClassName('toast-body')[0].innerHTML = getNotificationIcon(data.type) + ' ' + data.body
+    }
+
+    ptrtoast.setAttribute('onClick', 'window.location.href="'+ data.url +'"')
+    loadNotifications()
     $('#ptr_Toast').toast('show')
 })
 

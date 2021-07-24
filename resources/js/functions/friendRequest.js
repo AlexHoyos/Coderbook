@@ -48,6 +48,7 @@ function sendFriendRequest(uid, callback){
     }).done(function(response){
 
         console.log(response)
+        socket.emit('friend_req', response)
 
     }).fail(function(error){
         console.log(error)

@@ -26,7 +26,7 @@ class ReactionController extends Controller
             if($post->user_id != $userid && $post->privacy == 'private')
                 return response()->json(['error'=>'Contenido no disponible'], 403);
 
-            $reactions = $post->reactions->groupBy('reaction');
+            $reactions = $post->reactions;
             return response()->json($reactions);
 
         } else {

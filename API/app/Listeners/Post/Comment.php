@@ -30,9 +30,6 @@ class Comment
         //return response()->json($Comment->id);
         if($event->deleted){
 
-            $Notificacion = Notification::where('comment_id', $Comment->id)
-                ->where('sender_id', $Comment->user_id)->get()->first();
-            Notification::destroy($Notificacion->id);
 
         } else {
             $Post = Post::find($Comment->post_id);

@@ -28,11 +28,6 @@ class FriendRequest
         $Friendship = $event->friend;
         if($event->deleted){
 
-            $Notificacion = Notification::where('target_id', $Friendship->target_id)
-                ->where('sender_id', $Friendship->sender_id)
-                ->where('type', 'friend_req')->get()->first();
-
-            Notification::destroy($Notificacion->id);
 
         } else {
 

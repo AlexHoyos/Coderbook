@@ -5,10 +5,10 @@ var last_press_key = '';
 
 function sendComment(event, commentBox, postid){
     if(event.key=='Enter' && last_press_key != 'Shift'){
-
+        
         data = new FormData();
         data.append('comment', commentBox.value)
-
+        commentBox.value = ""
         $.ajax({
             
             method: 'POST',
@@ -25,7 +25,8 @@ function sendComment(event, commentBox, postid){
 
         }).done(function(res){
             console.log(res);
-            commentBox.value = ""
+            socket.emit('comment', res)
+            
             refreshComments(postid)
         }).fail(function(error){
             console.log(error);

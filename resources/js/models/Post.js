@@ -105,6 +105,7 @@ class Post {
             }
     
             changeLikes(this.reactions_count, newPost, this.most_react);
+            newPost.getElementsByClassName('post-likes')[0].setAttribute('onclick', 'javascript:Post.getReactions('+ this.id +')')
             newPost.getElementsByClassName('like-btn')[0].getElementsByClassName('reaction')[0].setAttribute('onClick', 'like('+this.id+', \'like\')')
             newPost.getElementsByClassName('like-btn')[0].getElementsByClassName('reaction')[1].setAttribute('onClick', 'like('+this.id+', \'love\')')
             newPost.getElementsByClassName('like-btn')[0].getElementsByClassName('reaction')[2].setAttribute('onClick', 'like('+this.id+', \'lol\')')
@@ -214,6 +215,53 @@ class Post {
             carouselInner.appendChild(carouselItemClone)
         })
 
+    }
+
+    static getReactions(id){
+        $.ajax({
+            method: 'GET',
+            enctype: 'multipart/form-data',
+            url: API_URL+'reactions/post/'+id,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('api_token', api_token)
+                xhr.setRequestHeader('user_id', user_id)
+            },
+        }).done(function(res){
+
+            console.log(res)
+            var reactionsModal = document.getElementById('postReactions')
+            reactionsModal.getElementsByClassName('total_reactions')[0].innerHTML = res.length
+            var reactorsBox = reactionsModal.getElementsByClassName('modal-body')[0]
+            reactorsBox.innerHTML = ""
+            var reactorModel = reactionsModal.getElementsByClassName('reactorModel')[0]
+            window.localStorage.setItem('reaction_selected', JSON.stringify(res))
+
+            reactionsModal.getElementsByClassName('reaction_menu')[1].classList.add('d-none')
+            reactionsModal.getElementsByClassName('reaction_menu')[2].classList.add('d-none')
+            reactionsModal.getElementsByClassName('reaction_menu')[3].classList.add('d-none')
+            reactionsModal.getElementsByClassName('reaction_menu')[4].classList.add('d-none')
+            reactionsModal.getElementsByClassName('reaction_menu')[5].classList.add('d-none')
+            reactionsModal.getElementsByClassName('reaction_menu')[6].classList.add('d-none')
+
+            res.forEach(function(reaction){
+
+                if(reactionsModal.getElementsByClassName(reaction.reaction)[0].classList.contains('d-none'))
+                    reactionsModal.getElementsByClassName(reaction.reaction)[0].classList.remove('d-none')
+
+                var reactorNode = reactorModel.cloneNode(true)
+                let user = new User(reaction.user)
+                reactorNode.getElementsByClassName('reactor_type')[0].innerHTML = getReactIcon(reaction.reaction)
+                reactorNode.getElementsByClassName('pp-bubble')[0].style.backgroundImage = 'url("'+ user.getProfilePic() + '")'
+                reactorNode.getElementsByClassName('profile-btn')[1].innerHTML = '<b>'+ user.getFullname() +'</b>'
+                reactorNode.getElementsByClassName('profile-btn')[1].href="./profile.php?uid="+user.id
+                reactorNode.getElementsByClassName('profile-btn')[0].href="./profile.php?uid="+user.id
+                reactorNode.classList.remove('d-none')
+                reactorsBox.appendChild(reactorNode)
+            })
+            $('#postReactions').modal('show')
+        }).fail(function(res){
+            //console.log(res)
+        })
     }
 
     static copyPostUrl(id) {

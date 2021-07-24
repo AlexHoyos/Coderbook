@@ -11,7 +11,7 @@ class Reaction extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\Models\User', 'user_id')->select(['id','name','lname']);
+        return $this->belongsTo('App\Models\User', 'user_id')->select(['id','name','lname', 'profile_pic_id'])->with('profilePic');
     }
 
 }

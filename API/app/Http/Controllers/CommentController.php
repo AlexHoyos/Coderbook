@@ -111,6 +111,7 @@ class CommentController extends Controller
         ];
         $comment = new Comment($newData);
         $comment->save();
+        $comment->post;
         Event::dispatch(new CommentPost($comment));
         return response()->json($comment, 201);
 

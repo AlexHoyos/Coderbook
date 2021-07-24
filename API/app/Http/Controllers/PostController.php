@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostInProfile;
+use Event;
 use App\Models\MMedia;
 use App\Models\Page;
 use App\Models\Post;
@@ -26,7 +28,7 @@ class PostController extends Controller
 
             if($Post->privacy == 'private' && $Post->user_id != $User->id && $Post->to_user_id != $User->id)
                 return response()->json(['error'=>'No puedes ver este contenido'], 403);
-            
+
             $Post->id;
             $Post->user;
             $Post->mmedias;
@@ -35,6 +37,14 @@ class PostController extends Controller
             $Post->commentsCount();
             $Post->sharedCount();
             $Post->userLiked($User);
+
+            if($Post->type == 'shared'){
+                $Post->sharedPost;
+            }
+
+            if($Post->type == 'to_user') {
+                $Post->toUser;
+            }
 
             return response()->json($Post);
 
@@ -77,6 +87,7 @@ class PostController extends Controller
                 if($post->type == 'shared'){
                     $post->sharedPost;
                 }
+
                 $data[] = $post;
             }
 
@@ -319,6 +330,8 @@ class PostController extends Controller
 
         }
 
+        if($post->type = 'to_user')
+            Event::dispatch(new PostInProfile($post));
         return response()->json(["post"=>$post, "mmedias"=>$post->mmedias], 201);
 
     }
@@ -386,6 +399,9 @@ class PostController extends Controller
 
         if($post->user_id != $user->id)
             return response()->json(['error' => 'No tienes permisos para hacer eso'], 403);
+
+        if($post->type = 'to_user')
+            Event::dispatch(new PostInProfile($post, true));
 
         Post::destroy($id);
         return response()->json([], 204);
