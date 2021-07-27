@@ -58,7 +58,7 @@
     <div class="col-4">
     
         <form class="input-group mt-4" action="./search.php">
-            <input type="text" class="form-control" name="search" placeholder="Buscar personas, paginas, grupos...">
+            <input type="text" class="form-control" name="search" placeholder="Buscar personas o paginas">
             <div class="input-group-append">
             <button class="btn btn-light" type="submit">
                 <i class="fa fa-search"></i>
@@ -85,27 +85,17 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="#" onclick="openCreatePage()"> <i class="fas fa-file-alt text-warning"></i> Página</a>
-                    <a class="dropdown-item" href="#"> <i class="fas fa-users text-danger"></i> Grupo</a>
                 </div>
             </div>
 
-            <div class="dropdown show">
-                <button class="button-bubble" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="button-bubble" onclick="javascript:window.location.href='./messages.php'">
                     <i class="fa fa-comment-dots"></i>
-                    <i class="fas fa-circle text-danger" id="see_msg" style="position:absolute;top:-1px;font-size:10px"></i>
                 </button>
-
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">msg</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </div>
 
             <div class="dropdown show">
                 <button class="button-bubble" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <i class="fas fa-circle text-danger" id="see_notif" style="position:absolute;top:-1px;font-size:10px"></i>
+                    <i class="fas fa-circle text-danger d-none" id="see_notif" style="position:absolute;top:-1px;font-size:10px"></i>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" id="last_notifs">
@@ -126,8 +116,6 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="./profile.php"> <i class="fas fa-user"></i> Mi perfil</a>
                     <a class="dropdown-item" href="./config.php"> <i class="fas fa-cog"></i> Configuración</a>
-                    <a href="./mypages.php" class="dropdown-item"> <i class="fas fa-file-alt"></i> Mis paginas</a>
-                    <a href="./mygroups.php" class="dropdown-item"> <i class="fas fa-users"></i> Mis grupos</a>
                     <hr>
                     <a class="dropdown-item" href="./logout.php"> <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
                 </div>

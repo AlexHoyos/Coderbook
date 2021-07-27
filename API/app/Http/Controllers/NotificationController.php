@@ -22,4 +22,16 @@ class NotificationController extends Controller
 
     }
 
+    public function getNotifications(Request $request){
+        $User = User::find($request->header('user_id'));
+
+        if($User instanceof User){
+
+            return response()->json($User->getNotifications()->orderBy('id', 'desc')->with(['sender', 'reaction'])->limit(25)->get());
+
+        } else {
+            return response()->json(['error'=>'No se encontró el usuario'], 404);
+        }
+    }
+
 }

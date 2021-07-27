@@ -4,6 +4,11 @@ var actualUserId = null
 
 $(document).ready(function(){
 
+
+})
+
+function webpageLoaded(ownUser){
+    
     // GET FRIENDS CHAT
     $.ajax({
         method: 'GET',
@@ -70,8 +75,7 @@ $(document).ready(function(){
             
         }
     })
-
-})
+}
 
 function setChatTo(uid){
 
